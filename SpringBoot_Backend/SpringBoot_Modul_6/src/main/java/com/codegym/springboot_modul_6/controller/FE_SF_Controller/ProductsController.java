@@ -22,4 +22,5 @@ public class ProductsController {
         List<Product> list = productService.findByCategory(name);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
+
 }
