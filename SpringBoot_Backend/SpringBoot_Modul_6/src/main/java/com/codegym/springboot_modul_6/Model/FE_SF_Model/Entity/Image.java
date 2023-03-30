@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,10 @@ public class Image {
 
     @JoinColumn(name = "product_id")
     @ManyToOne
-    private Product product;
+    @JsonIgnore
+    private ProductSF productSF;
+
+
 
     public Image(String url) {
         this.url = url;
