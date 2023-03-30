@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,6 @@ public class RequestMapper {
         return mapper.map(loginDto, Login.class);
     }
 
-    @Autowired
 //    Long them categoriesdto
     public List<CategoriesDto> categoriesDtos(List<Categories> list){
         return list.stream().map(categories -> mapper.map(categories, CategoriesDto.class)).collect(Collectors.toList());

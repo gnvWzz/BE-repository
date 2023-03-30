@@ -4,7 +4,7 @@ package com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "category")
 public class Categories {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
