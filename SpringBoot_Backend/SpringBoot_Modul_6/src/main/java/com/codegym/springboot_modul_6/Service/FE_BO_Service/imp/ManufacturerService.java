@@ -46,7 +46,7 @@ public class ManufacturerService implements IManufacturerService {
     public ManufacturerDto save(ManufacturerDto manufacturerDto) {
         try {
             Manufacturer manufacturer = mapper.map(manufacturerDto, Manufacturer.class);
-            manufacturer.setStatus("true"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
+            manufacturer.setStatus("ACTIVE"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
             manufacturerRepository.save(manufacturer);
         } catch (Exception ex) {
             System.out.println("Loi:" + ex.getCause());

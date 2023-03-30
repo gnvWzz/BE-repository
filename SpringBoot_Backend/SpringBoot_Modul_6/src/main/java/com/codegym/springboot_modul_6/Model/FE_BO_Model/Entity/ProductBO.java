@@ -10,8 +10,8 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "product")
-public class Product {
+@Table(name = "productbo")
+public class ProductBO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -39,6 +39,6 @@ public class Product {
     private String status;
     @Column(name = "quantity")
     private Long quantity;
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ManufacturerDetail> manufacturerDetails = new ArrayList<>();
 }
