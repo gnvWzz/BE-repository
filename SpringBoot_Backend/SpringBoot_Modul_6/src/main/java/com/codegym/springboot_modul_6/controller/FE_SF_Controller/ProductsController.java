@@ -1,9 +1,13 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Product;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -13,8 +17,9 @@ public class ProductsController {
     @Autowired
     private ProductService productService;
 
-//    @GetMapping(value = "/{name}")
-//    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name")String name){
-//
-//    }
+    @GetMapping(value = "/find-all/{name}")
+    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name")String name){
+        List<Product> list = productService.findByCategory(name);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
 }

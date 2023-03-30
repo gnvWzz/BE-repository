@@ -1,5 +1,9 @@
 package com.codegym.springboot_modul_6.Model.FE_SF_Model.dto;
 
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
+
+import java.util.List;
+
 public class ProductDto {
 
     private String name;
@@ -7,6 +11,8 @@ public class ProductDto {
     private String category;
 
     private String serialNumber;
+
+    private List<Image> imageList;
 
     public String getName() {
         return name;

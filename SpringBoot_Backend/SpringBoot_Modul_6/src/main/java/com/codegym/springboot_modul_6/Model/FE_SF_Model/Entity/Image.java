@@ -24,6 +24,8 @@ public class Image {
     @ManyToOne
     private Product product;
 
+
+
     public Image(String url) {
         this.url = url;
     }
