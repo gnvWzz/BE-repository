@@ -18,8 +18,10 @@ public class Manufacturer {
     private Long id;
     @Column(name = "`name`")
     private String name;
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "mobile")
+    private String mobile;
+    @Column(name = "landline")
+    private String landline;
     @Column(name = "email")
     private String email;
     @Column(name = "address")
@@ -32,6 +34,9 @@ public class Manufacturer {
     private String website;
     @Column(name = "`status`")
     private String status;
+    @Column(name = "icon")
+    private String icon;
     @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ManufacturerDetail> manufacturerDetails = new ArrayList<>();
+
 }

@@ -11,10 +11,13 @@ import java.util.Date;
 public class ManufacturerDto {
     private Long id;
     private String name;
-    private String phone;
+    private String mobile;
+    private String landline;
     private String email;
     private String address;
     private String field;
     private Date signup;
     private String website;
+    private String icon;
+
 }
