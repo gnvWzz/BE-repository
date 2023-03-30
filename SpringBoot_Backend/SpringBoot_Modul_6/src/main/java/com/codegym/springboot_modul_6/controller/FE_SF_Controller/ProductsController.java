@@ -10,11 +10,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/product")
 public class ProductsController {
 
-    @Autowired
-    private ProductService productService;
 
-//    @GetMapping(value = "/{name}")
-//    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name")String name){
-//
-//    }
 }
