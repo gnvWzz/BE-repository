@@ -1,15 +1,20 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value = "/api/product")
 public class ProductsController {
 
+    @Autowired
+    private ProductService productService;
 
-
-
+//    @GetMapping(value = "/{name}")
+//    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name")String name){
+//
+//    }
 }
