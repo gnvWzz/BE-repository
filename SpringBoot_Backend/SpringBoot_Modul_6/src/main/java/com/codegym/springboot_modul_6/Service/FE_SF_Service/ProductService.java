@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Product;
-import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IProductRepository;
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IProductRepositorySF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +12,22 @@ import java.util.Optional;
 public class ProductService implements IProductService{
 
     @Autowired
-    private IProductRepository iProductRepository;
+    private IProductRepositorySF iProductRepositorySF;
 
 
 
     @Override
-    public Iterable<Product> findAll() {
-        return iProductRepository.findAll();
+    public Iterable<ProductSF> findAll() {
+        return iProductRepositorySF.findAll();
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
+    public Optional<ProductSF> findById(Long id) {
         return Optional.empty();
     }
 
     @Override
-    public void save(Product product) {
+    public void save(ProductSF productSF) {
 
     }
 
@@ -37,7 +37,7 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public List<Product> findByCategory(String category){
-        return iProductRepository.findCategory(category);
+    public List<ProductSF> findByCategory(String category){
+        return iProductRepositorySF.findCategory(category);
     }
 }
