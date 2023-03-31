@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
+package com.codegym.springboot_modul_6.Controller.FE_SF_Controller;
 
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.CategoriesDto;
