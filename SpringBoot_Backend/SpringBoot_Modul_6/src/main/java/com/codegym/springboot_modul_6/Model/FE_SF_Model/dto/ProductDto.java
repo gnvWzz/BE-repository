@@ -33,7 +33,21 @@ public class ProductDto implements Serializable {
 
     private String manufacturer;
 
-    private Long weight;
+    private Double weight;
 
     private String material;
+
+    private String colors;
+
+    private String size;
+
+    private String cpu;
+
+    private String gpu;
+
+    private String ram;
+
+    private String storageDrive;
+
+    private String display;
 }

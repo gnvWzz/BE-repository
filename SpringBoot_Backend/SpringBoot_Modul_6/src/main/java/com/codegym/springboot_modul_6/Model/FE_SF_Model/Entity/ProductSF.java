@@ -25,25 +25,33 @@ public class ProductSF implements Serializable {
     private String category;
     private String serial_number;
     private String size;
-    private String color;
+    private String colors;
     private Double price;
     private String brief_description;
     private String full_description;
     private String manufacturer;
-    private Long weight;
+    private Double weight;
     private String material;
     private String status;
     private Long quantity;
+    private String cpu;
+    private String gpu;
+    private String ram;
+
+    @Column(name = "storage_drive")
+    private String storageDrive;
+
+    private String display;
 
     @OneToMany(mappedBy = "productSF")
     private List<Image> imageList;
 
-    public ProductSF(String name, String category, String serial_number, String size, String color, Double price, String brief_description, String full_description, String manufacturer, Long weight, String material, String status, Long quantity) {
+    public ProductSF(String name, String category, String serial_number, String size, String colors, Double price, String brief_description, String full_description, String manufacturer, Double weight, String material, String status, Long quantity, String cpu, String gpu, String ram, String storageDrive, String display, List<Image> imageList) {
         this.name = name;
         this.category = category;
         this.serial_number = serial_number;
         this.size = size;
-        this.color = color;
+        this.colors = colors;
         this.price = price;
         this.brief_description = brief_description;
         this.full_description = full_description;
@@ -52,5 +60,11 @@ public class ProductSF implements Serializable {
         this.material = material;
         this.status = status;
         this.quantity = quantity;
+        this.cpu = cpu;
+        this.gpu = gpu;
+        this.ram = ram;
+        this.storageDrive = storageDrive;
+        this.display = display;
+        this.imageList = imageList;
     }
 }

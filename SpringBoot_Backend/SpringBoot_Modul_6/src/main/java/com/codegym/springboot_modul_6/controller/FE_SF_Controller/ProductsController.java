@@ -52,6 +52,14 @@ public class ProductsController {
     public ResponseEntity<?> findBySerialNumber(@PathVariable("serial_number") String serialNumber) {
         ProductSF productSF = productService.findBySerialNumber(serialNumber);
         ProductDto productDto = requestMapper.productDto(productSF);
+        List<Image> imageList = productSF.getImageList();
+        List<ImageDTO> imageDTOList = requestMapper.imageDTOList(imageList);
+        List<String> urlList = new ArrayList<>();
+        for (ImageDTO i:
+             imageDTOList) {
+            urlList.add(i.getUrl());
+        }
+        productDto.setList(urlList);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 }
