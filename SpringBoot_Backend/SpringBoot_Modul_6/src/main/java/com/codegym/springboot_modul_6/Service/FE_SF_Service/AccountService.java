@@ -1,30 +1,29 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.ILoginRepository;
+import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class LoginService implements ILoginService {
-
+public class AccountService implements IAccountService{
     @Autowired
-    ILoginRepository loginRepository;
+    IAccountRepository iAccountRepository;
     @Override
     public Iterable<Account> findAll() {
-        return loginRepository.findAll();
+        return iAccountRepository.findAll();
     }
 
     @Override
     public Optional<Account> findById(Long id) {
-        return loginRepository.findById(id);
+        return iAccountRepository.findById(id);
     }
 
     @Override
     public void save(Account account) {
-        loginRepository.save(account);
+    iAccountRepository.save(account);
     }
 
     @Override
