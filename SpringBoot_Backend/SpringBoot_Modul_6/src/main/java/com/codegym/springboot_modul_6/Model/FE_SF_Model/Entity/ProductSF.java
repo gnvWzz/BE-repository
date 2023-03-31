@@ -26,7 +26,7 @@ public class ProductSF implements Serializable {
     private String serial_number;
     private String size;
     private String color;
-    private Long price;
+    private Double price;
     private String brief_description;
     private String full_description;
     private String manufacturer;
@@ -38,7 +38,7 @@ public class ProductSF implements Serializable {
     @OneToMany(mappedBy = "productSF")
     private List<Image> imageList;
 
-    public ProductSF(String name, String category, String serial_number, String size, String color, Long price, String brief_description, String full_description, String manufacturer, Long weight, String material, String status, Long quantity) {
+    public ProductSF(String name, String category, String serial_number, String size, String color, Double price, String brief_description, String full_description, String manufacturer, Long weight, String material, String status, Long quantity) {
         this.name = name;
         this.category = category;
         this.serial_number = serial_number;

@@ -2,11 +2,19 @@ package com.codegym.springboot_modul_6.Model.FE_SF_Model.dto;
 
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDto implements Serializable {
 
     private String name;
@@ -15,26 +23,17 @@ public class ProductDto implements Serializable {
 
     private String serial_number;
 
-    private List<ImageDTO> list;
+    private List<String> list;
 
-    public String getName() {
-        return name;
-    }
+    private Double price;
 
-    public String getCategory() {
-        return category;
-    }
+    private String brief_description;
 
-    public String getSerialNumber() {
-        return serial_number;
-    }
+    private String full_description;
 
-    public ProductDto() {
-    }
+    private String manufacturer;
 
-    public ProductDto(String name, String category, String serial_number) {
-        this.name = name;
-        this.category = category;
-        this.serial_number = serial_number;
-    }
+    private Long weight;
+
+    private String material;
 }

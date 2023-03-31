@@ -2,9 +2,11 @@ package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
 
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Categories;
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Login;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.CategoriesDto;
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.LoginDto;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
 import org.modelmapper.ModelMapper;
@@ -34,5 +36,15 @@ public class RequestMapper {
         return list.stream()
                 .map(product -> mapper.map(product, ProductDto.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<ImageDTO> imageDTOList(List<Image> list) {
+        return list.stream()
+                .map(image -> mapper.map(image, ImageDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public ProductDto productDto(ProductSF productSF) {
+        return mapper.map(productSF, ProductDto.class);
     }
 }

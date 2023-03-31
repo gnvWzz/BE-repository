@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IProductService extends IGeneralService<ProductSF> {
     List<ProductSF> findByCategory(String category);
+
+    ProductSF findBySerialNumber(String serialNumber);
 }
