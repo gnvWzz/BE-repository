@@ -3,11 +3,11 @@ package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Login;
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.CategoriesDto;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.LoginDto;
+import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +23,8 @@ public class RequestMapper {
     @Autowired
     private ModelMapper mapper;
 
-    public Login toLogin(LoginDto loginDto){
-        return mapper.map(loginDto, Login.class);
+    public Account toAccount(AccountDto accountDto){
+        return mapper.map(accountDto, Account.class);
     }
 
 //    Long them categoriesdto
@@ -46,5 +46,9 @@ public class RequestMapper {
 
     public ProductDto productDto(ProductSF productSF) {
         return mapper.map(productSF, ProductDto.class);
+    }
+
+    public AccountDto toAccountDto ( Account account){
+        return mapper.map(account, AccountDto.class);
     }
 }
