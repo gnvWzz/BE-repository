@@ -10,7 +10,9 @@ import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 
@@ -50,5 +52,10 @@ public class RequestMapper {
 
     public AccountDto toAccountDto ( Account account){
         return mapper.map(account, AccountDto.class);
+    }
+
+    public Page<ProductDto> productDtoPage(Page<ProductSF> productSFS){
+        Page<ProductDto> productDtos = mapper.map(productSFS, new TypeToken<Page<ProductDto>>() {}.getType());
+        return productDtos;
     }
 }
