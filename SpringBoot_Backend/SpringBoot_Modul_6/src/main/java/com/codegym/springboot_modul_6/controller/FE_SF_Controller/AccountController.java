@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:3000")
@@ -27,6 +24,34 @@ public class AccountController {
         Account account = new Account();
         account = requestMapper.toAccount(accountDto);
         iAccountService.save(account);
-        return new ResponseEntity<>("Add succesfully", HttpStatus.OK);
+        return new ResponseEntity<>("Add successfully", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public  ResponseEntity<?> login(@RequestBody AccountDto accountDto){
+        try{
+            Account account = iAccountService.findAccountByUsername(accountDto.getUsername()).get();
+            if (account != null) {
+                if (account.getPassword().equals(accountDto.getPassword())) {
+                    return new ResponseEntity<>("Login successfully", HttpStatus.OK);
+                }
+            }
+        }catch (Exception e){
+        e.printStackTrace();
+        }
+        return new ResponseEntity<>("Login fail",HttpStatus.OK);
+    }
+
+    @GetMapping("/duplicate-email/{data}")
+    public ResponseEntity<?> checkDuplicateEmail(@PathVariable String email){
+        try{
+            Account account = iAccountService.findAccountByUEmail(email).get();
+            if (account != null){
+                    return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Exist",HttpStatus.OK);
     }
 }
