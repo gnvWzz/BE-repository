@@ -1,9 +1,10 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
 import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IProductRepositorySF;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class ProductService implements IProductService{
 
     @Override
     public List<ProductSF> findByCategory(String category){
-        return iProductRepositorySF.findCategory(category);
+        return iProductRepositorySF.findProducts(category);
     }
 
     @Override
@@ -47,4 +48,10 @@ public class ProductService implements IProductService{
 //        System.out.println(imageList);
         return productSF;
     }
+
+    public Page<ProductSF> findProductWithPagination(String name ,int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategory(name,PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
+
 }

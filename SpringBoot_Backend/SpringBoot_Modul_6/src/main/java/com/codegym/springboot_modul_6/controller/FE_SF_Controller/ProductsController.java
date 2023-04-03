@@ -8,6 +8,7 @@ import com.codegym.springboot_modul_6.Service.FE_SF_Service.IImageService;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,5 +62,13 @@ public class ProductsController {
         }
         productDto.setList(urlList);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/find/{name}")
+    public ResponseEntity<?> getProductWithPaging(@RequestParam(value = "offset") int offset,
+                                                  @RequestParam(value = "pageSize") int pageSize,
+                                                  @PathVariable(value = "name") String name){
+        Page<ProductSF> productSFS = productService.findProductWithPagination(name, offset, pageSize);
+        return new ResponseEntity<>(productSFS, HttpStatus.OK);
     }
 }
