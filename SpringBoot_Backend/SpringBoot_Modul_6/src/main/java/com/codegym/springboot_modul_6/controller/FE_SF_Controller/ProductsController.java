@@ -84,4 +84,68 @@ public class ProductsController {
         }
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
+
+    @GetMapping(value = "/test2/{name}")
+    public ResponseEntity<?> testfind2(@RequestParam(value = "offset") int offset,
+                                       @RequestParam(value = "pageSize") int pageSize,
+                                       @PathVariable(value = "name") String category){
+
+            Page<ProductSF> productSFS = productService.findProductWithPagination(category ,offset, pageSize);
+            Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+
+
+        return new ResponseEntity<>(productDtos, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping(value = "/findASC/{name}")
+    public ResponseEntity<?> findASC(@RequestParam(value = "offset") int offset,
+                                     @RequestParam(value = "pageSize") int pageSize,
+                                     @PathVariable(value = "name") String category,
+                                     @RequestParam(value = "sort_asc") String asc){
+        Page<ProductSF> productSFS = productService.findOrderByPriceASC(category ,offset, pageSize);
+        Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findDESC/{name}")
+    public ResponseEntity<?> findDESC(@RequestParam(value = "offset") int offset,
+                                     @RequestParam(value = "pageSize") int pageSize,
+                                     @PathVariable(value = "name") String category,
+                                     @RequestParam(value = "sort_desc") String desc){
+        Page<ProductSF> productSFS = productService.findOrderByPriceDESC(category ,offset, pageSize);
+        Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    }
+
+//    @GetMapping(value = "/findDESC/{name}")
+//    public ResponseEntity<?> find_size_sortASC(@RequestParam(value = "offset") int offset,
+//                                      @RequestParam(value = "pageSize") int pageSize,
+//                                      @PathVariable(value = "name") String category,
+//                                      @RequestParam(value = "sort_asc") String asc){
+//        Page<ProductSF> productSFS = productService.findOrderByPriceDESC(category ,offset, pageSize);
+//        Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+//        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+//    }
+
+    @GetMapping(value = "/findBothASC/{name}")
+    public ResponseEntity<?> find_price_size(@PathVariable(value = "name")String name,
+                                             @RequestParam(value = "offset") int offset,
+                                             @RequestParam(value = "pageSize") int pageSize,
+                                             @RequestParam(value = "sort_asc") String asc,
+                                             @RequestParam(value = "sort_size") String sort_size){
+
+        Page<ProductSF> productSFS = productService.findCategoryAndSizeOrderByPriceAsc(name, sort_size, offset, pageSize);
+        Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/findByName/{name}")
+    public ResponseEntity<?> find_By_Name_Category(@PathVariable(value = "name") String name,
+                                                   @RequestParam(value = "product_name") String product_name,
+                                                   @RequestParam(value = "offset") int offset,
+                                                   @RequestParam(value = "pageSize") int pageSize){
+        Page<ProductSF> productSFS = productService.findCategoryByName(name, product_name, offset, pageSize);
+        Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    }
  }

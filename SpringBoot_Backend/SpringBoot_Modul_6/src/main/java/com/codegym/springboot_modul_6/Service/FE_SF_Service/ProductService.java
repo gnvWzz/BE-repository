@@ -57,9 +57,34 @@ public class ProductService implements IProductService{
         return productSF;
     }
 
-    public Page<ProductSF> findProductWithPagination(String name ,int offset, int pageSize){
+    @Override
+    public Page<ProductSF> findProductWithPagination(String name, int offset, int pageSize){
         Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategory(name,PageRequest.of(offset, pageSize));
         return productSFS;
     }
 
+
+    @Override
+    public Page<ProductSF> findOrderByPriceASC(String category, int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findAllByPriceOrderByPriceASC(category ,PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
+
+    @Override
+    public Page<ProductSF> findOrderByPriceDESC(String category, int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategoryOrderByPriceDesc(category ,PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
+
+    @Override
+    public Page<ProductSF> findCategoryAndSizeOrderByPriceAsc(String category, String size, int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategoryAndSizeOrderByPriceAsc(category, size, PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
+
+    @Override
+    public Page<ProductSF> findCategoryByName(String category, String name, int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findByNameProduct(category, name, PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
 }
