@@ -69,6 +69,7 @@ public class ProductsController {
                                                   @RequestParam(value = "pageSize") int pageSize,
                                                   @PathVariable(value = "name") String name){
         Page<ProductSF> productSFS = productService.findProductWithPagination(name, offset, pageSize);
-        return new ResponseEntity<>(productSFS, HttpStatus.OK);
+        Page<ProductDto> productDto = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 }
