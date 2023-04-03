@@ -7,14 +7,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ProductService implements IProductService{
 
     @Autowired
     private IProductRepositorySF iProductRepositorySF;
+
+    static Map<String , ArrayList> cache;
 
     @Override
     public Iterable<ProductSF> findAll() {
@@ -41,11 +42,17 @@ public class ProductService implements IProductService{
         return iProductRepositorySF.findProducts(category);
     }
 
+    public void cache(String category){
+        List<ProductSF> list = findByCategory(category);
+        for (ProductSF p: list
+             ) {
+            cache.put("category", new ArrayList((Collection) p));
+        }
+    }
+
     @Override
     public ProductSF findBySerialNumber(String serialNumber) {
         ProductSF productSF = iProductRepositorySF.findBySerialNumber(serialNumber);
-//        List<Image> imageList = productSF.getImageList();
-//        System.out.println(imageList);
         return productSF;
     }
 
