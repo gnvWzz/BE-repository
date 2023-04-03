@@ -10,5 +10,10 @@
         <module name="SpringBoot_Modul_6.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SpringBoot_Modul_6" target="11" />
+      <module name="SpringBoot_Modul_6.main" target="11" />
+      <module name="SpringBoot_Modul_6.test" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
