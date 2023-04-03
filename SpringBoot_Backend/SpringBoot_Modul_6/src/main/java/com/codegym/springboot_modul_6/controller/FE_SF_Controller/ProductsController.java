@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -72,4 +73,15 @@ public class ProductsController {
         Page<ProductDto> productDto = requestMapper.productDtoPage(productSFS);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
-}
+
+    @GetMapping(value = "/test/{name}")
+    public ResponseEntity<?> testfind(@PathVariable(value = "name")String name){
+        productService.cache(name);
+        List<String> demo = ProductService.cache.get("products");
+        for (String t: demo
+             ) {
+            System.out.println(t);
+        }
+        return new ResponseEntity<>("OK", HttpStatus.OK);
+    }
+ }

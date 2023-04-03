@@ -15,7 +15,7 @@ public class ProductService implements IProductService{
     @Autowired
     private IProductRepositorySF iProductRepositorySF;
 
-    static Map<String , ArrayList> cache;
+    public static Map<String , ArrayList<String>> cache = new HashMap<>();
 
     @Override
     public Iterable<ProductSF> findAll() {
@@ -43,11 +43,12 @@ public class ProductService implements IProductService{
     }
 
     public void cache(String category){
-        List<ProductSF> list = findByCategory(category);
-        for (ProductSF p: list
-             ) {
-            cache.put("category", new ArrayList((Collection) p));
-        }
+//        List<ProductSF> list = findByCategory(category);
+        List<String> demo = new ArrayList<>();
+        demo.add("Hello");
+        demo.add("Baga");
+        demo.add("Sena");
+        cache.put("products", new ArrayList<>(demo));
     }
 
     @Override
