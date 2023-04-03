@@ -30,4 +30,14 @@ public class AccountService implements IAccountService{
     public void remove(Long id) {
 
     }
+
+    @Override
+    public Optional<Account> findAccountByUsername(String username) {
+        return iAccountRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<Account> findAccountByUEmail(String username) {
+        return iAccountRepository.findByEmail(username);
+    }
 }
