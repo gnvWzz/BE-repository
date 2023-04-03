@@ -1,0 +1,38 @@
+package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
+
+import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ManufacturerDto;
+import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ProductDtoBO;
+import com.codegym.springboot_modul_6.Service.FE_BO_Service.imp.ProductServiceBO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/bo/product")
+public class ProductBOController {
+    @Autowired
+    private ProductServiceBO productServiceBO;
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getProductBOList(@PageableDefault(value = 5) Pageable pageable){
+        Page<ProductDtoBO> productDtoBOs = productServiceBO.findAll(pageable);
+        return new ResponseEntity<>(productDtoBOs, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductBObyId(@PathVariable Long id){
+        ProductDtoBO productDtoBO = productServiceBO.findById(id).orElse(null);
+        return new ResponseEntity<>(productDtoBO, HttpStatus.OK);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<?> saveManufacturer(@RequestBody ProductDtoBO productDtoBO){
+        productServiceBO.save(productDtoBO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+}
