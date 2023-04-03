@@ -21,5 +21,4 @@ public class ProductDtoBO {
     private Long quantity;
     private String icon;
     private String status;
-    //test
 }
