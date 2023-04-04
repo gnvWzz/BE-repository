@@ -9,6 +9,7 @@ import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,10 +67,21 @@ public class ProductsController {
     }
 
     @GetMapping(value = "/find/{name}")
-    public ResponseEntity<?> getProductWithPaging(@RequestParam(value = "offset") int offset,
-                                                  @RequestParam(value = "pageSize") int pageSize,
-                                                  @PathVariable(value = "name") String name){
-        Page<ProductSF> productSFS = productService.findProductWithPagination(name, offset, pageSize);
+    public ResponseEntity<?> getProductWithPaging(@RequestParam(value = "offset" )  int offset,
+                                                  @PathVariable(value = "name") String category,
+                                                  @RequestParam(required = false, value = "sort_asc") String asc,
+                                                  @RequestParam(required = false, value = "sort_desc") String desc,
+                                                  @RequestParam(required = false, value = "sort_size") String sort_size){
+        if (asc != null){
+            Page<ProductSF> productSFS = productService.findOrderByPriceASC(category ,offset, 16);
+            Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+            return new ResponseEntity<>(productDtos, HttpStatus.OK);
+        }else if(desc != null){
+            Page<ProductSF> productSFS = productService.findOrderByPriceDESC(category ,offset, 16);
+            Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+            return new ResponseEntity<>(productDtos, HttpStatus.OK);
+        }
+        Page<ProductSF> productSFS = productService.findProductWithPagination(category, offset, 16);
         Page<ProductDto> productDto = requestMapper.productDtoPage(productSFS);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
