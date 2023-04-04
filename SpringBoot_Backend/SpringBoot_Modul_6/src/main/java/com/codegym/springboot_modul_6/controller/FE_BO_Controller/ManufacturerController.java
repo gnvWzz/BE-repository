@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ManufacturerDto;
-import com.codegym.springboot_modul_6.Service.FE_BO_Service.imp.ManufacturerService;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ManufacturerDto;
+import com.codegym.springboot_modul_6.service.FE_BO_Service.impl.ManufacturerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,7 +17,7 @@ import java.util.Optional;
 @RequestMapping("/manufacturer")
 public class ManufacturerController {
     @Autowired
-    private ManufacturerService manufacturerService;
+    private ManufacturerServiceImpl manufacturerService;
 
     @GetMapping("/list")
     public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 5) Pageable pageable){

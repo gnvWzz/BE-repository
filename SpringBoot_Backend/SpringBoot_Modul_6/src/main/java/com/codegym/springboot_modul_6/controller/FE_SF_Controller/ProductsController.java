@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.Controller.FE_SF_Controller;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
-import com.codegym.springboot_modul_6.Service.FE_SF_Service.IImageService;
-import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDTO;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductDto;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.IImageService;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.ProductService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
