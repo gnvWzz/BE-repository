@@ -25,6 +25,6 @@ public class ProductSF implements Serializable {
     private String status;
 
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
-    private List<ProductSFDetail> productSFDetail;
+    private List<ProductSFDetail> productDetail;
 
 }

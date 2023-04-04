@@ -1,12 +1,5 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IImageService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ProductService;
-import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +16,7 @@ import java.util.List;
 public class ProductsController {
 
     @Autowired
-    private ProductService productService;
+    private com.codegym.springboot_modul_6.service.FE_SF_Service.ProductService productService;
 
     @Autowired
     private RequestMapper requestMapper;
@@ -77,7 +70,6 @@ public class ProductsController {
 //        Page<ProductSFDto> productDtos = thirdService.getProducts(sort, sort_size, category, offset);
 //        return new ResponseEntity<>(productDtos, HttpStatus.OK);
 //    }
-
 
 //    @GetMapping(value = "/findByName/{name}")
 //    public ResponseEntity<?> find_By_Name_Category(@PathVariable(value = "name") String name,
