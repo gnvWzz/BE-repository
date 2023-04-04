@@ -31,4 +31,7 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
 
     @Query("select u from ProductSF u where u.category = ?1 and u.name like concat('%', ?2, '%')")
     Page<ProductSF> findByNameProduct(String category, String name, PageRequest of);
+
+    @Query("select u from ProductSF u where u.category = ?1 and u.size like concat('%', ?2, '%') order by u.price desc ")
+    Page<ProductSF> findAllByCategoryAndSizeOrderByPriceDesc(String category, String size, PageRequest of);
 }

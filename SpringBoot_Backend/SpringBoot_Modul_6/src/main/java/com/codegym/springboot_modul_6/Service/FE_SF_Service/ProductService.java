@@ -87,4 +87,11 @@ public class ProductService implements IProductService{
         Page<ProductSF> productSFS = iProductRepositorySF.findByNameProduct(category, name, PageRequest.of(offset, pageSize));
         return productSFS;
     }
+
+
+    @Override
+    public Page<ProductSF> findCategoryAndSizeOrderByPriceDesc(String category, String size, int offset, int pageSize){
+        Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategoryAndSizeOrderByPriceDesc(category, size, PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
 }

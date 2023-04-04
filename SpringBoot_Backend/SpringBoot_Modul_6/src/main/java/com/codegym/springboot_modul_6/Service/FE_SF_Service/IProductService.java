@@ -22,4 +22,6 @@ public interface IProductService extends IGeneralService<ProductSF> {
     Page<ProductSF> findCategoryAndSizeOrderByPriceAsc(String category, String size, int offset, int pageSize);
 
     Page<ProductSF> findCategoryByName(String category, String name, int offset, int pageSize);
+
+    Page<ProductSF> findCategoryAndSizeOrderByPriceDesc(String category, String size, int offset, int pageSize);
 }
