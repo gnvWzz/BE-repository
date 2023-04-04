@@ -1,6 +1,6 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

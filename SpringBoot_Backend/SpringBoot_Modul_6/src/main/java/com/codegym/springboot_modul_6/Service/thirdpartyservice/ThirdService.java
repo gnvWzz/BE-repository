@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.Service.thirdpartyservice;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductDto;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.Controller.FE_SF_Controller;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;

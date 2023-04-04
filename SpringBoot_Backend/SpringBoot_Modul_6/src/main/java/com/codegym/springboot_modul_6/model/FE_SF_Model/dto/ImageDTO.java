@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.Model.FE_SF_Model.dto;
+package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

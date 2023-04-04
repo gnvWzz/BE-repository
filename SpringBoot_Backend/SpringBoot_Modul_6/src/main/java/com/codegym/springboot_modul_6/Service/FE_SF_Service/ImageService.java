@@ -1,11 +1,10 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
 import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IImageRepositorySF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

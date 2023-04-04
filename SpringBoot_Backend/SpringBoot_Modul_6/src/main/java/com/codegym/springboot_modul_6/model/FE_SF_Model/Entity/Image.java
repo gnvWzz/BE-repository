@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity;
+package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;

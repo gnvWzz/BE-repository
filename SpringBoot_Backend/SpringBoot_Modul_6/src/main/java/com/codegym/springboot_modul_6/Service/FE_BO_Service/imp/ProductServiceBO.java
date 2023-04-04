@@ -1,9 +1,7 @@
 package com.codegym.springboot_modul_6.Service.FE_BO_Service.imp;
 
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.Entity.Manufacturer;
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.Entity.ProductBO;
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ManufacturerDto;
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ProductDtoBO;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.Entity.ProductBO;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ProductDtoBO;
 import com.codegym.springboot_modul_6.Repository.FE_BO_Repository.IProductRepositoryBO;
 import com.codegym.springboot_modul_6.Service.FE_BO_Service.IProductServiceBO;
 import org.modelmapper.ModelMapper;

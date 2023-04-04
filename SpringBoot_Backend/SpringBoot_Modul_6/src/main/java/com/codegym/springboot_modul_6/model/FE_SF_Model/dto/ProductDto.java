@@ -1,6 +1,5 @@
-package com.codegym.springboot_modul_6.Model.FE_SF_Model.dto;
+package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,7 +36,7 @@ public class ProductDto implements Serializable {
 
     private String material;
 
-    private String colors;
+    private String color;
 
     private String size;
 

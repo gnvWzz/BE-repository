@@ -1,6 +1,5 @@
-package com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity;
+package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,7 @@ public class ProductSF implements Serializable {
     private String category;
     private String serial_number;
     private String size;
-    private String colors;
+    private String color;
     private Double price;
     private String brief_description;
     private String full_description;
@@ -46,12 +45,12 @@ public class ProductSF implements Serializable {
     @OneToMany(mappedBy = "productSF")
     private List<Image> imageList;
 
-    public ProductSF(String name, String category, String serial_number, String size, String colors, Double price, String brief_description, String full_description, String manufacturer, Double weight, String material, String status, Long quantity, String cpu, String gpu, String ram, String storageDrive, String display, List<Image> imageList) {
+    public ProductSF(String name, String category, String serial_number, String size, String color, Double price, String brief_description, String full_description, String manufacturer, Double weight, String material, String status, Long quantity, String cpu, String gpu, String ram, String storageDrive, String display, List<Image> imageList) {
         this.name = name;
         this.category = category;
         this.serial_number = serial_number;
         this.size = size;
-        this.colors = colors;
+        this.color = color;
         this.price = price;
         this.brief_description = brief_description;
         this.full_description = full_description;

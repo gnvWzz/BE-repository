@@ -1,7 +1,6 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ManufacturerDto;
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ProductDtoBO;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ProductDtoBO;
 import com.codegym.springboot_modul_6.Service.FE_BO_Service.imp.ProductServiceBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

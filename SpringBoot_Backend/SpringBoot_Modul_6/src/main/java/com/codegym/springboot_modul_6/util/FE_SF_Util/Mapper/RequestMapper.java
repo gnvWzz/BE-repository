@@ -1,14 +1,14 @@
 package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Categories;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.CategoriesDto;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.AccountDto;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.CategoriesDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDTO;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;

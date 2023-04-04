@@ -1,37 +1,17 @@
-package com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity;
+package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
 
 
-import javax.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@Entity
-@Table(name = "Account")
-public class Account {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+import java.io.Serializable;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class AccountDto implements Serializable {
+
     private String username;
     private String email;
     private String password;
     private String status;
-
-    public Account() {
-    }
-
-    public Account(Long id, String username, String email, String password, String status) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.status = status;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;
@@ -63,5 +43,15 @@ public class Account {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public AccountDto(String username, String email, String password, String status) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.status = status;
+    }
+
+    public AccountDto() {
     }
 }

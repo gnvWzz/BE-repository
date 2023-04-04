@@ -1,9 +1,9 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ImageDTO;
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.dto.ProductDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDTO;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductDto;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.IImageService;
 import com.codegym.springboot_modul_6.Service.FE_SF_Service.ProductService;
 import com.codegym.springboot_modul_6.Service.thirdpartyservice.ThirdService;
@@ -151,6 +151,36 @@ public class ProductsController {
                                                    @RequestParam(value = "pageSize") int pageSize) {
         Page<ProductSF> productSFS = productService.findCategoryByName(name, product_name, offset, pageSize);
         Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/find-by-name-manufacturer-color-size/{productName}")
+    public ResponseEntity<?> findByNameAndManufacturerAndColorAndSize(@PathVariable("productName") String name,
+                                                                      @RequestParam("manufacturer") String manufacturer,
+                                                                      @RequestParam("color") String color,
+                                                                      @RequestParam("size") String size) {
+        ProductSF productSF = productService.findProductByNameAndManufacturerAndColorAndSize(name, manufacturer, color, size);
+        ProductDto productDto = requestMapper.productDto(productSF);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/find-by-name-manufacturer/{productName}")
+    public ResponseEntity<?> findByNameAndManufacturer(@PathVariable("productName") String name,
+                                                       @RequestParam("manufacturer") String manufacturer) {
+        List<ProductSF> productSFS = productService.findProductByNameAndManufacturer(name, manufacturer);
+        List<ProductDto> productDtos = requestMapper.productDtos(productSFS);
+        for (ProductDto p :
+                productDtos) {
+            ProductSF productSF = productService.findBySerialNumber(p.getSerial_number());
+            List<Image> lists = productSF.getImageList();
+            List<ImageDTO> imageDTOList = requestMapper.imageDTOList(lists);
+            List<String> urlList = new ArrayList<>();
+            for (ImageDTO i :
+                    imageDTOList) {
+                urlList.add(i.getUrl());
+            }
+            p.setList(urlList);
+        }
         return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }
 }

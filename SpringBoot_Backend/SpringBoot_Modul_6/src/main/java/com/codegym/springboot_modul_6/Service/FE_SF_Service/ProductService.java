@@ -1,6 +1,6 @@
 package com.codegym.springboot_modul_6.Service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.Repository.FE_SF_Repository.IProductRepositorySF;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -92,6 +92,18 @@ public class ProductService implements IProductService{
     @Override
     public Page<ProductSF> findCategoryAndSizeOrderByPriceDesc(String category, String size, int offset, int pageSize){
         Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategoryAndSizeOrderByPriceDesc(category, size, PageRequest.of(offset, pageSize));
+        return productSFS;
+    }
+
+    @Override
+    public ProductSF findProductByNameAndManufacturerAndColorAndSize(String name, String manufacturer, String color, String size) {
+        ProductSF productSF = iProductRepositorySF.findByNameAndManufacturerAndColorAndSize(name, manufacturer, color, size);
+        return productSF;
+    }
+
+    @Override
+    public List<ProductSF> findProductByNameAndManufacturer(String name, String manufacturer) {
+        List<ProductSF> productSFS = iProductRepositorySF.findByNameAnAndManufacturer(name, manufacturer);
         return productSFS;
     }
 }

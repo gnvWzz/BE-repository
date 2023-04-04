@@ -1,9 +1,8 @@
-package com.codegym.springboot_modul_6.Model.FE_BO_Model.dto;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.util.Date;
 
 @Data

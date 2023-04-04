@@ -1,6 +1,6 @@
 package com.codegym.springboot_modul_6.Service.FE_BO_Service;
 
-import com.codegym.springboot_modul_6.Model.FE_BO_Model.dto.ProductDtoBO;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ProductDtoBO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

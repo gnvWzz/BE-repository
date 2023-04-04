@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.Model.FE_BO_Model.Entity;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.Entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
