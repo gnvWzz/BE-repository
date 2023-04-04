@@ -94,4 +94,6 @@ public class ProductService implements IProductService{
         Page<ProductSF> productSFS = iProductRepositorySF.findAllByCategoryAndSizeOrderByPriceDesc(category, size, PageRequest.of(offset, pageSize));
         return productSFS;
     }
+
+
 }
