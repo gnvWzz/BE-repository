@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ThirdService {
@@ -19,13 +20,13 @@ public class ThirdService {
     @Autowired
     private RequestMapper requestMapper;
 
-    public Page<ProductDto> getProducts(String asc, String desc, String sort_size, String category, int offset) {
+    public Page<ProductDto> getProducts(String sort, String sort_size, String category, int offset) {
         String sort_temp = "";
         if (sort_size != null) {
             sort_temp = "sort_size";
         }
 
-        String action = asc + desc + sort_temp;
+        String action = sort + sort_temp;
         String temp = Arrays.toString(action.split("null"));
         switch (temp) {
             case "[asc]": {
@@ -38,20 +39,20 @@ public class ThirdService {
                 Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
                 return productDtos;
             }
-            case "[asc, sort_size]": {
+            case "[ascsort_size]": {
                 Page<ProductSF> productSFS = productService.findCategoryAndSizeOrderByPriceAsc(category, sort_size, offset, 16);
                 Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
                 return productDtos;
             }
-            case "[, descsort_size]": {
+            case "[descsort_size]": {
                 Page<ProductSF> productSFS = productService.findCategoryAndSizeOrderByPriceDesc(category, sort_size, offset, 16);
                 Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
                 return productDtos;
             }
             default: {
                 Page<ProductSF> productSFS = productService.findProductWithPagination(category, offset, 16);
-                Page<ProductDto> productDto = requestMapper.productDtoPage(productSFS);
-                return productDto;
+                Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
+                return productDtos;
             }
         }
     }
