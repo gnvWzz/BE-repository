@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -114,7 +115,10 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public Page<ProductSF> getAll(String category, int offset, int pageSize){
+    public Page<ProductSF> getAll(String category, String sortPrice , int offset, int pageSize){
+        String action = (category + sortPrice).toLowerCase();
+        String temp = Arrays.toString(action.split("null"));
+        System.out.println(temp);
         Page<ProductSF> productSFS = iProductRepositorySF.getAllProductByCategory(category, PageRequest.of(offset, pageSize));
         return productSFS;
     }

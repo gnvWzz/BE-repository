@@ -37,10 +37,13 @@ public class ProductsController {
 
     @GetMapping(value = "/{category}")
     public ResponseEntity<?> getAllByCategory(@PathVariable(value = "category") String category,
-                                              @RequestParam(required = false, value = "offset") int offset){
-        Page<ProductSF> productSFS = productService.getAll(category, offset, 16);
+                                              @RequestParam(value = "offset") int offset,
+                                              @RequestParam(required = false, value = "sort_price") String sortByPrice){
+        Page<ProductSF> productSFS = productService.getAll(category,sortByPrice , offset, 16);
         return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
     }
+
+
 
 
 

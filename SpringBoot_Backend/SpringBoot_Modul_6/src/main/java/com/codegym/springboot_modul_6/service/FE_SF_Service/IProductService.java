@@ -8,7 +8,7 @@ import java.util.List;
 public interface IProductService extends IGeneralService<ProductSF> {
     List<ProductSF> findAll(String category);
 
-    Page<ProductSF> getAll(String category, int offset, int pageSize);
+    Page<ProductSF> getAll(String category,String sortPrice, int offset, int pageSize);
 
 //    List<ProductSF> findByCategory(String category);
 //

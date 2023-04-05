@@ -16,7 +16,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductSFDetailDto implements Serializable {
 
-    private Long size;
+    private String size;
 
     private Long price;
 
@@ -45,5 +45,6 @@ public class ProductSFDetailDto implements Serializable {
 
     private Long quantity;
 
+    private String manufacturer;
     private List<ImageDto> imageList;
 }

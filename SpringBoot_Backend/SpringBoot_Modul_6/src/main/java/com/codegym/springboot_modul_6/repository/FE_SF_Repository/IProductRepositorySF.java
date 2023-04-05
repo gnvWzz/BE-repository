@@ -12,8 +12,9 @@ import java.util.List;
 @Repository
 public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
 
-    @Query("select u from ProductSF u where u.category = ?1")
-    List<ProductSF> findAllProduct(String category);
+    @Query("select u from ProductSF u ")
+    List<ProductSF> findAllProduct(String serialNumber);
+
 
     @Query("select u from ProductSF u  where u.category = ?1 ")
     Page<ProductSF> getAllProductByCategory(String category, PageRequest of);
