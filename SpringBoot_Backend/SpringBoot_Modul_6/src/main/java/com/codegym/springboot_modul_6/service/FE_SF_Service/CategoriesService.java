@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CategoriesService implements com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoriesService {
+public class CategoriesService implements ICategoryService {
 
     @Autowired
     private ICategoriesRepository iCategoriesRepository;
@@ -22,6 +22,8 @@ public class CategoriesService implements com.codegym.springboot_modul_6.service
     public Optional<Categories> findById(Long id) {
         return Optional.empty();
     }
+
+
 
     @Override
     public void save(Categories categories) {
