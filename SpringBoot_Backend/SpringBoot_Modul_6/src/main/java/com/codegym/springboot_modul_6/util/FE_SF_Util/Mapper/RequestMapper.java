@@ -5,15 +5,11 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.CategoriesDto;
 import org.modelmapper.ModelMapper;
-<<<<<<< HEAD
 import org.modelmapper.TypeToken;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
-=======
-import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> d6eca6f85701ea9db5f44b5ef1db0eac1a06f4eb
 import org.springframework.stereotype.Component;
 
 import java.util.List;
