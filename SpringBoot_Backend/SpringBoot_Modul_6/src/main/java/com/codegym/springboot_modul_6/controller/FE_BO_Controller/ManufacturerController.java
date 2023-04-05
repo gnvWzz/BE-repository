@@ -20,7 +20,7 @@ public class ManufacturerController {
     private ManufacturerServiceImpl manufacturerService;
 
     @GetMapping("/list")
-    public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 5) Pageable pageable){
+    public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 10) Pageable pageable){
         Page<ManufacturerDto> manufacturerDtos = manufacturerService.findAll(pageable);
         return new ResponseEntity<>(manufacturerDtos, HttpStatus.OK);
     }
