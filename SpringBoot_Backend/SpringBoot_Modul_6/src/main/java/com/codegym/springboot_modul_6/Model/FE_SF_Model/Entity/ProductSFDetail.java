@@ -24,6 +24,7 @@ public class ProductSFDetail {
     @ManyToOne
     private ProductSF productSF;
 
+
     private Long size;
 
     private Long price;
