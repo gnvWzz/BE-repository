@@ -7,12 +7,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class ImageDto implements Serializable {
-    private String url;
+@NoArgsConstructor
+public class ProductSFDto implements Serializable {
+
+    private String name;
+
+    private String category;
+
+    private String serial_number;
+
+    private List<ProductSFDetailDto> productSFDetailDtos;
 }

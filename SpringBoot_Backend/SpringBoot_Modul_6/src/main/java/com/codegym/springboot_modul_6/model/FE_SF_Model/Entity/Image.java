@@ -21,12 +21,10 @@ public class Image {
 
     private String url;
 
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_detail_id")
     @ManyToOne
     @JsonIgnore
-    private ProductSF productSF;
-
-
+    private ProductSFDetail productSFDetail;
 
     public Image(String url) {
         this.url = url;

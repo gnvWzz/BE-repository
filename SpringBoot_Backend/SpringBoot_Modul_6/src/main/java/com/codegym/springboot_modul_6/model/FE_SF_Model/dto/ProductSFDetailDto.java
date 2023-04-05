@@ -9,44 +9,36 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProductDto implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ProductSFDetailDto implements Serializable {
 
-    private String name;
+    private Long size;
 
-    private String category;
+    private Long price;
 
-    private String serial_number;
+    private String serialNumber;
 
-    private List<String> list;
+    private String briefDescription;
 
-    private Double price;
-
-    private String brief_description;
-
-    private String full_description;
-
-    private String manufacturer;
+    private String fullDescription;
 
     private Double weight;
 
     private String material;
 
-    private String colors;
-
-    private String size;
+    private String color;
 
     private String cpu;
 
     private String gpu;
 
-    private String ram;
-
     private String storageDrive;
 
     private String display;
+
+    private List<ImageDto> imageDtoList;
 }

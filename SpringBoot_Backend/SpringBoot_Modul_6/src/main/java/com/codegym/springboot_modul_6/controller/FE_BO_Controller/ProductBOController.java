@@ -18,11 +18,8 @@ public class ProductBOController {
     @Autowired
     private ProductBOServiceImpl productServiceBO;
 
-//    @GetMapping("/list")
-//    public ResponseEntity<?> getProductBOList(@PageableDefault(value = 5) Pageable pageable){
-//        Page<ResponseProductBODto> productDtoBOs = productServiceBO.findAll(pageable);
-//        return new ResponseEntity<>(productDtoBOs, HttpStatus.OK);
-//    }
+
+
     @GetMapping("/list")
     public ResponseEntity<?> getProductBOList(@PageableDefault(value = 10) Pageable pageable){
         Page<ResponseProductBODto> productDtoBOs = productServiceBO.findAll(pageable);
@@ -41,3 +38,4 @@ public class ProductBOController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
+
