@@ -1,9 +1,16 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
 
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
+import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ThirdService {
@@ -13,6 +20,15 @@ public class ThirdService {
 
     @Autowired
     private RequestMapper requestMapper;
+
+    @Autowired
+    private LongMapper mapper;
+
+    public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
+        List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());
+        Page<ProductSFDto> page = new PageImpl<ProductSFDto>(productSFList, pageEntity.getPageable(), pageEntity.getTotalElements());
+        return page;
+    }
 
 //    public Page<ProductDto> getProducts(String asc, String desc, String sort_size, String category, int offset) {
 //        String sort_temp = "";

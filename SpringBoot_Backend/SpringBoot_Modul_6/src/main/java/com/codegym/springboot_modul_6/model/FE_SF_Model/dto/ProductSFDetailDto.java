@@ -20,9 +20,12 @@ public class ProductSFDetailDto implements Serializable {
 
     private Long price;
 
+
     private String serialNumber;
 
+
     private String briefDescription;
+
 
     private String fullDescription;
 
@@ -40,5 +43,7 @@ public class ProductSFDetailDto implements Serializable {
 
     private String display;
 
-    private List<ImageDto> imageDtoList;
+    private Long quantity;
+
+    private List<ImageDto> imageList;
 }
