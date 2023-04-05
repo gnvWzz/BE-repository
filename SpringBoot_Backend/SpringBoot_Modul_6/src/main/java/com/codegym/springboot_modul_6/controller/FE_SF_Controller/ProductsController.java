@@ -82,9 +82,9 @@ public class ProductsController {
     @GetMapping(value = "/findByName/{name}")
     public ResponseEntity<?> find_By_Name_Category(@PathVariable(value = "name") String name,
                                                    @RequestParam(value = "product_name") String product_name,
-                                                   @RequestParam(value = "offset") int offset,
-                                                   @RequestParam(value = "pageSize") int pageSize) {
-        Page<ProductSF> productSFS = productService.findCategoryByName(name, product_name, offset, pageSize);
+                                                   @RequestParam(value = "offset") int offset
+    ) {
+        Page<ProductSF> productSFS = productService.findCategoryByName(name, product_name, offset, 16);
         Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
         return new ResponseEntity<>(productDtos, HttpStatus.OK);
     }

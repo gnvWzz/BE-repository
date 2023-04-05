@@ -11,7 +11,9 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +28,9 @@ public class RequestMapper {
     private ModelMapper mapper;
 
     public Account toAccount(AccountDto accountDto){
-        return mapper.map(accountDto, Account.class);
+        Account account = new Account();
+        BeanUtils.copyProperties(accountDto, account);
+        return account;
     }
 
 //    Long them categoriesdto
