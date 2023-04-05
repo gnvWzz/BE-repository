@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class ProductSFDetail {
 
     @JoinColumn(name = "product_id")
     @ManyToOne
+    @JsonIgnore
     private ProductSF productSF;
 
     private Long size;

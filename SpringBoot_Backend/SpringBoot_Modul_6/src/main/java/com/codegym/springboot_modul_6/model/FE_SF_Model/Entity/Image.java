@@ -21,7 +21,7 @@ public class Image {
 
     private String url;
 
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "product_detail_id")
     @ManyToOne
     @JsonIgnore
     private ProductSFDetail productSFDetail;
