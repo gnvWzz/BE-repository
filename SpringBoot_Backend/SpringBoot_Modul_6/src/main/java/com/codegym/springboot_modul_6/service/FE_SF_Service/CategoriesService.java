@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class CategoriesService implements ICategoriesService {
+public class CategoriesService implements com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoriesService {
 
     @Autowired
     private ICategoriesRepository iCategoriesRepository;

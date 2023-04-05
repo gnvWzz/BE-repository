@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductDto implements Serializable {
+public class ProductSFDto implements Serializable {
 
     private String name;
 
@@ -22,31 +22,5 @@ public class ProductDto implements Serializable {
 
     private String serial_number;
 
-    private List<String> list;
-
-    private Double price;
-
-    private String brief_description;
-
-    private String full_description;
-
-    private String manufacturer;
-
-    private Double weight;
-
-    private String material;
-
-    private String colors;
-
-    private String size;
-
-    private String cpu;
-
-    private String gpu;
-
-    private String ram;
-
-    private String storageDrive;
-
-    private String display;
+    private List<ProductSFDetailDto> productSFDetailDtos;
 }
