@@ -29,23 +29,10 @@ public class ProductsController {
     @Autowired
     private IImageService iImageService;
 
-    @GetMapping(value = "/find-all/{name}")
-    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name")String name){
-        List<ProductSF> list = productService.findByCategory(name);
-        List<ProductDto> productDtos = requestMapper.productDtos(list);
-        for (ProductDto p:
-                productDtos) {
-            ProductSF productSF = productService.findBySerialNumber(p.getSerial_number());
-            List<Image> lists = productSF.getImageList();
-            List<ImageDTO> imageDTOList = requestMapper.imageDTOList(lists);
-            List<String> urlList = new ArrayList<>();
-            for (ImageDTO i:
-                 imageDTOList) {
-                urlList.add(i.getUrl());
-            }
-            p.setList(urlList);
-        }
-        return new ResponseEntity<>(productDtos, HttpStatus.OK);
+    @GetMapping(value = "/find-all")
+    public ResponseEntity<?> findAllByCategory(){
+
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
     @GetMapping(value = "/find-by-serial-number/{serial_number}")
