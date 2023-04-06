@@ -20,6 +20,7 @@ public class ProductsController {
     @Autowired
     private ThirdService thirdService;
 
+
     @GetMapping(value = "/{category}")
     public ResponseEntity<?> getAllByCategory(@PathVariable(value = "category") String category,
                                               @RequestParam(value = "offset") int offset,
@@ -27,7 +28,4 @@ public class ProductsController {
         Page<ProductSF> productSFS = productService.getAll(category, sortByPrice, offset, 16);
         return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
     }
-
-
-
 }

@@ -65,9 +65,9 @@ public class LongMapper {
         return productSFDtos;
     }
 
-    public List<CategoriesDto> mapperCategories(List<Categories> categories){
+    public List<CategoriesDto> mapperCategories(List<Categories> categories) {
         List<CategoriesDto> list = new ArrayList<>();
-        for(int i = 0; i < categories.size(); i++){
+        for (int i = 0; i < categories.size(); i++) {
             CategoriesDto categoriesDto = new CategoriesDto();
             BeanUtils.copyProperties(categories.get(i), categoriesDto);
             list.add(categoriesDto);

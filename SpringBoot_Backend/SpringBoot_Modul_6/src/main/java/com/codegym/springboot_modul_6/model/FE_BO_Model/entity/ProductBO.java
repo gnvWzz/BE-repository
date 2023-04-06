@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.model.FE_BO_Model.entity;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerDetail;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -39,9 +40,6 @@ public class ProductBO {
     private String status;
     @Column(name = "quantity")
     private Long quantity;
-    @Column(name = "icon")
-    private String icon;
-    //    khi xoa mot ProductBO, các ManufacturerDetail lien quan khong bi xoa
-    @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ManufacturerDetail> manufacturerDetails = new ArrayList<>();
 }
