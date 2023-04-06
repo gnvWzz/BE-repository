@@ -7,13 +7,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RequestMapper {
-
-
     public Account toAccount(AccountDto accountDto) {
         Account account = new Account();
         BeanUtils.copyProperties(accountDto, account);
         return account;
     }
-
-
 }

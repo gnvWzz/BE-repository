@@ -55,9 +55,8 @@ public class LongMapper {
             try {
                 ProductSFDto productSFDto = new ProductSFDto();
                 BeanUtils.copyProperties(p, productSFDto);
-                productSFDto.setProductDetailDtos(mapperProductSFDetailDto(p));
+                productSFDto.setProductSFDetailDtos(mapperProductSFDetailDto(p));
                 productSFDtos.add(productSFDto);
-
             } catch (Exception e) {
                 throw e;
             }

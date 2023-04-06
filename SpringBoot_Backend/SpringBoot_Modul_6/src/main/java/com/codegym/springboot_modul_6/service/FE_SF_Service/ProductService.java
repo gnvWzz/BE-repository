@@ -2,25 +2,28 @@ package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
-public class ProductService implements IProductService{
+public class ProductService implements IProductService {
 
     @Autowired
-    private IProductRepositorySF iProductRepositorySF;
+    private IProductRepositorySF productRepositorySF;
 
-    public static Map<String , ArrayList<String>> cache = new HashMap<>();
+    @Autowired
+    private ThirdService thirdService;
+
+    public static Map<String, ArrayList<String>> cache = new HashMap<>();
 
     @Override
     public Iterable<ProductSF> findAll() {
-        return iProductRepositorySF.findAll();
+        return productRepositorySF.findAll();
     }
 
     @Override
@@ -38,19 +41,37 @@ public class ProductService implements IProductService{
 
     }
 
-
     @Override
-    public List<ProductSF> findAll(String category){
-        List<ProductSF> productSFS = iProductRepositorySF.findAllProduct(category);
+    public List<ProductSF> findAll(String category) {
+        List<ProductSF> productSFS = productRepositorySF.findAllProduct(category);
         return productSFS;
     }
 
     @Override
-    public Page<ProductSF> getAll(String category, String sortPrice , int offset, int pageSize){
-        String action = (category + sortPrice).toLowerCase();
+    public Page<ProductSF> getAll(String category, String sortPrice, String sortName, int offset, int pageSize) {
+        String nameTemp = "";
+        if(sortName != null){
+            nameTemp = "name";
+        }
+        String action =  (nameTemp + sortPrice).toLowerCase();
         String temp = Arrays.toString(action.split("null"));
-        System.out.println(temp);
-        Page<ProductSF> productSFS = iProductRepositorySF.getAllProductByCategory(category, PageRequest.of(offset, pageSize));
-        return productSFS;
+        switch (temp){
+            case "[asc]" :{
+                Page<ProductSF> productSFS = productRepositorySF.getAllProductPriceAsc(category, PageRequest.of(offset, pageSize));
+                return productSFS;
+            }
+            case "[desc]" : {
+                Page<ProductSF> productSFS = productRepositorySF.getAllProductPriceDesc(category, PageRequest.of(offset, pageSize));
+                return productSFS;
+            }
+            case "[name]" : {
+                Page<ProductSF> productSFS = productRepositorySF.getAllProductByName(category, sortName, PageRequest.of(offset, pageSize));
+                return productSFS;
+            }
+            default:{
+                Page<ProductSF> productSFS = productRepositorySF.getAllProductByCategory(category, PageRequest.of(offset, pageSize));
+                return productSFS;
+            }
+        }
     }
 }

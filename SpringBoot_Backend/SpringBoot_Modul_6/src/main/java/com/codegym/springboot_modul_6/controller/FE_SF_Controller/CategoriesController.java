@@ -18,11 +18,8 @@ import java.util.List;
 @RequestMapping(value = "/api/categories")
 @CrossOrigin(origins = "http://localhost:3000")
 public class CategoriesController {
-
-
     @Autowired
     private CategoriesService categoriesService;
-
     @Autowired
     private LongMapper longMapper;
 
@@ -31,7 +28,5 @@ public class CategoriesController {
         List<Categories> categoriesList = (List<Categories>) categoriesService.findAll();
         List<CategoriesDto> categoriesDtos = longMapper.mapperCategories(categoriesList);
         return new ResponseEntity<>(categoriesDtos, HttpStatus.OK);
-
     }
-
 }
