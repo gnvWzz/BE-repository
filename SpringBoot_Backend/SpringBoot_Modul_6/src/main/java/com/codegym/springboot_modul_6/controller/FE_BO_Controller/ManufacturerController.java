@@ -20,7 +20,7 @@ package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 //    private ManufacturerServiceImpl manufacturerService;
 //
 //    @GetMapping("/list")
-//    public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 5) Pageable pageable){
+//    public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 10) Pageable pageable){
 //        Page<ManufacturerDto> manufacturerDtos = manufacturerService.findAll(pageable);
 //        return new ResponseEntity<>(manufacturerDtos, HttpStatus.OK);
 //    }
@@ -37,3 +37,4 @@ package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 //    }
 //
 //}
+

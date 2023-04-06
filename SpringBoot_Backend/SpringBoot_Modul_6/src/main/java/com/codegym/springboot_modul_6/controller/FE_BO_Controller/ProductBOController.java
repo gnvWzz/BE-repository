@@ -18,12 +18,13 @@ package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 //    @Autowired
 //    private ProductBOServiceImpl productServiceBO;
 //
+//
+//
 //    @GetMapping("/list")
-//    public ResponseEntity<?> getProductBOList(@PageableDefault(value = 5) Pageable pageable){
+//    public ResponseEntity<?> getProductBOList(@PageableDefault(value = 10) Pageable pageable){
 //        Page<ResponseProductBODto> productDtoBOs = productServiceBO.findAll(pageable);
 //        return new ResponseEntity<>(productDtoBOs, HttpStatus.OK);
 //    }
-//
 //
 //    @GetMapping("/{id}")
 //    public ResponseEntity<?> getProductBObyId(@PathVariable Long id){
@@ -37,3 +38,4 @@ package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 //}
+
