@@ -20,7 +20,5 @@ public class ProductSFDto implements Serializable {
 
     private String category;
 
-    private String serial_number;
-
-    private List<ProductSFDetailDto> productSFDetailDtos;
+    private List<ProductSFDetailDto> productDetail;
 }
