@@ -1,17 +1,27 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name = "category")
-public class Categories {
+@Table(name = "roles")
+public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
-    private String status;
+    @OneToMany(mappedBy = "roles")
+    private List<AccountRoles> accountRoles;
+
+    public Roles(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Roles() {
+
+    }
 
     public Long getId() {
         return id;
@@ -29,22 +39,11 @@ public class Categories {
         this.name = name;
     }
 
-
-
-    public Categories() {
+    public List<AccountRoles> getAccountRoles() {
+        return accountRoles;
     }
 
-    public Categories(Long id, String name, String status) {
-        this.id = id;
-        this.name = name;
-        this.status = status;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setAccountRoles(List<AccountRoles> accountRoles) {
+        this.accountRoles = accountRoles;
     }
 }
