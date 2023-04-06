@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSFDetail {
+public class ProductSFDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,6 +55,9 @@ public class ProductSFDetail {
     private String display;
 
     private Long quantity;
+
+    @Column(name = "manufacturer")
+    private String manufacturer;
 
     @OneToMany(mappedBy = "productSFDetail", fetch = FetchType.LAZY)
     private List<Image> imageList;

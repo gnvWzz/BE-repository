@@ -10,9 +10,11 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageReposito
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import org.springframework.beans.BeanUtils;
+import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +31,9 @@ public class ThirdService {
     @Autowired
     private IImageRepositorySF imageRepositorySF;
 
+    @Autowired
+    private LongMapper mapper;
+
     public ProductSFDto getProductSFDto(Long id) {
         ProductSF productSF = productRepositorySF.findById(id).get();
 
@@ -40,17 +45,17 @@ public class ThirdService {
 
         List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
 
-        for (Long productDetailsSFId: ids) {
+        for (Long productDetailsSFId : ids) {
             ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
             List<ImageDto> imageDtoList = new ArrayList<>();
-            for (Image i: imageList) {
+            for (Image i : imageList) {
                 ImageDto imageDto = new ImageDto();
                 BeanUtils.copyProperties(i, imageDto);
                 imageDtoList.add(imageDto);
             }
             ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
             BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-            productSFDetailDto.setImageDtoList(imageDtoList);
+            productSFDetailDto.setImageList(imageDtoList);
             productSFDetailDtos.add(productSFDetailDto);
         }
 
@@ -58,5 +63,11 @@ public class ThirdService {
         BeanUtils.copyProperties(productSF, productSFDto);
         productSFDto.setProductSFDetailDtos(productSFDetailDtos);
         return productSFDto;
+    }
+
+    public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
+        List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());
+        Page<ProductSFDto> page = new PageImpl<ProductSFDto>(productSFList, pageEntity.getPageable(), pageEntity.getTotalElements());
+        return page;
     }
 }
