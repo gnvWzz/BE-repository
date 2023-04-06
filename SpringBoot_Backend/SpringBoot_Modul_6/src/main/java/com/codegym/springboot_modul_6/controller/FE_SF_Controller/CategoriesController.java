@@ -28,8 +28,8 @@ public class CategoriesController {
     @GetMapping(value = "/find-all")
     public ResponseEntity<?> getAllCategories(){
         List<Categories> categoriesList = (List<Categories>) categoriesService.findAll();
-        List<CategoriesDto> categoriesDtos = requestMapper.categoriesDtos(categoriesList);
-        return new ResponseEntity<>(categoriesDtos, HttpStatus.OK);
+
+        return new ResponseEntity<>(categoriesList, HttpStatus.OK);
     }
 
 }
