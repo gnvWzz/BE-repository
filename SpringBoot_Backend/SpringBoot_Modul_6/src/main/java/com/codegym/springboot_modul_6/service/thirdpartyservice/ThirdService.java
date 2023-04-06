@@ -1,53 +1,62 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
 
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageRepositorySF;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ThirdService {
 
     @Autowired
-    private IProductService productService;
+    private IProductRepositorySF productRepositorySF;
 
     @Autowired
-    private RequestMapper requestMapper;
+    private IProductDetailSFRepository productDetailSFRepository;
 
-//    public Page<ProductDto> getProducts(String asc, String desc, String sort_size, String category, int offset) {
-//        String sort_temp = "";
-//        if (sort_size != null) {
-//            sort_temp = "sort_size";
-//        }
-//
-//        String action = asc + desc + sort_temp;
-//        String temp = Arrays.toString(action.split("null"));
-//        switch (temp) {
-//            case "[asc]": {
-//                Page<ProductSF> productSFS = productService.findOrderByPriceASC(category, offset, 16);
-//                Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
-//                return productDtos;
-//            }
-//            case "[desc]": {
-//                Page<ProductSF> productSFS = productService.findOrderByPriceDESC(category, offset, 16);
-//                Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
-//                return productDtos;
-//            }
-//            case "[asc, sort_size]": {
-//                Page<ProductSF> productSFS = productService.findCategoryAndSizeOrderByPriceAsc(category, sort_size, offset, 16);
-//                Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
-//                return productDtos;
-//            }
-//            case "[, descsort_size]": {
-//                Page<ProductSF> productSFS = productService.findCategoryAndSizeOrderByPriceDesc(category, sort_size, offset, 16);
-//                Page<ProductDto> productDtos = requestMapper.productDtoPage(productSFS);
-//                return productDtos;
-//            }
-//            default: {
-//                Page<ProductSF> productSFS = productService.findProductWithPagination(category, offset, 16);
-//                Page<ProductDto> productDto = requestMapper.productDtoPage(productSFS);
-//                return productDto;
-//            }
-//        }
-//    }
+    @Autowired
+    private IImageRepositorySF imageRepositorySF;
+
+    public ProductSFDto getProductSFDto(Long id) {
+        ProductSF productSF = productRepositorySF.findById(id).get();
+
+        List<ProductSFDetail> productSFDetails = productSF.getProductDetail();
+
+        List<Long> ids = productSFDetails.stream().map(ProductSFDetail::getId).collect(Collectors.toList());
+
+        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
+
+        List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
+
+        for (Long productDetailsSFId: ids) {
+            ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
+            List<ImageDto> imageDtoList = new ArrayList<>();
+            for (Image i: imageList) {
+                ImageDto imageDto = new ImageDto();
+                BeanUtils.copyProperties(i, imageDto);
+                imageDtoList.add(imageDto);
+            }
+            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+            BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
+            productSFDetailDto.setImageDtoList(imageDtoList);
+            productSFDetailDtos.add(productSFDetailDto);
+        }
+
+        ProductSFDto productSFDto = new ProductSFDto();
+        BeanUtils.copyProperties(productSF, productSFDto);
+        productSFDto.setProductSFDetailDtos(productSFDetailDtos);
+        return productSFDto;
+    }
 }

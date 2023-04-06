@@ -1,10 +1,15 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ProductService;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -12,18 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class ProductsController {
 
     @Autowired
-    private ProductService productService;
+    private IProductService productService;
+
     @Autowired
     private RequestMapper requestMapper;
 
     @Autowired
     private ThirdService thirdService;
-
-//    @Autowired
-//    private ThirdService thirdService;
-//
-//    @Autowired
-//    private IImageService iImageService;
 
 //    @GetMapping(value = "/find-all/{name}")
 //    public ResponseEntity<?> findAllByCategory(@PathVariable(value = "name") String name) {
@@ -135,4 +135,9 @@ public class ProductsController {
 //        return new ResponseEntity<>(productDtos, HttpStatus.OK);
 //    }
 
+    @GetMapping("/find-by-id/{id}")
+    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
+        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+    }
 }
