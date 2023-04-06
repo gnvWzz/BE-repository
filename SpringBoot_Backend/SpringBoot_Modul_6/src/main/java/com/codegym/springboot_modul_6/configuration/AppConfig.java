@@ -16,10 +16,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @ComponentScan(basePackages = "com.codegym.springboot_modul_6")
 public class AppConfig implements WebMvcConfigurer {
 
-    @Bean
-    public ModelMapper mapper(){
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        return mapper;
-    }
+
 }
