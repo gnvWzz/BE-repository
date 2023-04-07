@@ -31,9 +31,4 @@ public class ImageService implements IImageService {
     @Override
     public void remove(Long id) {
     }
-
-//    @Override
-//    public List<Image> findAllByProductSF(Long productId) {
-//        return iImageRepositorySF.findByProductId(productId);
-//    }
 }

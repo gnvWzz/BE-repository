@@ -7,4 +7,5 @@ public interface ManufacturerDetailService {
 //    Page<RequestManufacturerDetailDto> findAll(Pageable pageable);
     RequestManufacturerDetailDto save(RequestManufacturerDetailDto requestManufacturerDetailDto);
 //    boolean delete(Long id);
+
 }

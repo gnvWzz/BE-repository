@@ -38,8 +38,7 @@ public class Manufacturer {
     private String status;
     @Column(name = "icon")
     private String icon;
-    //    khi xoa mot Manufacturer, các ManufacturerDetail lien quan khong bi xoa
-    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ManufacturerDetail> manufacturerDetails = new ArrayList<>();
 
 }

@@ -28,3 +28,4 @@ public class ManufacturerDetailServiceImpl implements ManufacturerDetailService 
         return requestManufacturerDetailDto;
     }
 }
+

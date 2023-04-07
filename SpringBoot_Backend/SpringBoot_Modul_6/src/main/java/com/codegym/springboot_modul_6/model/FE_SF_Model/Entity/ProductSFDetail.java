@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSFDetail {
+public class ProductSFDetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +26,7 @@ public class ProductSFDetail {
     @JsonIgnore
     private ProductSF productSF;
 
-    private Long size;
+    private String size;
 
     private Long price;
 
@@ -55,10 +56,13 @@ public class ProductSFDetail {
 
     private Long quantity;
 
+    @Column(name = "manufacturer")
+    private String manufacturer;
+
     @OneToMany(mappedBy = "productSFDetail", fetch = FetchType.LAZY)
     private List<Image> imageList;
 
-    public ProductSFDetail(ProductSF productSF, Long size, Long price, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String color, String cpu, String gpu, String storageDrive, String display, Long quantity) {
+    public ProductSFDetail(ProductSF productSF, String size, Long price, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String color, String cpu, String gpu, String storageDrive, String display, Long quantity) {
         this.productSF = productSF;
         this.size = size;
         this.price = price;
