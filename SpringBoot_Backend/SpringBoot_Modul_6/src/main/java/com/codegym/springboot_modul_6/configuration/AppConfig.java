@@ -11,8 +11,5 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.codegym.springboot_modul_6")
 public class AppConfig implements WebMvcConfigurer {
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+
 }

@@ -1,6 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ManufacturerDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerDto;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.impl.ManufacturerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,18 +22,18 @@ public class ManufacturerController {
 
     @GetMapping("/list")
     public ResponseEntity<?> getManufacturerList(@PageableDefault(value = 10) Pageable pageable){
-        Page<ManufacturerDto> manufacturerDtos = manufacturerService.findAll(pageable);
-        return new ResponseEntity<>(manufacturerDtos, HttpStatus.OK);
+        Page<ResponseManufacturerDto> responseManufacturerDtos = manufacturerService.findAll(pageable);
+        return new ResponseEntity<>(responseManufacturerDtos, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getManufacturerById(@PathVariable Long id){
-        Optional<ManufacturerDto> manufacturerDto = manufacturerService.findById(id);
-        return new ResponseEntity<>(manufacturerDto.get(), HttpStatus.OK);
+        Optional<ResponseManufacturerDto> responseManufacturerDto = manufacturerService.findById(id);
+        return new ResponseEntity<>(responseManufacturerDto.get(), HttpStatus.OK);
     }
     @PostMapping("/save")
-    public ResponseEntity<?> saveManufacturer(@RequestBody ManufacturerDto manufacturerDto){
-        manufacturerService.save(manufacturerDto);
+    public ResponseEntity<?> saveManufacturer(@RequestBody RequestManufacturerDto requestManufacturerDto){
+        manufacturerService.save(requestManufacturerDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @PostMapping("/block/{id}")

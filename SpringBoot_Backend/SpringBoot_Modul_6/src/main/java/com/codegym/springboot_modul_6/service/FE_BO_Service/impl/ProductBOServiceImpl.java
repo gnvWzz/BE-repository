@@ -1,12 +1,12 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestManufacturerDetailDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ResponseManufacturerDetailDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerDetail;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerProductBODto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerProductBODto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerProductBO;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestProductBODto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ResponseProductBODto;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerDetailRepository;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductBODto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductBODto;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerProductBORepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ProductBORepository;
 import com.codegym.springboot_modul_6.util.FE_BO_Util.Mapper.ManufacturerDetailMapper;
 import org.modelmapper.ModelMapper;
@@ -26,16 +26,12 @@ import java.util.Optional;
 public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.service.FE_BO_Service.ProductBOService {
     @Autowired
     private ProductBORepository productBORepository;
-//    @Autowired
-//    private ManufacturerDetailServiceImpl manufacturerDetailService;
 
     @Autowired
     private ManufacturerDetailMapper manufacturerDetailMapper;
 
     @Autowired
-    private ManufacturerDetailRepository manufacturerDetailRepository;
-    @Autowired
-    private ModelMapper mapper;
+    private ManufacturerProductBORepository manufacturerProductBORepository;
 
     @Override
     @Transactional
@@ -47,113 +43,76 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
             //map cac property giong nhau tu object sang dto
             BeanUtils.copyProperties(productBO, productDtoBO);
 
-            List<ManufacturerDetail> manufacturerDetailList = productBO.getManufacturerDetails();
-            List<ResponseManufacturerDetailDto> responseManufacturerDetailDtoList = new ArrayList<>();
-            for (ManufacturerDetail ele : manufacturerDetailList) {
-                ResponseManufacturerDetailDto responseManufacturerDetailDto = new ResponseManufacturerDetailDto();
-                BeanUtils.copyProperties(ele, responseManufacturerDetailDto);
-                responseManufacturerDetailDto.setManufacturerId(ele.getManufacturer().getId());
-                responseManufacturerDetailDto.setManufacturerName(ele.getManufacturer().getName());
-                responseManufacturerDetailDto.setProductBOId(ele.getProductBO().getId());
+            List<ManufacturerProductBO> manufacturerProductBOList = productBO.getManufacturerProductBOS();
+            List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for (ManufacturerProductBO ele : manufacturerProductBOList) {
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                BeanUtils.copyProperties(ele, responseManufacturerProductBODto);
+                responseManufacturerProductBODto.setManufacturerId(ele.getManufacturer().getId());
+                responseManufacturerProductBODto.setManufacturerName(ele.getManufacturer().getName());
+                responseManufacturerProductBODto.setProductBOId(ele.getProductBO().getId());
+                responseManufacturerProductBODto.setProductBOName(ele.getProductBO().getName());
 
-                responseManufacturerDetailDtoList.add(responseManufacturerDetailDto);
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
             }
-            productDtoBO.setResponseManufacturerDetailDtos(responseManufacturerDetailDtoList);
+            productDtoBO.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
 
             return Optional.of(productDtoBO);
         }
         return null;
     }
 
-//    @Override
-//    @Transactional
-//    public Optional<ResponseProductBODto> findById(Long id) {
-//        ProductBO productBO = productBORepository.findById(id).orElse(null);
-//        if (productBO != null) {
-//            ResponseProductBODto productDtoBO = new ResponseProductBODto();
-//
-//            //map cac property giong nhau tu object sang dto
-//            BeanUtils.copyProperties(productBO, productDtoBO);
-//
-//            List<ManufacturerDetail> manufacturerDetailList = productBO.getManufacturerDetails();
-//            List<RequestManufacturerDetailDto> requestManufacturerDetailDtoList = new ArrayList<>();
-//            for (ManufacturerDetail ele : manufacturerDetailList) {
-//                RequestManufacturerDetailDto requestManufacturerDetailDto = new RequestManufacturerDetailDto();
-//                BeanUtils.copyProperties(ele, requestManufacturerDetailDto);
-//                requestManufacturerDetailDto.setManufacturerId(ele.getManufacturer().getId());
-//                requestManufacturerDetailDto.setProductBOId(ele.getProductBO().getId());
-//
-//                requestManufacturerDetailDtoList.add(requestManufacturerDetailDto);
-//            }
-//            productDtoBO.setRequestManufacturerDetailDtos(requestManufacturerDetailDtoList);
-//
-//            return Optional.of(productDtoBO);
-//        }
-//        return null;
-//    }
-
     @Override
     @Transactional
     public Page<ResponseProductBODto> findAll(Pageable pageable) {
         Page<ProductBO> productBOs = productBORepository.findAll(pageable);
-        List<ResponseProductBODto> productDtoBOList = new ArrayList<>();
+        List<ResponseProductBODto> productBODtoList = new ArrayList<>();
         for(ProductBO ele: productBOs){
             ResponseProductBODto productDtoBO = new ResponseProductBODto();
             BeanUtils.copyProperties(ele,productDtoBO);
 
-            List<ManufacturerDetail> manufacturerDetails = ele.getManufacturerDetails();
-            List<ResponseManufacturerDetailDto> responseManufacturerDetailDtoList = new ArrayList<>();
-            for(ManufacturerDetail md: manufacturerDetails){
-                ResponseManufacturerDetailDto responseManufacturerDetailDto = new ResponseManufacturerDetailDto();
-                BeanUtils.copyProperties(md, responseManufacturerDetailDto);
+            List<ManufacturerProductBO> manufacturerProductBOS = ele.getManufacturerProductBOS();
+            List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for(ManufacturerProductBO md: manufacturerProductBOS){
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                BeanUtils.copyProperties(md, responseManufacturerProductBODto);
 
-                responseManufacturerDetailDto.setManufacturerId(md.getManufacturer().getId());
-                responseManufacturerDetailDto.setManufacturerName(md.getManufacturer().getName());
-                responseManufacturerDetailDto.setProductBOId(md.getProductBO().getId());
+                responseManufacturerProductBODto.setManufacturerId(md.getManufacturer().getId());
+                responseManufacturerProductBODto.setManufacturerName(md.getManufacturer().getName());
+                responseManufacturerProductBODto.setProductBOId(md.getProductBO().getId());
+                responseManufacturerProductBODto.setProductBOName(md.getProductBO().getName());
 
-                responseManufacturerDetailDtoList.add(responseManufacturerDetailDto);
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
             }
-            productDtoBO.setResponseManufacturerDetailDtos(responseManufacturerDetailDtoList);
+            productDtoBO.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
 
-            productDtoBOList.add(productDtoBO);
+            productBODtoList.add(productDtoBO);
         }
-        return new PageImpl<>(productDtoBOList, pageable, productBOs.getTotalElements());
+        return new PageImpl<>(productBODtoList, pageable, productBOs.getTotalElements());
     }
 
     @Override
     @Transactional
     public RequestProductBODto save(RequestProductBODto productDtoBO) {
         try {
-            ProductBO productBO = mapper.map(productDtoBO, ProductBO.class);
+            ProductBO productBO = new ProductBO();
+            BeanUtils.copyProperties(productDtoBO, productBO);
             productBO.setStatus("UNLOCKED");
             productBORepository.save(productBO);
 
             Long manufacturerId = productDtoBO.getManufacturerId();
             Long productId = productBO.getId();
-            RequestManufacturerDetailDto requestManufacturerDetailDto = new RequestManufacturerDetailDto();
-            requestManufacturerDetailDto.setManufacturerId(manufacturerId);
-            requestManufacturerDetailDto.setProductBOId(productId);
-            ManufacturerDetail manufacturerDetail = manufacturerDetailMapper.toEntity(requestManufacturerDetailDto);
-            manufacturerDetailRepository.save(manufacturerDetail);
+            RequestManufacturerProductBODto requestManufacturerProductBODto = new RequestManufacturerProductBODto();
+            requestManufacturerProductBODto.setManufacturerId(manufacturerId);
+            requestManufacturerProductBODto.setProductBOId(productId);
+            ManufacturerProductBO manufacturerProductBO = manufacturerDetailMapper.toEntity(requestManufacturerProductBODto);
+            manufacturerProductBORepository.save(manufacturerProductBO);
         } catch (Exception ex) {
             System.out.println("Loi:" + ex.getCause());
             throw new RuntimeException("Error while saving Manufacturer", ex);
         }
         return productDtoBO;
     }
-
-//    @Override
-//    public ProductDtoBO save(ProductDtoBO productDtoBO) {
-//        try {
-//            ProductBO productBO = mapper.map(productDtoBO, ProductBO.class);
-//            productBO.setStatus("CÒN HÀNG");
-//            productRepositoryBO.save(productBO);
-//        } catch (Exception ex) {
-//            System.out.println("Loi:" + ex.getCause());
-//            throw new RuntimeException("Error while saving Manufacturer", ex);
-//        }
-//        return productDtoBO;
-//    }
 
     @Override
     public boolean block(Long id) {
@@ -162,11 +121,10 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
             if (productBO != null) {
                 if (productBO.getStatus().equals("UNLOCKED")) {
                     productBO.setStatus("BLOCKED");
-                    productBORepository.save(productBO);
                 } else {
                     productBO.setStatus("UNLOCKED");
-                    productBORepository.save(productBO);
                 }
+                productBORepository.save(productBO);
                 return true;
             }
         }
@@ -192,4 +150,16 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
 //        return new PageImpl<>(dtos, pageable, entities.getTotalElements());
 //    }
 
+//    @Override
+//    public ProductDtoBO save(ProductDtoBO productDtoBO) {
+//        try {
+//            ProductBO productBO = mapper.map(productDtoBO, ProductBO.class);
+//            productBO.setStatus("UNLOCKED");
+//            productRepositoryBO.save(productBO);
+//        } catch (Exception ex) {
+//            System.out.println("Loi:" + ex.getCause());
+//            throw new RuntimeException("Error while saving Manufacturer", ex);
+//        }
+//        return productDtoBO;
+//    }
 }
