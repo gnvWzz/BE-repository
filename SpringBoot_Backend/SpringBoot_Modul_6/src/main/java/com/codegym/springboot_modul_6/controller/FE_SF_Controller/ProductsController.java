@@ -33,10 +33,10 @@ public class ProductsController {
         return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
-        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
-        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+//    @GetMapping("/find-by-id/{id}")
+//    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+//        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
+//        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
 
     }
-}
+

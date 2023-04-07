@@ -10,6 +10,6 @@ public interface ManufacturerService {
     Optional<ManufacturerDto> findById(Long id);
     Page<ManufacturerDto> findAll(Pageable pageable);
     ManufacturerDto save(ManufacturerDto manufacturerDto);
-    boolean delete(Long id);
+    boolean block(Long id);
 
 }
