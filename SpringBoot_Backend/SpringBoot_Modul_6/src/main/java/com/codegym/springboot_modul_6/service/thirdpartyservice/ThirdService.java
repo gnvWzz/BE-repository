@@ -45,37 +45,6 @@ public class ThirdService {
     private RequestMapper requestMapper;
 
 
-//    public ProductSFDto getProductSFDto(Long id) {
-//        ProductSF productSF = productRepositorySF.findById(id).get();
-//
-//        List<ProductSFDetail> productSFDetails = productSF.getProductDetail();
-//
-//        List<Long> ids = productSFDetails.stream().map(ProductSFDetail::getId).collect(Collectors.toList());
-//
-//        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
-//
-//        List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
-//
-//        for (Long productDetailsSFId : ids) {
-//            ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
-//            List<ImageDto> imageDtoList = new ArrayList<>();
-//            for (Image i : imageList) {
-//                ImageDto imageDto = new ImageDto();
-//                BeanUtils.copyProperties(i, imageDto);
-//                imageDtoList.add(imageDto);
-//            }
-//            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-//            BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-//            productSFDetailDto.setImageList(imageDtoList);
-//            productSFDetailDtos.add(productSFDetailDto);
-//        }
-//
-//        ProductSFDto productSFDto = new ProductSFDto();
-//        BeanUtils.copyProperties(productSF, productSFDto);
-//        productSFDto.setProductSFDetailDtos(productSFDetailDtos);
-//        return productSFDto;
-//    }
-
 
     public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
         List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());
