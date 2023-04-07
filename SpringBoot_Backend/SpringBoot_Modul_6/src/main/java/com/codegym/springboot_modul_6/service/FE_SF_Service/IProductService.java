@@ -11,4 +11,5 @@ public interface IProductService extends IGeneralService<ProductSF> {
     Page<ProductSF> getAllByCategory(String category,String sortPrice, String sortName, int offset, int pageSize);
 
     Page<ProductSF> findAllPaging(int offset, int pageSize);
+
 }
