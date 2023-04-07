@@ -28,4 +28,6 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select u from ProductSF u right join ProductSFDetail p on u.id = p.productSF.id where u.category = :category and u.name like concat('%', :name, '%') ")
     Page<ProductSF> getAllProductByName(@Param(value = "category") String category,@Param(value = "name") String name, PageRequest of);
 
+    @Query(value = "select u from ProductSF u ")
+    Page<ProductSF> getAll(PageRequest of);
 }

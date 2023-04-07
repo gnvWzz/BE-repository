@@ -48,7 +48,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductSF> getAll(String category, String sortPrice, String sortName, int offset, int pageSize) {
+    public Page<ProductSF> getAllByCategory(String category, String sortPrice, String sortName, int offset, int pageSize) {
         String nameTemp = "";
         if(sortName != null){
             nameTemp = "name";
@@ -73,5 +73,10 @@ public class ProductService implements IProductService {
                 return productSFS;
             }
         }
+    }
+
+    @Override
+    public Page<ProductSF> findAllPaging(int offset, int pageSize){
+        return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
 }

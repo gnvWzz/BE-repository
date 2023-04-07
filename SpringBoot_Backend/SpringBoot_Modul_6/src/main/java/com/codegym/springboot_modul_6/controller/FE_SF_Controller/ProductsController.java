@@ -29,7 +29,13 @@ public class ProductsController {
                                               @RequestParam(value = "offset") int offset,
                                               @RequestParam(required = false, value = "sort_price") String sortByPrice,
                                               @RequestParam(required = false, value = "sort_name") String sortByName) {
-        Page<ProductSF> productSFS = productService.getAll(category, sortByPrice, sortByName ,offset, 16);
+        Page<ProductSF> productSFS = productService.getAllByCategory(category, sortByPrice, sortByName ,offset, 16);
+        return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<?> findAll(@RequestParam(value = "offset") int offset){
+        Page<ProductSF> productSFS = productService.findAllPaging(offset, 4);
         return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
     }
 
