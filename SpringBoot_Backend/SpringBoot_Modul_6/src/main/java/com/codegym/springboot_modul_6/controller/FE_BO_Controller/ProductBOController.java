@@ -1,5 +1,5 @@
-package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
-
+//package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
+//
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestProductBODto;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ResponseProductBODto;
 //import com.codegym.springboot_modul_6.service.FE_BO_Service.impl.ProductBOServiceImpl;
@@ -33,9 +33,14 @@ package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 //    }
 //
 //    @PostMapping("/save")
-//    public ResponseEntity<?> saveManufacturer(@RequestBody RequestProductBODto productDtoBO){
+//    public ResponseEntity<?> saveProduct(@RequestBody RequestProductBODto productDtoBO){
 //        productServiceBO.save(productDtoBO);
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
+//    @PostMapping("/block/{id}")
+//    public ResponseEntity<?> blockProduct(@PathVariable Long id){
+//        productServiceBO.block(id);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 //}
-
+//

@@ -1,6 +1,5 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
-
 import javax.persistence.*;
 
 @Entity

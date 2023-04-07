@@ -1,8 +1,9 @@
 package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.CategoriesDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
@@ -54,9 +55,8 @@ public class LongMapper {
             try {
                 ProductSFDto productSFDto = new ProductSFDto();
                 BeanUtils.copyProperties(p, productSFDto);
-                productSFDto.setProductDetail(mapperProductSFDetailDto(p));
+                productSFDto.setProductSFDetailDtos(mapperProductSFDetailDto(p));
                 productSFDtos.add(productSFDto);
-
             } catch (Exception e) {
                 throw e;
             }
@@ -64,5 +64,13 @@ public class LongMapper {
         return productSFDtos;
     }
 
-
+    public List<CategoriesDto> mapperCategories(List<Categories> categories) {
+        List<CategoriesDto> list = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            CategoriesDto categoriesDto = new CategoriesDto();
+            BeanUtils.copyProperties(categories.get(i), categoriesDto);
+            list.add(categoriesDto);
+        }
+        return list;
+    }
 }

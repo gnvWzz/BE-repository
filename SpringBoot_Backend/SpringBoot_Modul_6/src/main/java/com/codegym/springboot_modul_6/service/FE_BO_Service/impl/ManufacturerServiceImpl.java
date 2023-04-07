@@ -1,7 +1,8 @@
-package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
-
+//package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
+//
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ManufacturerDto;
+//import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
 //import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
 //import org.modelmapper.ModelMapper;
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 //    public ManufacturerDto save(ManufacturerDto manufacturerDto) {
 //        try {
 //            Manufacturer manufacturer = mapper.map(manufacturerDto, Manufacturer.class);
-//            manufacturer.setStatus("ACTIVE"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
+//            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
 //            manufacturerRepository.save(manufacturer);
 //        } catch (Exception ex) {
 //            System.out.println("Loi:" + ex.getCause());
@@ -55,10 +56,19 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 //    }
 //
 //    @Override
-//    public boolean delete(Long id) {
-//        if (id != null){
-//            manufacturerRepository.deleteById(id);
-//            return  true;
+//    public boolean block(Long id) {
+//        if (id != null) {
+//            Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
+//            if (manufacturer != null) {
+//                if (manufacturer.getStatus().equals("UNLOCKED")) {
+//                    manufacturer.setStatus("BLOCKED");
+//                    manufacturerRepository.save(manufacturer);
+//                } else {
+//                    manufacturer.setStatus("UNLOCKED");
+//                    manufacturerRepository.save(manufacturer);
+//                }
+//                return true;
+//            }
 //        }
 //        return false;
 //    }

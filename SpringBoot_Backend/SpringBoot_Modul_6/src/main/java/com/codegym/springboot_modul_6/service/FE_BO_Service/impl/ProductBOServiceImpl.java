@@ -1,8 +1,9 @@
-package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
-
+//package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
+//
+//import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestManufacturerDetailDto;
+//import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ResponseManufacturerDetailDto;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerDetail;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
-//import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ManufacturerDetailDto;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestProductBODto;
 //import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ResponseProductBODto;
 //import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerDetailRepository;
@@ -47,21 +48,49 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 //            BeanUtils.copyProperties(productBO, productDtoBO);
 //
 //            List<ManufacturerDetail> manufacturerDetailList = productBO.getManufacturerDetails();
-//            List<ManufacturerDetailDto> manufacturerDetailDtoList = new ArrayList<>();
+//            List<ResponseManufacturerDetailDto> responseManufacturerDetailDtoList = new ArrayList<>();
 //            for (ManufacturerDetail ele : manufacturerDetailList) {
-//                ManufacturerDetailDto manufacturerDetailDto = new ManufacturerDetailDto();
-//                BeanUtils.copyProperties(ele, manufacturerDetailDto);
-//                manufacturerDetailDto.setManufacturerId(ele.getManufacturer().getId());
-//                manufacturerDetailDto.setProductBOId(ele.getProductBO().getId());
+//                ResponseManufacturerDetailDto responseManufacturerDetailDto = new ResponseManufacturerDetailDto();
+//                BeanUtils.copyProperties(ele, responseManufacturerDetailDto);
+//                responseManufacturerDetailDto.setManufacturerId(ele.getManufacturer().getId());
+//                responseManufacturerDetailDto.setManufacturerName(ele.getManufacturer().getName());
+//                responseManufacturerDetailDto.setProductBOId(ele.getProductBO().getId());
 //
-//                manufacturerDetailDtoList.add(manufacturerDetailDto);
+//                responseManufacturerDetailDtoList.add(responseManufacturerDetailDto);
 //            }
-//            productDtoBO.setManufacturerDetailDtos(manufacturerDetailDtoList);
+//            productDtoBO.setResponseManufacturerDetailDtos(responseManufacturerDetailDtoList);
 //
 //            return Optional.of(productDtoBO);
 //        }
 //        return null;
 //    }
+//
+////    @Override
+////    @Transactional
+////    public Optional<ResponseProductBODto> findById(Long id) {
+////        ProductBO productBO = productBORepository.findById(id).orElse(null);
+////        if (productBO != null) {
+////            ResponseProductBODto productDtoBO = new ResponseProductBODto();
+////
+////            //map cac property giong nhau tu object sang dto
+////            BeanUtils.copyProperties(productBO, productDtoBO);
+////
+////            List<ManufacturerDetail> manufacturerDetailList = productBO.getManufacturerDetails();
+////            List<RequestManufacturerDetailDto> requestManufacturerDetailDtoList = new ArrayList<>();
+////            for (ManufacturerDetail ele : manufacturerDetailList) {
+////                RequestManufacturerDetailDto requestManufacturerDetailDto = new RequestManufacturerDetailDto();
+////                BeanUtils.copyProperties(ele, requestManufacturerDetailDto);
+////                requestManufacturerDetailDto.setManufacturerId(ele.getManufacturer().getId());
+////                requestManufacturerDetailDto.setProductBOId(ele.getProductBO().getId());
+////
+////                requestManufacturerDetailDtoList.add(requestManufacturerDetailDto);
+////            }
+////            productDtoBO.setRequestManufacturerDetailDtos(requestManufacturerDetailDtoList);
+////
+////            return Optional.of(productDtoBO);
+////        }
+////        return null;
+////    }
 //
 //    @Override
 //    @Transactional
@@ -73,17 +102,18 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 //            BeanUtils.copyProperties(ele,productDtoBO);
 //
 //            List<ManufacturerDetail> manufacturerDetails = ele.getManufacturerDetails();
-//            List<ManufacturerDetailDto> manufacturerDetailDtoList = new ArrayList<>();
+//            List<ResponseManufacturerDetailDto> responseManufacturerDetailDtoList = new ArrayList<>();
 //            for(ManufacturerDetail md: manufacturerDetails){
-//                ManufacturerDetailDto manufacturerDetailDto = new ManufacturerDetailDto();
-//                BeanUtils.copyProperties(md, manufacturerDetailDto);
+//                ResponseManufacturerDetailDto responseManufacturerDetailDto = new ResponseManufacturerDetailDto();
+//                BeanUtils.copyProperties(md, responseManufacturerDetailDto);
 //
-//                manufacturerDetailDto.setManufacturerId(md.getManufacturer().getId());
-//                manufacturerDetailDto.setProductBOId(md.getProductBO().getId());
+//                responseManufacturerDetailDto.setManufacturerId(md.getManufacturer().getId());
+//                responseManufacturerDetailDto.setManufacturerName(md.getManufacturer().getName());
+//                responseManufacturerDetailDto.setProductBOId(md.getProductBO().getId());
 //
-//                manufacturerDetailDtoList.add(manufacturerDetailDto);
+//                responseManufacturerDetailDtoList.add(responseManufacturerDetailDto);
 //            }
-//            productDtoBO.setManufacturerDetailDtos(manufacturerDetailDtoList);
+//            productDtoBO.setResponseManufacturerDetailDtos(responseManufacturerDetailDtoList);
 //
 //            productDtoBOList.add(productDtoBO);
 //        }
@@ -95,15 +125,15 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 //    public RequestProductBODto save(RequestProductBODto productDtoBO) {
 //        try {
 //            ProductBO productBO = mapper.map(productDtoBO, ProductBO.class);
-//            productBO.setStatus("CÒN HÀNG");
+//            productBO.setStatus("UNLOCKED");
 //            productBORepository.save(productBO);
 //
 //            Long manufacturerId = productDtoBO.getManufacturerId();
 //            Long productId = productBO.getId();
-//            ManufacturerDetailDto manufacturerDetailDto = new ManufacturerDetailDto();
-//            manufacturerDetailDto.setManufacturerId(manufacturerId);
-//            manufacturerDetailDto.setProductBOId(productId);
-//            ManufacturerDetail manufacturerDetail = manufacturerDetailMapper.toEntity(manufacturerDetailDto);
+//            RequestManufacturerDetailDto requestManufacturerDetailDto = new RequestManufacturerDetailDto();
+//            requestManufacturerDetailDto.setManufacturerId(manufacturerId);
+//            requestManufacturerDetailDto.setProductBOId(productId);
+//            ManufacturerDetail manufacturerDetail = manufacturerDetailMapper.toEntity(requestManufacturerDetailDto);
 //            manufacturerDetailRepository.save(manufacturerDetail);
 //        } catch (Exception ex) {
 //            System.out.println("Loi:" + ex.getCause());
@@ -126,14 +156,22 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 ////    }
 //
 //    @Override
-//    public boolean delete(Long id) {
+//    public boolean block(Long id) {
 //        if (id != null) {
-//            productBORepository.deleteById(id);
-//            return true;
+//            ProductBO productBO = productBORepository.findById(id).orElse(null);
+//            if (productBO != null) {
+//                if (productBO.getStatus().equals("UNLOCKED")) {
+//                    productBO.setStatus("BLOCKED");
+//                    productBORepository.save(productBO);
+//                } else {
+//                    productBO.setStatus("UNLOCKED");
+//                    productBORepository.save(productBO);
+//                }
+//                return true;
+//            }
 //        }
 //        return false;
 //    }
-//
 ////    @Override
 ////    public Optional<ProductDtoBO> findById(Long id) {
 ////        ProductBO productBO = productRepositoryBO.findById(id).orElse(null);

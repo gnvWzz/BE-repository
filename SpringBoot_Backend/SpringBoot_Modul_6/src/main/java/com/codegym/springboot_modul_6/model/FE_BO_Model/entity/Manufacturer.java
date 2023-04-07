@@ -16,6 +16,8 @@ public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "business_code")
+    private String businessCode;
     @Column(name = "`name`")
     private String name;
     @Column(name = "mobile")

@@ -15,6 +15,7 @@ import java.util.List;
 //bỏ qua các thuộc tính null cua Vòng lặp vô hạn trong JSON khi một đối tượng chứa 1 tham chiếu đệ quy
 public class ManufacturerDto {
     private Long id;
+    private String businessCode;
     private String name;
     private String mobile;
     private String landline;
@@ -24,5 +25,6 @@ public class ManufacturerDto {
     private Date signup;
     private String website;
     private String icon;
-    private List<ManufacturerDetailDto> manufacturerDetailDtos;
+    private String status;
+    private List<RequestManufacturerDetailDto> requestManufacturerDetailDtos;
 }

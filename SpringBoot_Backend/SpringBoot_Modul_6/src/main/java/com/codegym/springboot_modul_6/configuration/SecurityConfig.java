@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.configuration;
 
+
 import com.codegym.springboot_modul_6.security.CustomAccessDeniedHandler;
 import com.codegym.springboot_modul_6.security.JwtAuthenticationFilter;
 import com.codegym.springboot_modul_6.security.RestAuthenticationEntryPoint;
@@ -13,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

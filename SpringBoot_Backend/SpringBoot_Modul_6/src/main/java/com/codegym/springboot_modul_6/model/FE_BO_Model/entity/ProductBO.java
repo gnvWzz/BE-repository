@@ -40,6 +40,8 @@ public class ProductBO {
     private String status;
     @Column(name = "quantity")
     private Long quantity;
+    @Column(name = "icon")
+    private String icon;
     @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ManufacturerDetail> manufacturerDetails = new ArrayList<>();
 }
