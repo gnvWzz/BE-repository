@@ -1,11 +1,15 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
 
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,10 +21,12 @@ import java.util.List;
 public class ProductSFDto implements Serializable {
 
     private String name;
-
     private String category;
 
+    private String packageId;
     private String status;
+    private String manufacturer;
 
     private List<ProductSFDetailDto> productSFDetailDtos;
+
 }

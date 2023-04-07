@@ -43,4 +43,3 @@ public class ProductBOController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
-

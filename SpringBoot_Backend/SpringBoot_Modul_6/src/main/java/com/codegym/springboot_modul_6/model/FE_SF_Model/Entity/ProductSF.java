@@ -22,9 +22,13 @@ public class ProductSF implements Serializable {
     private Long id;
     private String name;
     private String category;
+
+    @Column(name = "package_id")
+    private String packageId;
     private String status;
+    private String manufacturer;
 
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
-    private List<ProductSFDetail> productDetail;
+    private List<ProductSFDetail> productSFDetail;
 
 }

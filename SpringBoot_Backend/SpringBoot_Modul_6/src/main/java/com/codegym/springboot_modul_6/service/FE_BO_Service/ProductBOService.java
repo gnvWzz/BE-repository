@@ -13,3 +13,4 @@ public interface ProductBOService {
     RequestProductBODto save(RequestProductBODto productDtoBO);
     boolean block(Long id);
 }
+

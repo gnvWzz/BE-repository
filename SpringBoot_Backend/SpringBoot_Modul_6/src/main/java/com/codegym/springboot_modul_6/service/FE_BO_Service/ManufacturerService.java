@@ -14,3 +14,4 @@ public interface ManufacturerService {
     boolean block(Long id);
 
 }
+

@@ -1,6 +1,5 @@
 package com.codegym.springboot_modul_6.configuration;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

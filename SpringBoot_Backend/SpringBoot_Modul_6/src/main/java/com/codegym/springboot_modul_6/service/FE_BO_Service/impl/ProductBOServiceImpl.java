@@ -9,7 +9,6 @@ import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponsePro
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerProductBORepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ProductBORepository;
 import com.codegym.springboot_modul_6.util.FE_BO_Util.Mapper.ManufacturerDetailMapper;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,13 +66,13 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
     public Page<ResponseProductBODto> findAll(Pageable pageable) {
         Page<ProductBO> productBOs = productBORepository.findAll(pageable);
         List<ResponseProductBODto> productBODtoList = new ArrayList<>();
-        for(ProductBO ele: productBOs){
+        for (ProductBO ele : productBOs) {
             ResponseProductBODto productDtoBO = new ResponseProductBODto();
-            BeanUtils.copyProperties(ele,productDtoBO);
+            BeanUtils.copyProperties(ele, productDtoBO);
 
             List<ManufacturerProductBO> manufacturerProductBOS = ele.getManufacturerProductBOS();
             List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
-            for(ManufacturerProductBO md: manufacturerProductBOS){
+            for (ManufacturerProductBO md : manufacturerProductBOS) {
                 ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
                 BeanUtils.copyProperties(md, responseManufacturerProductBODto);
 
@@ -130,36 +129,4 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
         }
         return false;
     }
-//    @Override
-//    public Optional<ProductDtoBO> findById(Long id) {
-//        ProductBO productBO = productRepositoryBO.findById(id).orElse(null);
-//        if(productBO != null){
-//            return Optional.of(mapper.map(productBO, ProductDtoBO.class));
-//        }
-//        return null;
-//    }
-
-//    @Override
-//    public Page<ProductDtoBO> findAll(Pageable pageable) {
-//        Page<ProductBO> entities = productRepositoryBO.findAll(pageable);
-//        List<ProductDtoBO> dtos = new ArrayList<>(
-//                entities.getContent().stream()
-//                        .parallel()
-//                        .map(entity -> mapper.map(entity, ProductDtoBO.class))
-//                        .collect(Collectors.toList()));
-//        return new PageImpl<>(dtos, pageable, entities.getTotalElements());
-//    }
-
-//    @Override
-//    public ProductDtoBO save(ProductDtoBO productDtoBO) {
-//        try {
-//            ProductBO productBO = mapper.map(productDtoBO, ProductBO.class);
-//            productBO.setStatus("UNLOCKED");
-//            productRepositoryBO.save(productBO);
-//        } catch (Exception ex) {
-//            System.out.println("Loi:" + ex.getCause());
-//            throw new RuntimeException("Error while saving Manufacturer", ex);
-//        }
-//        return productDtoBO;
-//    }
 }
