@@ -81,11 +81,7 @@ public class ProductService implements IProductService {
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
 
-    @Override
-    public String test(){
-        String  object = (productRepositorySF.findAll().get(0).getProductSFDetail().get(0).getSize_color_img_quantity()).replace("/", "");
-        return object;
-    }
+
 
     @Override
     public List<ProductSF> productSFS() {

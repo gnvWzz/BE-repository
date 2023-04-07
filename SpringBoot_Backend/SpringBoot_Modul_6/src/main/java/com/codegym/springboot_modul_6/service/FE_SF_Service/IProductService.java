@@ -12,7 +12,7 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> findAllPaging(int offset, int pageSize);
 
-    String test();
 
     List<ProductSF> productSFS();
+
 }
