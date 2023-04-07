@@ -12,4 +12,7 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> findAllPaging(int offset, int pageSize);
 
+
+    List<ProductSF> productSFS();
+
 }

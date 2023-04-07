@@ -11,14 +11,13 @@ import com.codegym.springboot_modul_6.security.JwtService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageRepositorySF;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +25,10 @@ import java.util.List;
 @Service
 public class ThirdService {
 
+
     @Autowired
     private IProductRepositorySF productRepositorySF;
 
-    @Autowired
-    private IImageRepositorySF imageRepositorySF;
     @Autowired
     private LongMapper mapper;
 
@@ -44,13 +42,6 @@ public class ThirdService {
     @Autowired
     private RequestMapper requestMapper;
 
-
-
-    public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
-        List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());
-        Page<ProductSFDto> page = new PageImpl<ProductSFDto>(productSFList, pageEntity.getPageable(), pageEntity.getTotalElements());
-        return page;
-    }
 
 
     public Account signUp(AccountDto accountDto){
@@ -87,6 +78,4 @@ public class ThirdService {
         Account account = accountService.findAccountByUsername(username).get();
         return account;
     }
-
-
 }
