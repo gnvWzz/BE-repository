@@ -27,6 +27,6 @@ public class ResponseProductBODto {
         private Long quantity;
         private String icon;
         private String status;
-        private List<ManufacturerDetailDto> manufacturerDetailDtos;
+        private List<ResponseManufacturerDetailDto> responseManufacturerDetailDtos;
 
 }

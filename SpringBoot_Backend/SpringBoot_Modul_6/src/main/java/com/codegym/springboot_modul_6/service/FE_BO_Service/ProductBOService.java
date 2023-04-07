@@ -11,5 +11,5 @@ public interface ProductBOService {
     Optional<ResponseProductBODto> findById(Long id);
     Page<ResponseProductBODto> findAll(Pageable pageable);
     RequestProductBODto save(RequestProductBODto productDtoBO);
-    boolean delete(Long id);
+    boolean block(Long id);
 }

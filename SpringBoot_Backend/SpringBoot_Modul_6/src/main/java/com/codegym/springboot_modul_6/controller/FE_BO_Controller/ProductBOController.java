@@ -33,8 +33,13 @@ public class ProductBOController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<?> saveManufacturer(@RequestBody RequestProductBODto productDtoBO){
+    public ResponseEntity<?> saveProduct(@RequestBody RequestProductBODto productDtoBO){
         productServiceBO.save(productDtoBO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/block/{id}")
+    public ResponseEntity<?> blockProduct(@PathVariable Long id){
+        productServiceBO.block(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

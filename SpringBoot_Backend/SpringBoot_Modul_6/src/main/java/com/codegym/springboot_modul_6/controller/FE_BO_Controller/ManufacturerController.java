@@ -35,6 +35,11 @@ public class ManufacturerController {
         manufacturerService.save(manufacturerDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PostMapping("/block/{id}")
+    public ResponseEntity<?> blockManufacturer(@PathVariable Long id){
+        manufacturerService.block(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
 
