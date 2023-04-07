@@ -15,5 +15,13 @@ import java.util.List;
 @Service
 public class LongMapper {
 
-
+    public List<CategoriesDto> mapperCategories(List<Categories> categories) {
+        List<CategoriesDto> list = new ArrayList<>();
+        for (int i = 0; i < categories.size(); i++) {
+            CategoriesDto categoriesDto = new CategoriesDto();
+            BeanUtils.copyProperties(categories.get(i), categoriesDto);
+            list.add(categoriesDto);
+        }
+        return list;
+    }
 }
