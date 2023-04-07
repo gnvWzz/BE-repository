@@ -1,73 +1,30 @@
-package com.codegym.springboot_modul_6.service.thirdpartyservice;
-
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Image;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageRepositorySF;
-//import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-import org.springframework.beans.BeanUtils;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Service
-public class ThirdService {
-
-    @Autowired
-    private IProductRepositorySF productRepositorySF;
-
+//package com.codegym.springboot_modul_6.service.thirdpartyservice;
+//
+//
+//import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+//import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+//import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageRepositorySF;
+////import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+//import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+//import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.domain.Page;
+//import org.springframework.data.domain.PageImpl;
+//import org.springframework.stereotype.Service;
+//import java.util.List;
+//
+//
+//@Service
+//public class ThirdService {
+//
 //    @Autowired
-//    private IProductDetailSFRepository productDetailSFRepository;
-
-    @Autowired
-    private IImageRepositorySF imageRepositorySF;
-
-    @Autowired
-    private LongMapper mapper;
-
-//    public ProductSFDto getProductSFDto(Long id) {
-//        ProductSF productSF = productRepositorySF.findById(id).get();
+//    private IProductRepositorySF productRepositorySF;
 //
-//        List<ProductSFDetail> productSFDetails = productSF.getProductDetail();
+//    @Autowired
+//    private IImageRepositorySF imageRepositorySF;
 //
-//        List<Long> ids = productSFDetails.stream().map(ProductSFDetail::getId).collect(Collectors.toList());
+//    @Autowired
+//    private LongMapper mapper;
 //
-//        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
 //
-//        List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
-//
-//        for (Long productDetailsSFId : ids) {
-//            ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
-//            List<ImageDto> imageDtoList = new ArrayList<>();
-//            for (Image i : imageList) {
-//                ImageDto imageDto = new ImageDto();
-//                BeanUtils.copyProperties(i, imageDto);
-//                imageDtoList.add(imageDto);
-//            }
-//            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-//            BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-//            productSFDetailDto.setImageList(imageDtoList);
-//            productSFDetailDtos.add(productSFDetailDto);
-//        }
-//
-//        ProductSFDto productSFDto = new ProductSFDto();
-//        BeanUtils.copyProperties(productSF, productSFDto);
-//        productSFDto.setProductSFDetailDtos(productSFDetailDtos);
-//        return productSFDto;
-//    }
-
-    public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
-        List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());
-        Page<ProductSFDto> page = new PageImpl<ProductSFDto>(productSFList, pageEntity.getPageable(), pageEntity.getTotalElements());
-        return page;
-    }
-}
+//}

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.json.simple.JSONObject;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,8 +27,6 @@ public class ProductSFDetail implements Serializable {
     @JsonIgnore
     private ProductSF productSF;
 
-    private String size;
-
     private Long price;
 
     @Column(name = "serial_number")
@@ -43,39 +42,18 @@ public class ProductSFDetail implements Serializable {
 
     private String material;
 
-    private String color;
-
     private String cpu;
 
     private String gpu;
+
+    private String ram;
 
     @Column(name = "storage_drive")
     private String storageDrive;
 
     private String display;
 
-    private Long quantity;
 
-    @Column(name = "manufacturer")
-    private String manufacturer;
+    private String  size_color_img_quantity;
 
-    @OneToMany(mappedBy = "productSFDetail", fetch = FetchType.LAZY)
-    private List<Image> imageList;
-
-    public ProductSFDetail(ProductSF productSF, String size, Long price, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String color, String cpu, String gpu, String storageDrive, String display, Long quantity) {
-        this.productSF = productSF;
-        this.size = size;
-        this.price = price;
-        this.serialNumber = serialNumber;
-        this.briefDescription = briefDescription;
-        this.fullDescription = fullDescription;
-        this.weight = weight;
-        this.material = material;
-        this.color = color;
-        this.cpu = cpu;
-        this.gpu = gpu;
-        this.storageDrive = storageDrive;
-        this.display = display;
-        this.quantity = quantity;
-    }
 }

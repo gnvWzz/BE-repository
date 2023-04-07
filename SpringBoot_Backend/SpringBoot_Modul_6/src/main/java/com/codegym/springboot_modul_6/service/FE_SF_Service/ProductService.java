@@ -1,8 +1,9 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
+//import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,8 +17,8 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepositorySF productRepositorySF;
 
-    @Autowired
-    private ThirdService thirdService;
+//    @Autowired
+//    private ThirdService thirdService;
 
     public static Map<String, ArrayList<String>> cache = new HashMap<>();
 
@@ -78,5 +79,17 @@ public class ProductService implements IProductService {
     @Override
     public Page<ProductSF> findAllPaging(int offset, int pageSize){
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
+    }
+
+    @Override
+    public String test(){
+        String  object = (productRepositorySF.findAll().get(0).getProductSFDetail().get(0).getSize_color_img_quantity()).replace("/", "");
+        return object;
+    }
+
+    @Override
+    public List<ProductSF> productSFS() {
+        List<ProductSF> productSFS = productRepositorySF.findAll();
+        return productSFS;
     }
 }
