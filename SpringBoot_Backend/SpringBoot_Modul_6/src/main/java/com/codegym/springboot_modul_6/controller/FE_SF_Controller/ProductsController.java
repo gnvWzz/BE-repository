@@ -44,9 +44,17 @@ public class ProductsController {
         return new ResponseEntity<>(thirdService.pageProductSFDto(productSFS), HttpStatus.OK);
     }
 
-    @GetMapping("/find-by-id/{id}")
-    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
-        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
-        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+//<<<<<<< HEAD
+//    @GetMapping("/find-by-id/{id}")
+//    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+//        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
+//        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+//=======
+////    @GetMapping("/find-by-id/{id}")
+////    public ResponseEntity<?> findProductById(@PathVariable("id") Long id) {
+////        ProductSFDto productSFDto = thirdService.getProductSFDto(id);
+////        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+//
+//>>>>>>> 83a22e32dc357ff66b065d5d8a0a965021564e4d
     }
-}
+

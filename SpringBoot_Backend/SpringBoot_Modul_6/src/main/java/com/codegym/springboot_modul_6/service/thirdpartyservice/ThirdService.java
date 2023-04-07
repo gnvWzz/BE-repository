@@ -7,7 +7,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ImageDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IImageRepositorySF;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+//import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import org.springframework.beans.BeanUtils;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
@@ -25,8 +25,8 @@ public class ThirdService {
     @Autowired
     private IProductRepositorySF productRepositorySF;
 
-    @Autowired
-    private IProductDetailSFRepository productDetailSFRepository;
+//    @Autowired
+//    private IProductDetailSFRepository productDetailSFRepository;
 
     @Autowired
     private IImageRepositorySF imageRepositorySF;
@@ -34,36 +34,36 @@ public class ThirdService {
     @Autowired
     private LongMapper mapper;
 
-    public ProductSFDto getProductSFDto(Long id) {
-        ProductSF productSF = productRepositorySF.findById(id).get();
-
-        List<ProductSFDetail> productSFDetails = productSF.getProductDetail();
-
-        List<Long> ids = productSFDetails.stream().map(ProductSFDetail::getId).collect(Collectors.toList());
-
-        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
-
-        List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
-
-        for (Long productDetailsSFId : ids) {
-            ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
-            List<ImageDto> imageDtoList = new ArrayList<>();
-            for (Image i : imageList) {
-                ImageDto imageDto = new ImageDto();
-                BeanUtils.copyProperties(i, imageDto);
-                imageDtoList.add(imageDto);
-            }
-            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-            BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-            productSFDetailDto.setImageList(imageDtoList);
-            productSFDetailDtos.add(productSFDetailDto);
-        }
-
-        ProductSFDto productSFDto = new ProductSFDto();
-        BeanUtils.copyProperties(productSF, productSFDto);
-        productSFDto.setProductSFDetailDtos(productSFDetailDtos);
-        return productSFDto;
-    }
+//    public ProductSFDto getProductSFDto(Long id) {
+//        ProductSF productSF = productRepositorySF.findById(id).get();
+//
+//        List<ProductSFDetail> productSFDetails = productSF.getProductDetail();
+//
+//        List<Long> ids = productSFDetails.stream().map(ProductSFDetail::getId).collect(Collectors.toList());
+//
+//        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
+//
+//        List<Image> imageList = imageRepositorySF.findByProductDetailIds(ids);
+//
+//        for (Long productDetailsSFId : ids) {
+//            ProductSFDetail productSFDetail = productDetailSFRepository.findById(productDetailsSFId).get();
+//            List<ImageDto> imageDtoList = new ArrayList<>();
+//            for (Image i : imageList) {
+//                ImageDto imageDto = new ImageDto();
+//                BeanUtils.copyProperties(i, imageDto);
+//                imageDtoList.add(imageDto);
+//            }
+//            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+//            BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
+//            productSFDetailDto.setImageList(imageDtoList);
+//            productSFDetailDtos.add(productSFDetailDto);
+//        }
+//
+//        ProductSFDto productSFDto = new ProductSFDto();
+//        BeanUtils.copyProperties(productSF, productSFDto);
+//        productSFDto.setProductSFDetailDtos(productSFDetailDtos);
+//        return productSFDto;
+//    }
 
     public Page<ProductSFDto> pageProductSFDto(Page<ProductSF> pageEntity){
         List<ProductSFDto> productSFList = mapper.mapperProductSFDto(pageEntity.getContent());

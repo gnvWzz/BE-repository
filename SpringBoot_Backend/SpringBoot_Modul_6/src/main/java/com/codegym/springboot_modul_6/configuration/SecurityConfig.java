@@ -1,5 +1,6 @@
-//package com.codegym.springboot_modul_6.configuration;
-//
+package com.codegym.springboot_modul_6.configuration;
+
+
 //import com.codegym.springboot_modul_6.security.CustomAccessDeniedHandler;
 //import com.codegym.springboot_modul_6.security.JwtAuthenticationFilter;
 //import com.codegym.springboot_modul_6.security.RestAuthenticationEntryPoint;
