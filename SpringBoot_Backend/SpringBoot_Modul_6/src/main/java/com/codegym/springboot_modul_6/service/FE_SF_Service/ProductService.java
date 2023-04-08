@@ -1,9 +1,7 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-//import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,43 +42,40 @@ public class ProductService implements IProductService {
 
     @Override
     public List<ProductSF> findAll(String category) {
-        List<ProductSF> productSFS = productRepositorySF.findAllProduct(category);
-        return productSFS;
+        return null;
     }
 
     @Override
-    public Page<ProductSF> getAllByCategory(String category, String sortPrice, String sortName, int offset, int pageSize) {
-        String nameTemp = "";
-        if(sortName != null){
-            nameTemp = "name";
+    public Page<ProductSF> getAllByCategory(String category, String sort, int offset, int pageSize) {
+        String action = sort;
+        if (action == null){
+            action =  "null";
         }
-        String action =  (nameTemp + sortPrice).toLowerCase();
-        String temp = Arrays.toString(action.split("null"));
-        switch (temp){
-            case "[asc]" :{
-                Page<ProductSF> productSFS = productRepositorySF.getAllProductPriceAsc(category, PageRequest.of(offset, pageSize));
-                return productSFS;
+        switch (action) {
+            case "asc": {
+                Page<ProductSF> page = productRepositorySF.getAllProductPriceAsc(category, PageRequest.of(offset, pageSize));
+                return page;
             }
-            case "[desc]" : {
-                Page<ProductSF> productSFS = productRepositorySF.getAllProductPriceDesc(category, PageRequest.of(offset, pageSize));
-                return productSFS;
+            case "desc": {
+                Page<ProductSF> page = productRepositorySF.getAllProductPriceDesc(category, PageRequest.of(offset, pageSize));
+                return page;
             }
-            case "[name]" : {
-                Page<ProductSF> productSFS = productRepositorySF.getAllProductByName(category, sortName, PageRequest.of(offset, pageSize));
-                return productSFS;
+            case "null": {
+                Page<ProductSF> page = productRepositorySF.getAllProductByCategory(category, PageRequest.of(offset, pageSize));
+                return page;
             }
-            default:{
-                Page<ProductSF> productSFS = productRepositorySF.getAllProductByCategory(category, PageRequest.of(offset, pageSize));
-                return productSFS;
+            default: {
+                Page<ProductSF> page = productRepositorySF.getAllProductByName(category, sort, PageRequest.of(offset, pageSize));
+                return page;
             }
         }
+
     }
 
     @Override
-    public Page<ProductSF> findAllPaging(int offset, int pageSize){
+    public Page<ProductSF> findAllPaging(int offset, int pageSize) {
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
-
 
 
     @Override
