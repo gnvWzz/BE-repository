@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.model.FE_BO_Model.dto;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -27,6 +27,6 @@ public class ResponseProductBODto {
         private Long quantity;
         private String icon;
         private String status;
-        private List<ResponseManufacturerDetailDto> responseManufacturerDetailDtos;
+        private List<ResponseManufacturerProductBODto> responseManufacturerProductBODtos;
 
 }
