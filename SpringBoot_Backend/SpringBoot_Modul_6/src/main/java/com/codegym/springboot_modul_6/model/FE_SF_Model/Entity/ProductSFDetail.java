@@ -53,6 +53,7 @@ public class ProductSFDetail implements Serializable {
 
     private String display;
 
+    private String packageId;
 
     private String  size_color_img_quantity;
 

@@ -16,6 +16,8 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductReposi
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -77,5 +79,11 @@ public class ThirdService {
     public Account checkValidateUsernmae(String username){
         Account account = accountService.findAccountByUsername(username).get();
         return account;
+    }
+
+    public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
+        List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
+        Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
+        return page;
     }
 }
