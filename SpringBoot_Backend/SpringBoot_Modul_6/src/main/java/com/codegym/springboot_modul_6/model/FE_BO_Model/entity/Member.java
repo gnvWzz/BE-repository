@@ -11,15 +11,15 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "manufacturer")
-public class Manufacturer {
+@Table(name = "`member`")
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "business_code")
-    private String businessCode;
-    @Column(name = "`name`")
-    private String name;
+    @Column(name = "full_name")
+    private String fullName;
+    @Column(name = "`password`")
+    private String password;
     @Column(name = "mobile")
     private String mobile;
     @Column(name = "landline")
@@ -28,17 +28,12 @@ public class Manufacturer {
     private String email;
     @Column(name = "address")
     private String address;
-    @Column(name = "`field`")
-    private String field;
     @Column(name = "signup")
     private Date signup;
-    @Column(name = "website")
-    private String website;
     @Column(name = "`status`")
     private String status;
     @Column(name = "icon")
     private String icon;
-    @OneToMany(mappedBy = "manufacturer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ManufacturerProductBO> manufacturerProductBOS = new ArrayList<>();
-
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<MemberRole> memberRoles = new ArrayList<>();
 }

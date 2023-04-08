@@ -1,75 +1,117 @@
-//package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
-//
-//import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
-//import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.ManufacturerDto;
-//import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
-//import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
-//import org.modelmapper.ModelMapper;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.Page;
-//import org.springframework.data.domain.PageImpl;
-//import org.springframework.data.domain.Pageable;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class ManufacturerServiceImpl implements com.codegym.springboot_modul_6.service.FE_BO_Service.ManufacturerService {
-//    @Autowired
-//    private ManufacturerRepository manufacturerRepository;
-//    @Autowired
-//    private ModelMapper mapper;
-//    @Override
-//    public Optional<ManufacturerDto> findById(Long id) {
-//        Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
-//        if(manufacturer != null) {
-//            return Optional.of(mapper.map(manufacturer, ManufacturerDto.class));
-//        }
-//        return null;
-//    }
-//
-//    @Override
-//    public Page<ManufacturerDto> findAll(Pageable pageable) {
-//        Page<Manufacturer> entities = manufacturerRepository.findAll(pageable);
-//        List<ManufacturerDto> dtos = new ArrayList<>(
-//                entities.getContent().stream()
-//                        .parallel()
-//                        .map(entity -> mapper.map(entity, ManufacturerDto.class))
-//                        .collect(Collectors.toList()));
-//        return new PageImpl<>(dtos, pageable, entities.getTotalElements());
-//    }
-//
-//    @Override
-//    public ManufacturerDto save(ManufacturerDto manufacturerDto) {
-//        try {
-//            Manufacturer manufacturer = mapper.map(manufacturerDto, Manufacturer.class);
-//            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
-//            manufacturerRepository.save(manufacturer);
-//        } catch (Exception ex) {
-//            System.out.println("Loi:" + ex.getCause());
-//            throw new RuntimeException("Error while saving Manufacturer", ex);
-//        }
-//        return manufacturerDto;
-//    }
-//
-//    @Override
-//    public boolean block(Long id) {
-//        if (id != null) {
-//            Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
-//            if (manufacturer != null) {
-//                if (manufacturer.getStatus().equals("UNLOCKED")) {
-//                    manufacturer.setStatus("BLOCKED");
-//                    manufacturerRepository.save(manufacturer);
-//                } else {
-//                    manufacturer.setStatus("UNLOCKED");
-//                    manufacturerRepository.save(manufacturer);
-//                }
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//}
+package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
+
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerProductBODto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerProductBO;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
+import com.codegym.springboot_modul_6.service.FE_BO_Service.ManufacturerService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ManufacturerServiceImpl implements ManufacturerService {
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
+
+    @Override
+    @Transactional
+    public Optional<ResponseManufacturerDto> findById(Long id) {
+        Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
+        if(manufacturer != null) {
+            ResponseManufacturerDto responseManufacturerDto = new ResponseManufacturerDto();
+            BeanUtils.copyProperties(manufacturer, responseManufacturerDto);
+
+            List<ManufacturerProductBO> manufacturerProductBOList = manufacturer.getManufacturerProductBOS();
+            List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for(ManufacturerProductBO ele: manufacturerProductBOList){
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                BeanUtils.copyProperties(ele, responseManufacturerProductBODto);
+
+                Long manufacturerId = ele.getManufacturer().getId();
+                String manufacturerName = ele.getManufacturer().getName();
+                Long productBOId = ele.getProductBO().getId();
+                String productBOName = ele.getProductBO().getName();
+                responseManufacturerProductBODto.setManufacturerId(manufacturerId);
+                responseManufacturerProductBODto.setManufacturerName(manufacturerName);
+                responseManufacturerProductBODto.setProductBOId(productBOId);
+                responseManufacturerProductBODto.setProductBOName(productBOName);
+
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
+            }
+            responseManufacturerDto.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
+            return Optional.of(responseManufacturerDto);
+        }
+        return null;
+    }
+
+    @Override
+    public Page<ResponseManufacturerDto> findAll(Pageable pageable) {
+        Page<Manufacturer> manufacturers = manufacturerRepository.findAll(pageable);
+        List<ResponseManufacturerDto> dtoList = new ArrayList<>();
+        for(Manufacturer element: manufacturers){
+            ResponseManufacturerDto dto = new ResponseManufacturerDto();
+            BeanUtils.copyProperties(element, dto);
+
+            List<ManufacturerProductBO> manufacturerProductBOS = element.getManufacturerProductBOS();
+            List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for(ManufacturerProductBO ele: manufacturerProductBOS){
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                BeanUtils.copyProperties(ele, responseManufacturerProductBODto);
+
+                responseManufacturerProductBODto.setManufacturerId(ele.getManufacturer().getId());
+                responseManufacturerProductBODto.setManufacturerName(ele.getManufacturer().getName());
+                responseManufacturerProductBODto.setProductBOId(ele.getProductBO().getId());
+                responseManufacturerProductBODto.setProductBOName(ele.getProductBO().getName());
+
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
+            }
+            dto.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
+
+            dtoList.add(dto);
+        }
+        return new PageImpl<>(dtoList, pageable, manufacturers.getTotalElements());
+    }
+
+    @Override
+    public RequestManufacturerDto save(RequestManufacturerDto requestManufacturerDto) {
+        try {
+            Manufacturer manufacturer = new Manufacturer();
+            BeanUtils.copyProperties(requestManufacturerDto, manufacturer);
+            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
+            manufacturerRepository.save(manufacturer);
+        } catch (Exception ex) {
+            System.out.println("Loi:" + ex.getCause());
+            throw new RuntimeException("Error while saving Manufacturer", ex);
+        }
+        return requestManufacturerDto;
+    }
+
+    @Override
+    public boolean block(Long id) {
+        if (id != null) {
+            Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
+            if (manufacturer != null) {
+                if (manufacturer.getStatus().equals("UNLOCKED")) {
+                    manufacturer.setStatus("BLOCKED");
+                } else {
+                    manufacturer.setStatus("UNLOCKED");
+                }
+                manufacturerRepository.save(manufacturer);
+                return true;
+            }
+        }
+        return false;
+    }
+}

@@ -1,8 +1,8 @@
 package com.codegym.springboot_modul_6.util.FE_BO_Util.Mapper;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.RequestManufacturerDetailDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerProductBODto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerDetail;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerProductBO;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ProductBORepository;
@@ -28,8 +28,8 @@ public class ManufacturerDetailMapper {
 //        this.manufacturerRepository = manufacturerRepository;
 //    }
 
-    public ManufacturerDetail toEntity(RequestManufacturerDetailDto dto){
-        ManufacturerDetail result = new ManufacturerDetail();
+    public ManufacturerProductBO toEntity(RequestManufacturerProductBODto dto){
+        ManufacturerProductBO result = new ManufacturerProductBO();
         Optional<Manufacturer> manufacturer = manufacturerRepository.findById(dto.getManufacturerId());
         Optional<ProductBO> productBO = productBORepository.findById(dto.getProductBOId());
         result.setManufacturer(manufacturer.get());
