@@ -5,13 +5,21 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICategoriesRep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service
 public class CategoriesService implements ICategoryService {
 
+    private static final ICategoryService CATEGORIES_SERVICE = new CategoriesService();
+
+    public static ICategoryService getCategoriesService(){
+        return CATEGORIES_SERVICE;
+    }
+
     @Autowired
     private ICategoriesRepository iCategoriesRepository;
+
 
     @Override
     public Iterable<Categories> findAll() {

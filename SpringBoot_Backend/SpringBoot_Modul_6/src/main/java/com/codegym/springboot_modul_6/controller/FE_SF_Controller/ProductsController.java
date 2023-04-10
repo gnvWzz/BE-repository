@@ -21,16 +21,20 @@ public class ProductsController {
     @Autowired
     private IProductService productService;
 
-    public UserOnlineService userOnlineService = UserOnlineService.getUserOnlineService();
-
     @Autowired
     private ThirdService thirdService;
 
     @GetMapping(value = "/{category}")
-    public ResponseEntity<?> getAll(@PathVariable(value = "category") String category,
+    public ResponseEntity<?> getAllByCategory(@PathVariable(value = "category") String category,
                                     @RequestParam(required = true, value = "offset") int offset,
                                     @RequestParam(required = false, value = "sort") String sort) {
         Page<ProductSF> temp = productService.getAllByCategory(category, sort, offset, 16);
+        return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "")
+    public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
+        Page<ProductSF> temp = productService.findAllPaging(offset, 16);
         return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
     }
 }

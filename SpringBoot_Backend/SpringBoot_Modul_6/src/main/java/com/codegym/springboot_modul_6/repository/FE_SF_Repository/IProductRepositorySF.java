@@ -29,6 +29,4 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select u from ProductSF u ")
     Page<ProductSF> getAll(PageRequest of);
 
-    @Query(value = "select u from ProductSF u")
-    List<ProductSF> list();
 }
