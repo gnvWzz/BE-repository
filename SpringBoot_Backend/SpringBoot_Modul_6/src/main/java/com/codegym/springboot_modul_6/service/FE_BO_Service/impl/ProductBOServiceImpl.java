@@ -2,11 +2,13 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerProductBODto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerProductBODto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerProductBO;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductBODto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductBODto;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerProductBORepository;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ProductBORepository;
 import com.codegym.springboot_modul_6.util.FE_BO_Util.Mapper.ManufacturerDetailMapper;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +33,9 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
 
     @Autowired
     private ManufacturerProductBORepository manufacturerProductBORepository;
+    @Autowired
+    private ManufacturerRepository manufacturerRepository;
+
 
     @Override
     @Transactional
@@ -92,25 +97,46 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
 
     @Override
     @Transactional
-    public RequestProductBODto save(RequestProductBODto productDtoBO) {
+    public ResponseProductBODto save(RequestProductBODto requestProductBODto) {
+        ResponseProductBODto responseProductBODto = new ResponseProductBODto();
+        ProductBO productBO = new ProductBO();
         try {
-            ProductBO productBO = new ProductBO();
-            BeanUtils.copyProperties(productDtoBO, productBO);
+
+            BeanUtils.copyProperties(requestProductBODto, productBO);
             productBO.setStatus("UNLOCKED");
             productBORepository.save(productBO);
 
-            Long manufacturerId = productDtoBO.getManufacturerId();
-            Long productId = productBO.getId();
-            RequestManufacturerProductBODto requestManufacturerProductBODto = new RequestManufacturerProductBODto();
-            requestManufacturerProductBODto.setManufacturerId(manufacturerId);
-            requestManufacturerProductBODto.setProductBOId(productId);
-            ManufacturerProductBO manufacturerProductBO = manufacturerDetailMapper.toEntity(requestManufacturerProductBODto);
+            BeanUtils.copyProperties(productBO, responseProductBODto);
+            List <ManufacturerProductBO> manufacturerProductBOs = productBO.getManufacturerProductBOS();
+            List <ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for(ManufacturerProductBO ele: manufacturerProductBOs) {
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                responseManufacturerProductBODto.setId(ele.getId());
+                responseManufacturerProductBODto.setManufacturerId(ele.getManufacturer().getId());
+                responseManufacturerProductBODto.setManufacturerName(ele.getManufacturer().getName());
+                responseManufacturerProductBODto.setProductBOId(ele.getProductBO().getId());
+                responseManufacturerProductBODto.setProductBOName(ele.getProductBO().getName());
+
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
+            }
+            responseProductBODto.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
+        } catch (Exception ex) {
+            System.out.println("Error:" + ex.getCause());
+            throw new RuntimeException("Error while saving ProductBO", ex);
+        }
+
+        try {
+            Long manufacturerId = requestProductBODto.getManufacturerId();
+            Manufacturer manufacturer = manufacturerRepository.findById(manufacturerId).orElse(null);
+            ManufacturerProductBO manufacturerProductBO = new ManufacturerProductBO();
+            manufacturerProductBO.setProductBO(productBO);
+            manufacturerProductBO.setManufacturer(manufacturer);
             manufacturerProductBORepository.save(manufacturerProductBO);
         } catch (Exception ex) {
-            System.out.println("Loi:" + ex.getCause());
-            throw new RuntimeException("Error while saving Manufacturer", ex);
+            System.out.println("Error:" + ex.getCause());
+            throw new RuntimeException("Error while saving ManufacturerProductBO", ex);
         }
-        return productDtoBO;
+        return responseProductBODto;
     }
 
     @Override
@@ -126,6 +152,17 @@ public class ProductBOServiceImpl implements com.codegym.springboot_modul_6.serv
                 productBORepository.save(productBO);
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addImage(Long id, String imageUrl) {
+        ProductBO productBO = productBORepository.findById(id).orElse(null);
+        if (productBO != null) {
+            productBO.setImage(imageUrl);
+            productBORepository.save(productBO);
+            return true;
         }
         return false;
     }

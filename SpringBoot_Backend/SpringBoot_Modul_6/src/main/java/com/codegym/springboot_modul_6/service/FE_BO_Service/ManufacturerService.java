@@ -10,8 +10,9 @@ import java.util.Optional;
 public interface ManufacturerService {
     Optional<ResponseManufacturerDto> findById(Long id);
     Page<ResponseManufacturerDto> findAll(Pageable pageable);
-    RequestManufacturerDto save(RequestManufacturerDto requestManufacturerDto);
+    ResponseManufacturerDto save(RequestManufacturerDto requestManufacturerDto);
     boolean block(Long id);
 
+    boolean addImage(Long id, String imageUrl);
 }
 

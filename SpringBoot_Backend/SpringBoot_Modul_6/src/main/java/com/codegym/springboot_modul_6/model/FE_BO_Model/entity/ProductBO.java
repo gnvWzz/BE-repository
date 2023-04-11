@@ -1,15 +1,16 @@
 package com.codegym.springboot_modul_6.model.FE_BO_Model.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "productbo")
 public class ProductBO {
     @Id
@@ -39,8 +40,8 @@ public class ProductBO {
     private String status;
     @Column(name = "quantity")
     private Long quantity;
-    @Column(name = "icon")
-    private String icon;
-    @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "image")
+    private String image;
+    @OneToMany(mappedBy = "productBO", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ManufacturerProductBO> manufacturerProductBOS = new ArrayList<>();
 }

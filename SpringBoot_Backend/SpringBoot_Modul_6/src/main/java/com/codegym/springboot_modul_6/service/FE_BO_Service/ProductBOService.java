@@ -10,7 +10,9 @@ import java.util.Optional;
 public interface ProductBOService {
     Optional<ResponseProductBODto> findById(Long id);
     Page<ResponseProductBODto> findAll(Pageable pageable);
-    RequestProductBODto save(RequestProductBODto productDtoBO);
+    ResponseProductBODto save(RequestProductBODto productDtoBO);
     boolean block(Long id);
+
+    boolean addImage(Long id, String imageUrl);
 }
 

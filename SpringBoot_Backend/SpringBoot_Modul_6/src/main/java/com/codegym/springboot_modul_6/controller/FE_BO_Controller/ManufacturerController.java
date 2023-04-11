@@ -33,13 +33,22 @@ public class ManufacturerController {
     }
     @PostMapping("/save")
     public ResponseEntity<?> saveManufacturer(@RequestBody RequestManufacturerDto requestManufacturerDto){
-        manufacturerService.save(requestManufacturerDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseManufacturerDto responseManufacturerDto = manufacturerService.save(requestManufacturerDto);
+        return new ResponseEntity<>(responseManufacturerDto, HttpStatus.OK);
     }
     @PostMapping("/block/{id}")
     public ResponseEntity<?> blockManufacturer(@PathVariable Long id){
         manufacturerService.block(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/add-image/{id}")
+    public ResponseEntity<?> addImage(@PathVariable Long id, @RequestBody String imageUrl) {
+        boolean response = manufacturerService.addImage(id, imageUrl);
+        if (response){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 }
