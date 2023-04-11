@@ -5,12 +5,14 @@ package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Component
 public class UserPrinciple implements UserDetails {
 
     private static final long serialVersionUID = 1L;

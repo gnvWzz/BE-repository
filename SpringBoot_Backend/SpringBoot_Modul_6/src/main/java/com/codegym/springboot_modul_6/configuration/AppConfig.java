@@ -1,31 +1,30 @@
 package com.codegym.springboot_modul_6.configuration;
 
+
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
-public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+public class AppConfig implements WebMvcConfigurer {
+    private final long MAX_AGE_SECS = 3600;
 
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-
-    }
+    @Value("${app.cors.allowedOrigins}")
+    private String[] allowedOrigins;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000")
-                .allowedMethods("GET", "POST", "PUT", "DELETE")
-                .allowedHeaders("*")
-                .exposedHeaders("header1", "header2")
+        registry.addMapping("/api/**")
+                .allowedOrigins(allowedOrigins)
+                .allowedMethods("HEAD", "OPTIONS", "GET", "POST", "PUT", "PATCH", "DELETE")
                 .allowCredentials(false)
-                .maxAge(3600);
+                .maxAge(MAX_AGE_SECS);
     }
+
 }

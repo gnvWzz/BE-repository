@@ -7,7 +7,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Roles;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.security.JwtService;
+import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
@@ -16,6 +16,8 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductReposi
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ public class ThirdService {
     @Autowired
     private IAccountService accountService;
     @Autowired
-    private JwtService jwtService;
+    private JwtProvider jwtProvider;
 
     @Autowired
     private RequestMapper requestMapper;
@@ -63,7 +65,7 @@ public class ThirdService {
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         if (isLogin){
             Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-            String jwt = jwtService.generateTokenLogin(account);
+            String jwt = jwtProvider.generateTokenLogin(account);
           return jwt;
         }
         return null;
@@ -77,5 +79,11 @@ public class ThirdService {
     public Account checkValidateUsernmae(String username){
         Account account = accountService.findAccountByUsername(username).get();
         return account;
+    }
+
+    public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
+        List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
+        Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
+        return page;
     }
 }

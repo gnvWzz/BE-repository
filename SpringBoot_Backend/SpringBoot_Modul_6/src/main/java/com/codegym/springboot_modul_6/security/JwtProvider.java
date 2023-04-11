@@ -7,19 +7,17 @@ import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.security.PublicKey;
 import java.util.Date;
 
-@Component
-@Service
-public class JwtService {
+@Component(value = "jwtProvider")
+public class JwtProvider {
 
     private static final String SECRET_KEY = "btobAplication";
     private static final long EXPIRE_TIME = 86400000000L;
-    private static final Logger logger = LoggerFactory.getLogger(JwtService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class.getName());
 
     public String generateTokenLogin(Account account) {
 

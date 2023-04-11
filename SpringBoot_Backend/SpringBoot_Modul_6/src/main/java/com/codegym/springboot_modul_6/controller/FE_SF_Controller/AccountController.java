@@ -2,7 +2,7 @@ package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
-import com.codegym.springboot_modul_6.security.JwtService;
+import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
@@ -25,7 +25,7 @@ public class AccountController {
     private RequestMapper requestMapper;
 
     @Autowired
-    private JwtService jwtService;
+    private JwtProvider jwtProvider;
 
     @Autowired
     private RolesService rolesService;

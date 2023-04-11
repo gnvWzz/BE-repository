@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class AccountService implements IAccountService{
+public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepository iAccountRepository;
     @Override
