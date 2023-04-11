@@ -24,4 +24,27 @@ public class LongMapper {
         }
         return list;
     }
+
+    public List<ProductSFDto> mapperProductSFDto(List<ProductSF> productSFS){
+        List<ProductSFDto> productSFDtos = new ArrayList<>();
+        for (ProductSF p: productSFS
+             ) {
+            ProductSFDto productSFDto = new ProductSFDto();
+            BeanUtils.copyProperties(p, productSFDto);
+            productSFDto.setProductSFDetailDtos(mapperProductDetailDto(p.getProductSFDetail()));
+            productSFDtos.add(productSFDto);
+        }
+        return productSFDtos;
+    }
+
+    private List<ProductSFDetailDto> mapperProductDetailDto(List<ProductSFDetail> productSFDetails){
+        List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
+        for (ProductSFDetail p: productSFDetails
+             ) {
+            ProductSFDetailDto productSFDetail = new ProductSFDetailDto();
+            BeanUtils.copyProperties(p, productSFDetail);
+            productSFDetailDtos.add(productSFDetail);
+        }
+        return productSFDetailDtos;
+    }
 }

@@ -37,8 +37,8 @@ dependencies {
 // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
 
 
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
-//    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 
 }
 
