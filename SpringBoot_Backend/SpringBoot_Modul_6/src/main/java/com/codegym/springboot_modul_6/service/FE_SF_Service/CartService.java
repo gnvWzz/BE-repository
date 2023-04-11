@@ -39,21 +39,38 @@ public class CartService implements ICartService{
         Optional<ProductSFDetail> productSFDetail = findProductSFDetailBySerialNumber(cartSF.getCartDetailSFS().get(0).getSerialNumber());
         if (cart.isPresent() && productSFDetail.isPresent()){
             if (Objects.equals(cart.get().getCartDetailSFS().get(0).getSerialNumber(), cartSF.getCartDetailSFS().get(0).getSerialNumber())){
-                cart.get().getCartDetailSFS().get(0).setQuantity(cartSF.getCartDetailSFS().get(0).getQuantity());
-                cart.get().getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cart.get().getCartDetailSFS().get(0).getQuantity());
-                cart.get().setTotalPrice(getTotalMoney(cart.get().getCartDetailSFS()));
-                iCartRepository.save(cart.get());
+                changeItemCartExist(cartSF, cart, productSFDetail);
             }else {
-                cartSF.setId(cart.get().getId());
-                cartSF.getCartDetailSFS().get(0).setCartSF(cartSF);
-                cartSF.setTotalPrice(getTotalMoney(cart.get().getCartDetailSFS()) + getTotalMoney(cartSF.getCartDetailSFS()));
-                iCartRepository.save(cartSF);
+                addNewItemCart(cartSF, cart, productSFDetail);
             }
         }else {
-            cartSF.getCartDetailSFS().get(0).setCartSF(cartSF);
-            cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
-            iCartRepository.save(cartSF);
+            addNewCart(cartSF, productSFDetail);
         }
+    }
+
+    private void addNewItemCart(CartSF cartSF, Optional<CartSF> cart, Optional<ProductSFDetail> productSFDetail) {
+        cartSF.setId(cart.get().getId());
+        cartSF.getCartDetailSFS().get(0).setCartSF(cartSF);
+        cartSF.getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cartSF.getCartDetailSFS().get(0).getQuantity());
+        List<CartDetailSF> temp = cart.get().getCartDetailSFS();
+        temp.addAll(cartSF.getCartDetailSFS());
+        cartSF.setCartDetailSFS(temp);
+        cartSF.setTotalPrice(cart.get().getTotalPrice() + getTotalMoney(cartSF.getCartDetailSFS()));
+        iCartRepository.save(cartSF);
+    }
+
+    private void changeItemCartExist(CartSF cartSF, Optional<CartSF> cart, Optional<ProductSFDetail> productSFDetail) {
+        cart.get().getCartDetailSFS().get(0).setQuantity(cartSF.getCartDetailSFS().get(0).getQuantity());
+        cart.get().getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cart.get().getCartDetailSFS().get(0).getQuantity());
+        cart.get().setTotalPrice(getTotalMoney(cart.get().getCartDetailSFS()));
+        iCartRepository.save(cart.get());
+    }
+
+    private void addNewCart(CartSF cartSF, Optional<ProductSFDetail> productSFDetail) {
+        cartSF.getCartDetailSFS().get(0).setCartSF(cartSF);
+        cartSF.getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cartSF.getCartDetailSFS().get(0).getQuantity());
+        cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
+        iCartRepository.save(cartSF);
     }
 
     private Double getTotalMoney(Iterable<CartDetailSF> cartDetailSFS){
