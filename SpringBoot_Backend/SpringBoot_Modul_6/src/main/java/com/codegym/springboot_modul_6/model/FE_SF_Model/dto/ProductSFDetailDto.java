@@ -18,12 +18,9 @@ public class ProductSFDetailDto implements Serializable {
 
     private Long price;
 
-
     private String serialNumber;
 
-
     private String briefDescription;
-
 
     private String fullDescription;
 
@@ -40,8 +37,6 @@ public class ProductSFDetailDto implements Serializable {
     private String storageDrive;
 
     private String display;
-
-    private String packageId;
 
     private String size_color_img_quantity;
 }
