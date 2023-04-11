@@ -32,7 +32,7 @@ public class ProductsController {
         return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/get_home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
         Page<ProductSF> temp = productService.findAllPaging(offset, 16);
         return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
