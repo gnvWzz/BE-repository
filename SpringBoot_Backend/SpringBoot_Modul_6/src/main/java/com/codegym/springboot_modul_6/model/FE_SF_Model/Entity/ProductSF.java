@@ -31,4 +31,12 @@ public class ProductSF implements Serializable {
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
     private List<ProductSFDetail> productSFDetail;
 
+    public ProductSF(String name, String category, String packageId, String status, String manufacturer, List<ProductSFDetail> productSFDetail) {
+        this.name = name;
+        this.category = category;
+        this.packageId = packageId;
+        this.status = status;
+        this.manufacturer = manufacturer;
+        this.productSFDetail = productSFDetail;
+    }
 }
