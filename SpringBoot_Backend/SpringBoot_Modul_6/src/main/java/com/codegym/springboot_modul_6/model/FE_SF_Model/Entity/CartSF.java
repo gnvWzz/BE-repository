@@ -21,7 +21,7 @@ public class CartSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "cartSF", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cartSF", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<CartDetailSF> cartDetailSFS;
 
     @Column(name = "account_name")

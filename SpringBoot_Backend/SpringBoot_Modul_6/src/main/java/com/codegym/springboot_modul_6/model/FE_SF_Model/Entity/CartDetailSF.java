@@ -21,7 +21,6 @@ public class CartDetailSF {
     private Long id;
     @JoinColumn(name = "cart_id")
     @ManyToOne
-    @JsonIgnore
     private CartSF cartSF;
 
     private Long quantity;
@@ -30,7 +29,15 @@ public class CartDetailSF {
 
     private Double price;
 
+    @Column(name = "serial_number")
     private String serialNumber;
 
 
+    public CartDetailSF(CartSF cartSF, Long quantity, String name, Double price, String serialNumber) {
+        this.cartSF = cartSF;
+        this.quantity = quantity;
+        this.name = name;
+        this.price = price;
+        this.serialNumber = serialNumber;
+    }
 }

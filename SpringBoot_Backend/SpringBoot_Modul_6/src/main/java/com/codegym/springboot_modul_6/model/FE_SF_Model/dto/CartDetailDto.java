@@ -21,4 +21,6 @@ public class CartDetailDto {
 
     private String serialNumber;
 
+    private String accountName;
+
 }
