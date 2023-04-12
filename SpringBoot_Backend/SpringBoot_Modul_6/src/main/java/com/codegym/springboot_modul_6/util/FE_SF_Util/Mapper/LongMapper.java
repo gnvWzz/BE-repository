@@ -55,7 +55,7 @@ public class LongMapper {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
         for (int i = 0; i < cartDetailDtos.size(); i++){
             CartDetailSF cartDetailDto = new CartDetailSF();
-            BeanUtils.copyProperties(cartDetailDtos.get(0), cartDetailDto);
+            BeanUtils.copyProperties(cartDetailDtos.get(i), cartDetailDto);
             cartDetailSFS.add(cartDetailDto);
         }
         return cartDetailSFS;

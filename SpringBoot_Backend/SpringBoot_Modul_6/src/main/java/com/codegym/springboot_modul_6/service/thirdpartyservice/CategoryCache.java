@@ -34,7 +34,6 @@ public class CategoryCache {
     }
 
 
-
     public Map<String , List<Categories >> getCacheCategories(){
         return cacheCategories;
     }
