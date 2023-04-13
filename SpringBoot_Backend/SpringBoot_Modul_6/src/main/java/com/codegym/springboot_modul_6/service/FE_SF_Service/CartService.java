@@ -43,25 +43,32 @@ public class CartService implements ICartService {
         }
     }
 
+    @Override
+    public void removeCartItem(String serialNumber, String accountName){
+
+    }
+
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
         CartSF cartSF = new CartSF();
         cartSF.setId(cartOld.getId());
         cartSF.setAccountName(cartOld.getAccountName());
         int count = 0;
-        if (cartNew.getCartDetailSFS().size() < cartOld.getCartDetailSFS().size()){
-            for (int i = 0; i < cartOld.getCartDetailSFS().size(); i++) {
-                CartDetailSF cartDetailSF = new CartDetailSF();
-                if (Objects.equals(cartOld.getCartDetailSFS().get(i).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
-                    BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-                    cartDetailSF.setId(cartOld.getCartDetailSFS().get(i).getId());
-                    cartDetailSF.setCartSF(cartOld);
-                    cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-                    cartDetailSFS.add(cartDetailSF);
-                    count++;
+        if (cartNew.getCartDetailSFS().size() < cartOld.getCartDetailSFS().size()) {
+            for (int i = 0; i < cartNew.getCartDetailSFS().size(); i++) {
+                for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
+                    CartDetailSF cartDetailSF = new CartDetailSF();
+                    if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
+                        BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                        cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
+                        cartDetailSF.setCartSF(cartOld);
+                        cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
+                        cartDetailSFS.add(cartDetailSF);
+                        count++;
+                    }
                 }
             }
-            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++){
+            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
                 CartDetailSF cartDetailSF = new CartDetailSF();
                 BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
                 cartDetailSF.setCartSF(cartOld);
@@ -71,19 +78,21 @@ public class CartService implements ICartService {
             cartSF.setCartDetailSFS(cartDetailSFS);
             cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()) + cartOld.getTotalPrice());
             iCartRepository.save(cartSF);
-        }else {
-            for (int i = 0; i < cartOld.getCartDetailSFS().size(); i++) {
-                CartDetailSF cartDetailSF = new CartDetailSF();
-                if (Objects.equals(cartOld.getCartDetailSFS().get(i).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
-                    BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-                    cartDetailSF.setId(cartOld.getCartDetailSFS().get(i).getId());
-                    cartDetailSF.setCartSF(cartOld);
-                    cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-                    cartDetailSFS.add(cartDetailSF);
-                    count++;
+        } else {
+            for (int i = 0; i < cartNew.getCartDetailSFS().size(); i++) {
+                for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
+                    CartDetailSF cartDetailSF = new CartDetailSF();
+                    if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
+                        BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                        cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
+                        cartDetailSF.setCartSF(cartOld);
+                        cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
+                        cartDetailSFS.add(cartDetailSF);
+                        count++;
+                    }
                 }
             }
-            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++){
+            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
                 CartDetailSF cartDetailSF = new CartDetailSF();
                 BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
                 cartDetailSF.setCartSF(cartOld);
@@ -96,30 +105,6 @@ public class CartService implements ICartService {
         }
 
     }
-
-//    private void addNewItemCart(CartSF cartSF, Iterable<CartSF> cart, Optional<ProductSFDetail> productSFDetail) {
-//        cartSF.setId(cart.get().getId());
-//        cartSF.getCartDetailSFS().get(0).setCartSF(cartSF);
-//        cartSF.getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cartSF.getCartDetailSFS().get(0).getQuantity());
-//        List<CartDetailSF> temp = cart.get().getCartDetailSFS();
-//        temp.addAll(cartSF.getCartDetailSFS());
-//        cartSF.setCartDetailSFS(temp);
-//        cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
-//        iCartRepository.save(cartSF);
-//    }
-
-//    private void changeItemCartExist(CartSF cartSF, Iterable<CartSF> cart, Optional<ProductSFDetail> productSFDetail) {
-//        CartSF cart_temp = new CartSF();
-//        cart_temp.setId(cartSF.getId());
-//        for (CartDetailSF c: cart.get().getCartDetailSFS()
-//             ) {
-//            if (c.getSerialNumber().equals(cartSF.getCartDetailSFS().get(0).getSerialNumber())){
-//                cart.get().getCartDetailSFS().get(0).setQuantity(cartSF.getCartDetailSFS().get(0).getQuantity());
-//                cart.get().getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cart.get().getCartDetailSFS().get(0).getQuantity());
-//                cart.get().setTotalPrice(getTotalMoney(cart.get().getCartDetailSFS()));
-//            }
-//        }
-//    }
 
     private void addNewCart(CartSF cartSF) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
