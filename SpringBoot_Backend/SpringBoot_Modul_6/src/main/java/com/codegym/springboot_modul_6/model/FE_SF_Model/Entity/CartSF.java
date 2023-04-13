@@ -21,11 +21,16 @@ public class CartSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "cartSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "cartSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<CartDetailSF> cartDetailSFS;
 
     @Column(name = "account_name")
     private String accountName;
+
+
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @Column(name = "total_price_cart")
     private Double totalPrice;

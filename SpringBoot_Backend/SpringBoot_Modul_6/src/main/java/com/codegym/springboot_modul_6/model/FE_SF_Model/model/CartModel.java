@@ -16,9 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CartModel {
 
-    private String account_name;
+    private String accountName;
 
-    private double total_price_cart;
+    private double totalPrice;
 
     private List<CartDetailModel> cartDetailModelList;
 

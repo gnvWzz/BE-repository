@@ -1,10 +1,11 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.CartDetailSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.CartSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.CartModel;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IAccountRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICartRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,16 @@ public class CartService implements ICartService {
     private ICartRepository iCartRepository;
 
     @Autowired
+    private IAccountRepository iAccountRepository;
+
+    @Autowired
     private IProductDetailSFRepository iProductDetailSFRepository;
+
+    @Autowired
+    private LongMapper mapper;
+
+    @Autowired
+    private IProductService iProductService;
 
     @Override
     public Iterable<CartSF> findAll() {
@@ -44,12 +54,26 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public void removeCartItem(String serialNumber, String accountName){
+    public void removeCartItem(String serialNumber, String accountName) {
+        Optional<CartSF> cartOld = iCartRepository.findAccountName(accountName);
+        iCartRepository.removeCartItem(cartOld.orElseThrow(), serialNumber);
+        Optional<CartSF> cartNew = iCartRepository.findAccountName(accountName);
+        Account account = iAccountRepository.findByUsername(accountName).orElseThrow();
+        cartNew.orElseThrow().setAccount(account);
+        cartNew.orElseThrow().setTotalPrice(getTotalMoney(cartNew.orElseThrow().getCartDetailSFS()));
+        iCartRepository.save(cartNew.get());
+    }
 
+    @Override
+    public Optional<CartModel> getCart(String accountName) {
+        Optional<CartSF> cartSF = iCartRepository.findAccountName(accountName);
+        Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
+        return cartModel;
     }
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
+        Account account = iAccountRepository.findByUsername(cartNew.getAccountName()).orElseThrow();
         CartSF cartSF = new CartSF();
         cartSF.setId(cartOld.getId());
         cartSF.setAccountName(cartOld.getAccountName());
@@ -59,7 +83,10 @@ public class CartService implements ICartService {
                 for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
                     CartDetailSF cartDetailSF = new CartDetailSF();
                     if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
+                        ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
+                        ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
                         BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                        cartDetailSF.setName(productSF.getName());
                         cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
                         cartDetailSF.setCartSF(cartOld);
                         cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
@@ -70,7 +97,10 @@ public class CartService implements ICartService {
             }
             for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
                 CartDetailSF cartDetailSF = new CartDetailSF();
+                ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
+                ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
                 BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                cartDetailSF.setName(productSF.getName());
                 cartDetailSF.setCartSF(cartOld);
                 cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                 cartDetailSFS.add(cartDetailSF);
@@ -83,7 +113,10 @@ public class CartService implements ICartService {
                 for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
                     CartDetailSF cartDetailSF = new CartDetailSF();
                     if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
+                        ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
+                        ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
                         BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                        cartDetailSF.setName(productSF.getName());
                         cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
                         cartDetailSF.setCartSF(cartOld);
                         cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
@@ -94,11 +127,15 @@ public class CartService implements ICartService {
             }
             for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
                 CartDetailSF cartDetailSF = new CartDetailSF();
+                ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
+                ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
                 BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
+                cartDetailSF.setName(productSF.getName());
                 cartDetailSF.setCartSF(cartOld);
                 cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                 cartDetailSFS.add(cartDetailSF);
             }
+            cartSF.setAccount(account);
             cartSF.setCartDetailSFS(cartDetailSFS);
             cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
             iCartRepository.save(cartSF);
@@ -111,11 +148,16 @@ public class CartService implements ICartService {
         for (CartDetailSF c : cartSF.getCartDetailSFS()
         ) {
             CartDetailSF cartTemp = new CartDetailSF();
+            ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(c.getSerialNumber()).orElseThrow();
+            ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
             BeanUtils.copyProperties(c, cartTemp);
+            cartTemp.setName(productSF.getName());
             cartTemp.setCartSF(cartSF);
             cartTemp.setSubTotal(cartTemp.getPrice() * cartTemp.getQuantity());
             cartDetailSFS.add(cartTemp);
         }
+        Account account = iAccountRepository.findByUsername(cartSF.getAccountName()).orElseThrow();
+        cartSF.setAccount(account);
         cartSF.setCartDetailSFS(cartDetailSFS);
         cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
         iCartRepository.save(cartSF);
