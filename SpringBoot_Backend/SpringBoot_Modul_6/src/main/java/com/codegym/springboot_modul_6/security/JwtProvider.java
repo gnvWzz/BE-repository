@@ -7,12 +7,14 @@ import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.security.PublicKey;
 import java.util.Date;
 
-@Component(value = "jwtProvider")
+@Component
+@Service
 public class JwtProvider {
 
     private static final String SECRET_KEY = "btobAplication";

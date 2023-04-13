@@ -27,7 +27,7 @@ public class ProductSFDetail implements Serializable {
     @JsonIgnore
     private ProductSF productSF;
 
-    private Long price;
+    private Double price;
 
     @Column(name = "serial_number")
     private String serialNumber;
@@ -53,7 +53,6 @@ public class ProductSFDetail implements Serializable {
 
     private String display;
 
-    private String packageId;
 
     private String  size_color_img_quantity;
 

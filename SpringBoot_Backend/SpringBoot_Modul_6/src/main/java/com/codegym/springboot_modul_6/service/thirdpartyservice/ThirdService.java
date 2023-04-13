@@ -1,15 +1,10 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-
-
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.AccountRoles;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Roles;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-
+import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 
@@ -27,9 +22,10 @@ import java.util.List;
 @Service
 public class ThirdService {
 
-
     @Autowired
     private IProductRepositorySF productRepositorySF;
+
+    private static final CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
     @Autowired
     private LongMapper mapper;
@@ -42,8 +38,10 @@ public class ThirdService {
     private JwtProvider jwtProvider;
 
     @Autowired
-    private RequestMapper requestMapper;
+    private ICategoryService categoryService;
 
+    @Autowired
+    private RequestMapper requestMapper;
 
 
     public Account signUp(AccountDto accountDto){
@@ -61,12 +59,40 @@ public class ThirdService {
         return account;
     }
 
+    public Account signUpOwner(AccountDto accountDto){
+        Account account = new Account();
+        AccountRoles accountRoles = new AccountRoles();
+        List<AccountRoles> accountRolesList = new ArrayList<>();
+
+        Roles roles = rolesService.findRolesByName("ROLE_OWNER").get();
+        account = requestMapper.toAccount(accountDto);
+        accountRoles.setAccount(account);
+        accountRoles.setRoles(roles);
+        accountRolesList.add(accountRoles);
+        account.setRolesList(accountRolesList);
+        accountService.save(account);
+        return account;
+    }
+
     public String login(AccountDto accountDto){
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
-        if (isLogin){
-            Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String role = account.getRolesList().get(0).getRoles().getName();
+        if (isLogin && (role.equals("ROLE_USER"))){
             String jwt = jwtProvider.generateTokenLogin(account);
           return jwt;
+        }
+        return null;
+    }
+
+    public String loginOwner(AccountDto accountDto){
+        boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String role = account.getRolesList().get(0).getRoles().getName();
+        if (isLogin && (role.equals("ROLE_OWNER"))){
+
+            String jwt = jwtProvider.generateTokenLogin(account);
+            return jwt;
         }
         return null;
     }
@@ -85,5 +111,24 @@ public class ThirdService {
         List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
         Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
         return page;
+    }
+
+    private boolean checkCache(){
+        if (categoryCache.getCacheCategories().get("CATEGORY") == null){
+            categoryCache.addCategories((ArrayList<Categories>) categoryService.findAll());
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public ArrayList<Categories> getData(){
+        if (checkCache()){
+            return categoryCache.getCacheCategories().get("CATEGORY");
+        }
+        else {
+            return categoryCache.getCacheCategories().get("CATEGORY");
+        }
     }
 }

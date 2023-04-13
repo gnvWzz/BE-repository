@@ -18,6 +18,7 @@ import java.util.Optional;
 public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepository iAccountRepository;
+
     @Override
     public Iterable<Account> findAll() {
         return iAccountRepository.findAll();
@@ -58,7 +59,6 @@ public class AccountService implements IAccountService {
             if (account.isPresent()){
                 if (BCrypt.checkpw(password, passwordDb)){
                     return true;
-
                 }
             }
         return false;
