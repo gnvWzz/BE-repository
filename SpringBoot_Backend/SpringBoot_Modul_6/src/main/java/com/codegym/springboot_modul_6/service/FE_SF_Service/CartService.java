@@ -40,7 +40,7 @@ public class CartService implements ICartService{
         if (cart.isPresent() && productSFDetail.isPresent()){
             if (Objects.equals(cart.get().getCartDetailSFS().get(0).getSerialNumber(), cartSF.getCartDetailSFS().get(0).getSerialNumber())){
                 cart.get().getCartDetailSFS().get(0).setQuantity(cartSF.getCartDetailSFS().get(0).getQuantity());
-                cart.get().getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice() * cart.get().getCartDetailSFS().get(0).getQuantity());
+                cart.get().getCartDetailSFS().get(0).setPrice(productSFDetail.get().getPrice1() * cart.get().getCartDetailSFS().get(0).getQuantity());
                 cart.get().setTotalPrice(getTotalMoney(cart.get().getCartDetailSFS()));
                 iCartRepository.save(cart.get());
             }else {

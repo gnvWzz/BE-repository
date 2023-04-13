@@ -5,6 +5,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -93,7 +94,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) {
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
         return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
     }
 }
