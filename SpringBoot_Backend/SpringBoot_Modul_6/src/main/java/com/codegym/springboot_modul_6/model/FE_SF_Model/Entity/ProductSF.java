@@ -37,4 +37,5 @@ public class ProductSF implements Serializable {
     @ManyToOne
     @JsonIgnore
     private Store store;
+
 }

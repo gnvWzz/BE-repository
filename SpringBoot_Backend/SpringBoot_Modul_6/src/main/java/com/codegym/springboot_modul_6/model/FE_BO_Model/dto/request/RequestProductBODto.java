@@ -1,6 +1,4 @@
-package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
-
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +16,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductSFDto implements Serializable {
+public class RequestProductBODto implements Serializable {
 
     private String name;
     private String category;
@@ -27,6 +25,6 @@ public class ProductSFDto implements Serializable {
     private String status;
     private String manufacturer;
 
-    private List<ProductSFDetailDto> productSFDetailDtos;
+    private List<RequestProductBODetailDto> requestProductBODetailDtos;
 
 }
