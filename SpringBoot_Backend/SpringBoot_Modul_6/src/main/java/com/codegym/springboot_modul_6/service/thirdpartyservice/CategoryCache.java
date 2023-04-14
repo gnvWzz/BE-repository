@@ -16,25 +16,27 @@ public class CategoryCache {
 
     public static final String CATEGORY = "CATEGORY";
 
+    public static final String PROVINCE = "PROVINCE";
+
     @Autowired
     public ICategoryService iCategoryService;
 
-    private static final Map<String , List<Categories >> cacheCategories = new HashMap<>();
+    private static final Map<String, List<Categories>> cacheCategories = new HashMap<>();
 
     private static final CategoryCache CATEGORY_CACHE = new CategoryCache();
 
-    public static CategoryCache getCategoryCache(){
+    public static CategoryCache getCategoryCache() {
         return CATEGORY_CACHE;
     }
 
     @PostConstruct
-    public void init(){
-        List<Categories> categories =  (ArrayList<Categories>) iCategoryService.findAll();
+    public void init() {
+        List<Categories> categories = (ArrayList<Categories>) iCategoryService.findAll();
         cacheCategories.put(CATEGORY, categories);
     }
 
 
-    public Map<String , List<Categories >> getCacheCategories(){
+    public Map<String, List<Categories>> getCacheCategories() {
         return cacheCategories;
     }
 
@@ -42,12 +44,12 @@ public class CategoryCache {
     }
 
 
-    public  void addCategories(ArrayList<Categories > catelogs){
+    public void addCategories(ArrayList<Categories> catelogs) {
         cacheCategories.put(CATEGORY, catelogs);
     }
 
 
-    public void removeCategory(String name){
+    public void removeCategory(String name) {
         cacheCategories.remove(name);
     }
 }

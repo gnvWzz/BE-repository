@@ -35,9 +35,13 @@ public class CartSF {
     @Column(name = "total_price_cart")
     private Double totalPrice;
 
-    public CartSF(List<CartDetailSF> cartDetailSFS, String  accountName, Double totalPrice) {
+    private String isDeleted = "false";
+
+    public CartSF(List<CartDetailSF> cartDetailSFS, String accountName, Account account, Double totalPrice, String isDeleted) {
         this.cartDetailSFS = cartDetailSFS;
         this.accountName = accountName;
+        this.account = account;
         this.totalPrice = totalPrice;
+        this.isDeleted = isDeleted;
     }
 }

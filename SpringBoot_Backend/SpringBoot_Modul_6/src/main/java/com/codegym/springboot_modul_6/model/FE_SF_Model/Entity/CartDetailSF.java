@@ -35,13 +35,15 @@ public class CartDetailSF {
     @Column(name = "sub_total")
     private Double subTotal;
 
+    private String isDeleted = "false";
 
-    public CartDetailSF(CartSF cartSF, Long quantity, String name, Double price, String serialNumber, Double subTotal) {
+    public CartDetailSF(CartSF cartSF, Long quantity, String name, Double price, String serialNumber, Double subTotal, String isDeleted) {
         this.cartSF = cartSF;
         this.quantity = quantity;
         this.name = name;
         this.price = price;
         this.serialNumber = serialNumber;
         this.subTotal = subTotal;
+        this.isDeleted = isDeleted;
     }
 }
