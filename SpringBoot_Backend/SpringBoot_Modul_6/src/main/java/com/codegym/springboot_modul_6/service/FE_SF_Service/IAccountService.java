@@ -7,9 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.Optional;
 
 public interface IAccountService extends IGeneralService<Account>, UserDetailsService {
+//public interface IAccountService extends IGeneralService<Account> {
 
     Optional<Account>  findAccountByUsername(String username);
     Optional<Account>  findAccountByUEmail(String username);
+
+    Optional<Account>  findAccountByPhone(String username);
 
     boolean checkLogin(String username, String password);
 }

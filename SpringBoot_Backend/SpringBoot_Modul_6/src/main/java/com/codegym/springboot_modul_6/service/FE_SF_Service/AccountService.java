@@ -15,9 +15,10 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
-public class AccountService implements IAccountService{
+public class AccountService implements IAccountService {
     @Autowired
     private IAccountRepository iAccountRepository;
+
     @Override
     public Iterable<Account> findAll() {
         return iAccountRepository.findAll();
@@ -47,8 +48,13 @@ public class AccountService implements IAccountService{
     }
 
     @Override
-    public Optional<Account> findAccountByUEmail(String username) {
-        return iAccountRepository.findByEmail(username);
+    public Optional<Account> findAccountByUEmail(String email) {
+        return iAccountRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional<Account> findAccountByPhone(String phone) {
+        return iAccountRepository.findByPhone(phone);
     }
 
     @Override
@@ -58,7 +64,6 @@ public class AccountService implements IAccountService{
             if (account.isPresent()){
                 if (BCrypt.checkpw(password, passwordDb)){
                     return true;
-
                 }
             }
         return false;

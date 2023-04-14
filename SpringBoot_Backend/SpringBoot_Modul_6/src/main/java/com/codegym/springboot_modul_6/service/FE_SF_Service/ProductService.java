@@ -1,13 +1,12 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
-import org.springframework.beans.BeanUtils;
+
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,7 +32,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Optional<ProductSF> findById(Long id) {
-        return Optional.empty();
+        return productRepositorySF.findById(id);
     }
 
     @Override
@@ -82,8 +81,8 @@ public class ProductService implements IProductService {
                 return page;
             }
             default: {
-                Page<ProductSF> page = productRepositorySF.getAllProductByName(category, sort, PageRequest.of(offset, pageSize));
-                return page;
+//                Page<ProductSF> page = productRepositorySF.getAllProductByName(category, sort, PageRequest.of(offset, pageSize));
+                return null;
             }
         }
 
@@ -93,6 +92,8 @@ public class ProductService implements IProductService {
     public Page<ProductSF> findAllPaging(int offset, int pageSize) {
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
+
+
 
 
     @Override
@@ -107,7 +108,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) {
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
         return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
     }
 
