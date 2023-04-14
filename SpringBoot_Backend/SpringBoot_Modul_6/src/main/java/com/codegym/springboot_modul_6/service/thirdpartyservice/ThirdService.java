@@ -107,28 +107,18 @@ public class ThirdService {
         return account;
     }
 
+    public Account checkValidatePhone(String phone){
+        Account account = accountService.findAccountByPhone(phone).get();
+        return account;
+    }
+
     public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
         List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
         Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
         return page;
     }
 
-    private boolean checkCache(){
-        if (categoryCache.getCacheCategories().get("CATEGORY") == null){
-            categoryCache.addCategories((ArrayList<Categories>) categoryService.findAll());
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
-    public ArrayList<Categories> getData(){
-        if (checkCache()){
-            return categoryCache.getCacheCategories().get("CATEGORY");
-        }
-        else {
-            return categoryCache.getCacheCategories().get("CATEGORY");
-        }
-    }
+
+
 }

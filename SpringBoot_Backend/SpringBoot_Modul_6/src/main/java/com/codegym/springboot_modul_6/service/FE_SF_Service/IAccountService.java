@@ -12,5 +12,7 @@ public interface IAccountService extends IGeneralService<Account>, UserDetailsSe
     Optional<Account>  findAccountByUsername(String username);
     Optional<Account>  findAccountByUEmail(String username);
 
+    Optional<Account>  findAccountByPhone(String username);
+
     boolean checkLogin(String username, String password);
 }

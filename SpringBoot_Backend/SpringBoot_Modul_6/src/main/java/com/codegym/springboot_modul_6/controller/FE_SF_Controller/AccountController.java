@@ -93,6 +93,20 @@ public class AccountController {
         return new ResponseEntity<>("Not Exist", HttpStatus.OK);
     }
 
+    @GetMapping("/duplicate-phone/{data}")
+    public ResponseEntity<?> checkDuplicatePhone(@PathVariable("data") String phone) {
+        try {
+            Account account = thirdService.checkValidatePhone(phone);
+
+            if (account != null) {
+                return new ResponseEntity<>("Exist", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+    }
+
     @PostMapping("/signup-owner")
     public ResponseEntity<?> addAccountOwner(@RequestBody AccountDto accountDto) {
         try {
