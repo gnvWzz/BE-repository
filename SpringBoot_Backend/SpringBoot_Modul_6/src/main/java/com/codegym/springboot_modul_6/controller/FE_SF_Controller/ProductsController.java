@@ -54,4 +54,3 @@ public class ProductsController {
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
     }
 }
-

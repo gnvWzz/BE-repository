@@ -1,6 +1,9 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,7 +16,8 @@ public class Account {
     private String email;
     private String password;
     private String status;
-
+    @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Store store;
     @OneToMany(mappedBy = "account",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<AccountRoles> rolesList;
 
@@ -74,5 +78,13 @@ public class Account {
 
     public void setRolesList(List<AccountRoles> rolesList) {
         this.rolesList = rolesList;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
     }
 }
