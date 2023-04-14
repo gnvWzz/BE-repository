@@ -16,6 +16,11 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductReposi
 
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -130,12 +135,17 @@ public class ThirdService {
         return productSFDto;
     }
 
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) {
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
         ProductSF productSF = productRepositorySF.findByPackageId(packageId);
         List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
         for (ProductSFDetail productSFDetail: productSFDetailList) {
-            if (productSFDetail.getSize_color_img_quantity().contains(color) && productSFDetail.getSize_color_img_quantity().contains(size)) {
+            JSONParser parser = new JSONParser();
+            JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
+            JSONObject jsonObject = new JSONObject();
+            Gson gson = new GsonBuilder().create();
+            SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
+            if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
                 BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
                 return productSFDetailDto;
             }
