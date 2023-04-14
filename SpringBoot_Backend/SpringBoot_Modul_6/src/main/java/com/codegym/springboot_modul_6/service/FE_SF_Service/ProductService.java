@@ -69,8 +69,8 @@ public class ProductService implements IProductService {
                 return page;
             }
             default: {
-                Page<ProductSF> page = productRepositorySF.getAllProductByName(category, sort, PageRequest.of(offset, pageSize));
-                return page;
+//                Page<ProductSF> page = productRepositorySF.getAllProductByName(category, sort, PageRequest.of(offset, pageSize));
+                return null;
             }
         }
 

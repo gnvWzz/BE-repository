@@ -2,7 +2,8 @@ package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
-import com.codegym.springboot_modul_6.security.JwtService;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.AccountModel;
+import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
@@ -17,19 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/account")
 public class AccountController {
     @Autowired
-    private IAccountService iAccountService;
-
-    @Autowired
     private ThirdService thirdService;
-    @Autowired
-    private RequestMapper requestMapper;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private RolesService rolesService;
-
 
     @PostMapping("/signup")
     public ResponseEntity<?> addAccount(@RequestBody AccountDto accountDto) {
@@ -50,6 +39,23 @@ public class AccountController {
         try {
             String token = thirdService.login(accountDto);
             if (token != null) {
+                AccountModel accountModel = new AccountModel();
+                accountModel.setToken(token);
+                accountModel.setUsername(accountDto.getUsername());
+                return new ResponseEntity<>(accountModel, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/login-owner")
+    public ResponseEntity<?> loginOwner(@RequestBody AccountDto accountDto) {
+        try {
+            String token = thirdService.loginOwner(accountDto);
+            if (token != null) {
                 return new ResponseEntity<>(token, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -57,7 +63,6 @@ public class AccountController {
 
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 
     @GetMapping("/duplicate-email/{data}")
@@ -86,6 +91,34 @@ public class AccountController {
             e.printStackTrace();
         }
         return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+    }
+
+    @GetMapping("/duplicate-phone/{data}")
+    public ResponseEntity<?> checkDuplicatePhone(@PathVariable("data") String phone) {
+        try {
+            Account account = thirdService.checkValidatePhone(phone);
+
+            if (account != null) {
+                return new ResponseEntity<>("Exist", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+    }
+
+    @PostMapping("/signup-owner")
+    public ResponseEntity<?> addAccountOwner(@RequestBody AccountDto accountDto) {
+        try {
+            Account account = thirdService.signUpOwner(accountDto);
+            if (account != null) {
+                return new ResponseEntity<>("Add successfully", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Fail", HttpStatus.OK);
+
     }
 
 }

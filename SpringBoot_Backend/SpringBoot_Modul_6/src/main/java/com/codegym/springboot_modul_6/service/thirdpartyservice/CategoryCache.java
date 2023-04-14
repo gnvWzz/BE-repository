@@ -1,10 +1,10 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.ProvinceServiceIplm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,9 +19,17 @@ public class CategoryCache {
     public static final String PROVINCE = "PROVINCE";
 
     @Autowired
-    public ICategoryService iCategoryService;
+
+<<<<<<< HEAD
+    private static final Map<String, List<?>> cacheCategories = new HashMap<>();
+=======
+    private ICategoryService iCategoryService;
+    @Autowired
+    private ProvinceServiceIplm provinceServiceIplm;
 
     private static final Map<String, List<?>> cacheCategories = new HashMap<>();
+
+>>>>>>> 9a0a4320b3ce586c761dd07cb4df9ff30dace0a5
 
     private static final CategoryCache CATEGORY_CACHE = new CategoryCache();
 
@@ -31,8 +39,14 @@ public class CategoryCache {
 
     @PostConstruct
     public void init() {
+<<<<<<< HEAD
         List<Categories> categories = (List<Categories>) iCategoryService.findAll();
+=======
+        List<Categories> categories = (ArrayList<Categories>) iCategoryService.findAll();
+        List<Province> provinces = (List<Province>) provinceServiceIplm.findAll();
+>>>>>>> 9a0a4320b3ce586c761dd07cb4df9ff30dace0a5
         cacheCategories.put(CATEGORY, categories);
+        cacheCategories.put(PROVINCE,provinces);
     }
 
 

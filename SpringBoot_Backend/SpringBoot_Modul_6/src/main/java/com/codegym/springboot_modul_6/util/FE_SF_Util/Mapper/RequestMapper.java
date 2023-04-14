@@ -1,9 +1,15 @@
 package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProvinceDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class RequestMapper {
@@ -12,4 +18,23 @@ public class RequestMapper {
         BeanUtils.copyProperties(accountDto, account);
         return account;
     }
+
+    public List<ProvinceDto> provinceDtoList (List<Province> provinces){
+        List<ProvinceDto> provinceDtoList = new ArrayList<>();
+        provinceDtoList= provinces.stream().map(this::toProvinceDto).collect(Collectors.toList());
+
+//        for (Province p:provinces
+//             ) {
+//            ProvinceDto provinceDto = new ProvinceDto();
+//            BeanUtils.copyProperties(p,provinceDto);
+//            provinceDtoList.add(provinceDto);
+//        }
+        return provinceDtoList;
+    }
+    public ProvinceDto toProvinceDto(Province province) {
+        ProvinceDto provinceDto = new ProvinceDto();
+        BeanUtils.copyProperties(province, provinceDto);
+        return provinceDto;
+    }
+
 }
