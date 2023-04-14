@@ -53,4 +53,10 @@ public class ProductsController {
         ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
     }
+
+    @PostMapping("/remove/{id}")
+    public ResponseEntity<?> removeProduct(@PathVariable Long id){
+        productService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

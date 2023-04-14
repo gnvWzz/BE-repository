@@ -37,8 +37,8 @@ public class AccountService implements IAccountService{
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        return false;
     }
 
     @Override

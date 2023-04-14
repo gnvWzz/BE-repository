@@ -1,10 +1,13 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ProductBO;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +42,19 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        if (id != null) {
+            ProductSF productSF = productRepositorySF.findById(id).orElse(null);
+            if (productSF != null) {
+                if (productSF.getStatus().equals("true")) {
+                    productSF.setStatus("false");
+                    productRepositorySF.save(productSF);
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 
     @Override
@@ -96,4 +110,5 @@ public class ProductService implements IProductService {
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) {
         return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
     }
+
 }

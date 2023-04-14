@@ -39,8 +39,8 @@ public class CategoriesService implements ICategoryService {
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        return false;
     }
 }
 

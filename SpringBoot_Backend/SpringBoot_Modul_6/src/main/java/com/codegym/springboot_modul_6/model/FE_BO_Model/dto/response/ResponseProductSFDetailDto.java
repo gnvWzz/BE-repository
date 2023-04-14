@@ -15,7 +15,7 @@ import javax.persistence.Column;
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseProductSFDetailDto {
-    private Long price;
+    private Double price;
 
     private String serialNumber;
 
@@ -36,8 +36,7 @@ public class ResponseProductSFDetailDto {
     private String storageDrive;
 
     private String display;
-
-    private String packageId;
+    private String status;
 
     private String  size_color_img_quantity;
 }

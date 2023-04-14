@@ -32,10 +32,12 @@ public class StoreServiceImpl implements StoreService {
             for(ProductSF productSF: productSFList){
                 List<ProductSFDetail> productSFDetails = productSF.getProductSFDetail();
                 for(ProductSFDetail ele: productSFDetails){
-                    ResponseProductSFDetailDto responseProductSFDetailDto = new ResponseProductSFDetailDto();
-                    BeanUtils.copyProperties(ele, responseProductSFDetailDto);
+                    if(ele.getStatus().equals("true")) {
+                        ResponseProductSFDetailDto responseProductSFDetailDto = new ResponseProductSFDetailDto();
+                        BeanUtils.copyProperties(ele, responseProductSFDetailDto);
 
-                    responseProductSFDetailDtoList.add(responseProductSFDetailDto);
+                        responseProductSFDetailDtoList.add(responseProductSFDetailDto);
+                    }
                 }
             }
 
