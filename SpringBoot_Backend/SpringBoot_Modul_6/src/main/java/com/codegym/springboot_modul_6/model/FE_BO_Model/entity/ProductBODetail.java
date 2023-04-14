@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "product_detail")
@@ -16,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductSFDetail implements Serializable {
+public class ProductBODetail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,15 +23,9 @@ public class ProductSFDetail implements Serializable {
     @JoinColumn(name = "product_id")
     @ManyToOne
     @JsonIgnore
-    private ProductSF productSF;
+    private ProductBO productBO;
 
-    private Double price1;
-
-    private Double price2;
-
-    private Double price3;
-
-    private Double price4;
+    private Long price;
 
     @Column(name = "serial_number")
     private String serialNumber;
@@ -57,6 +50,8 @@ public class ProductSFDetail implements Serializable {
     private String storageDrive;
 
     private String display;
+
+    private String packageId;
 
     private String  size_color_img_quantity;
 

@@ -34,12 +34,21 @@ public class ProductBOController {
 
     @PostMapping("/save")
     public ResponseEntity<?> saveProduct(@RequestBody RequestProductBODto productDtoBO){
-        productServiceBO.save(productDtoBO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ResponseProductBODto responseProductBODto = productServiceBO.save(productDtoBO);
+        return new ResponseEntity<>(responseProductBODto, HttpStatus.OK);
     }
     @PostMapping("/block/{id}")
     public ResponseEntity<?> blockProduct(@PathVariable Long id){
         productServiceBO.block(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/add-image/{id}")
+    public ResponseEntity<?> addImage(@PathVariable Long id, @RequestBody String imageUrl) {
+        boolean response = productServiceBO.addImage(id, imageUrl);
+        if (response){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
