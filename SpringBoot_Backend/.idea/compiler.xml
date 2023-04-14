@@ -17,5 +17,8 @@
         <module name="SpringBoot_Modul_6.main" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="case-store" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
