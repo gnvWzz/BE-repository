@@ -15,11 +15,11 @@ import java.util.Date;
 
 @Component
 @Service
-public class JwtService {
+public class JwtProvider {
 
     private static final String SECRET_KEY = "btobAplication";
     private static final long EXPIRE_TIME = 86400000000L;
-    private static final Logger logger = LoggerFactory.getLogger(JwtService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class.getName());
 
     public String generateTokenLogin(Account account) {
 

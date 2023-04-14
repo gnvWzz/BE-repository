@@ -1,12 +1,15 @@
 package com.codegym.springboot_modul_6.configuration;
-
-
 import com.codegym.springboot_modul_6.security.CustomAccessDeniedHandler;
 import com.codegym.springboot_modul_6.security.JwtAuthenticationFilter;
 import com.codegym.springboot_modul_6.security.RestAuthenticationEntryPoint;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,12 +20,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+
 
 @EnableWebSecurity
+@Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-
+//    @Autowired
+//    private IAccountService accountService;
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
@@ -46,6 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new CustomAccessDeniedHandler();
     }
 
+//    @Autowired
+//    public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(accountService).passwordEncoder(passwordEncoder());
+//    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfig = new CorsConfiguration();
@@ -63,8 +73,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**").disable();
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home").permitAll()
-                .antMatchers( "/api/product/**").permitAll()
+
+                .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home","/api/product/**").permitAll()
+//                .antMatchers( "/api/product/**").hasAnyRole("USER")
+
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -75,3 +87,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+

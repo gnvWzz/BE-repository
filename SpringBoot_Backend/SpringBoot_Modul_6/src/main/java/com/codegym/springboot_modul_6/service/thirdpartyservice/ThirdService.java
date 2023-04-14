@@ -1,19 +1,14 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-
-
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
-import com.codegym.springboot_modul_6.security.JwtService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.CategoriesService;
+import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import com.google.gson.Gson;
@@ -47,7 +42,7 @@ public class ThirdService {
     @Autowired
     private IAccountService accountService;
     @Autowired
-    private JwtService jwtService;
+    private JwtProvider jwtProvider;
 
     @Autowired
     private ICategoryService categoryService;
@@ -74,12 +69,40 @@ public class ThirdService {
         return account;
     }
 
+    public Account signUpOwner(AccountDto accountDto){
+        Account account = new Account();
+        AccountRoles accountRoles = new AccountRoles();
+        List<AccountRoles> accountRolesList = new ArrayList<>();
+
+        Roles roles = rolesService.findRolesByName("ROLE_OWNER").get();
+        account = requestMapper.toAccount(accountDto);
+        accountRoles.setAccount(account);
+        accountRoles.setRoles(roles);
+        accountRolesList.add(accountRoles);
+        account.setRolesList(accountRolesList);
+        accountService.save(account);
+        return account;
+    }
+
     public String login(AccountDto accountDto){
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
-        if (isLogin){
-            Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-            String jwt = jwtService.generateTokenLogin(account);
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String role = account.getRolesList().get(0).getRoles().getName();
+        if (isLogin && (role.equals("ROLE_USER"))){
+            String jwt = jwtProvider.generateTokenLogin(account);
           return jwt;
+        }
+        return null;
+    }
+
+    public String loginOwner(AccountDto accountDto){
+        boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String role = account.getRolesList().get(0).getRoles().getName();
+        if (isLogin && (role.equals("ROLE_OWNER"))){
+
+            String jwt = jwtProvider.generateTokenLogin(account);
+            return jwt;
         }
         return null;
     }
@@ -94,31 +117,17 @@ public class ThirdService {
         return account;
     }
 
+    public Account checkValidatePhone(String phone){
+        Account account = accountService.findAccountByPhone(phone).get();
+        return account;
+    }
+
     public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
         List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
         Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
         return page;
     }
 
-    private boolean checkCache(){
-        if (categoryCache.getCacheCategories().get("CATEGORY") == null){
-            categoryCache.addCategories((ArrayList<Categories>) categoryService.findAll());
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    public ArrayList<Categories> getData(){
-        /*if (checkCache()){
-            return categoryCache.getCacheCategories().get("CATEGORY");
-        }
-        else {
-            return categoryCache.getCacheCategories().get("CATEGORY");
-        }*/
-        return null;
-    }
 
     public ProductSFDto getProductSFDto(String packageId) {
         ProductSF productSF = productRepositorySF.findByPackageId(packageId);
@@ -152,4 +161,5 @@ public class ThirdService {
         }
         return null;
     }
+
 }
