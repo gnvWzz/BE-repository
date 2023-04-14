@@ -43,12 +43,9 @@ public class LongMapper {
 
     private List<ProductSFDetailDto> mapperProductDetailDto(List<ProductSFDetail> productSFDetails){
         List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
-        for (ProductSFDetail p: productSFDetails
-             ) {
-            ProductSFDetailDto productSFDetail = new ProductSFDetailDto();
-            BeanUtils.copyProperties(p, productSFDetail);
-            productSFDetailDtos.add(productSFDetail);
-        }
+        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+        BeanUtils.copyProperties(productSFDetails.get(0), productSFDetailDto);
+        productSFDetailDtos.add(productSFDetailDto);
         return productSFDetailDtos;
     }
 

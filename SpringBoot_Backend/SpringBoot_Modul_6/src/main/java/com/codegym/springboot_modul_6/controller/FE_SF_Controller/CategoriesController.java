@@ -30,15 +30,10 @@ public class CategoriesController {
 
     private CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
-    @Autowired
-    private ICategoryService iCategoryService;
-
-    @Autowired
-    private ThirdService thirdService;
 
 
     @GetMapping(value = "/find-all")
     public ResponseEntity<?> getAllCategories() {
-        return new ResponseEntity<>(longMapper.mapperCategories(categoryCache.getCacheCategories().get(categoryCache.CATEGORY)), HttpStatus.OK);
+        return new ResponseEntity<>(longMapper.mapperCategories((List<Categories>) categoryCache.getCacheCategories().get(categoryCache.CATEGORY)), HttpStatus.OK);
     }
 }

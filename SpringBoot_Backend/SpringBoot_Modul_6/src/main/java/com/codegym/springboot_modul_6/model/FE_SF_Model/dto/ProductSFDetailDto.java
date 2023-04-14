@@ -16,7 +16,7 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductSFDetailDto implements Serializable {
 
-    private Double price;
+    private Double price1;
 
     private String serialNumber;
 
