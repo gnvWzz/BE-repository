@@ -1,7 +1,11 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,8 +19,8 @@ public class ProductService implements IProductService {
     @Autowired
     private IProductRepositorySF productRepositorySF;
 
-//    @Autowired
-//    private ThirdService thirdService;
+    @Autowired
+    private ThirdService thirdService;
 
     public static Map<String, ArrayList<String>> cache = new HashMap<>();
 
@@ -27,7 +31,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Optional<ProductSF> findById(Long id) {
-        return Optional.empty();
+        return productRepositorySF.findById(id);
     }
 
     @Override
@@ -78,9 +82,21 @@ public class ProductService implements IProductService {
     }
 
 
+
+
     @Override
     public List<ProductSF> productSFS() {
         List<ProductSF> productSFS = productRepositorySF.findAll();
         return productSFS;
+    }
+
+    @Override
+    public ProductSFDto getProductSFDto(String packageId) {
+        return thirdService.getProductSFDto(packageId);
+    }
+
+    @Override
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
+        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
     }
 }

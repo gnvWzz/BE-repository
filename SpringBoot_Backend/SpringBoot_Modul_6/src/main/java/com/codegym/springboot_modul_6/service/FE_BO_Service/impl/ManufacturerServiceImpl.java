@@ -3,11 +3,9 @@ package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestManufacturerDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerProductBODto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseManufacturerDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Manufacturer;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.ManufacturerProductBO;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.*;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.ManufacturerRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.ManufacturerService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -57,6 +55,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
+    @Transactional
     public Page<ResponseManufacturerDto> findAll(Pageable pageable) {
         Page<Manufacturer> manufacturers = manufacturerRepository.findAll(pageable);
         List<ResponseManufacturerDto> dtoList = new ArrayList<>();
@@ -84,19 +83,50 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         return new PageImpl<>(dtoList, pageable, manufacturers.getTotalElements());
     }
 
+//    @Override
+//    public RequestManufacturerDto save(RequestManufacturerDto requestManufacturerDto) {
+//        try {
+//            Manufacturer manufacturer = new Manufacturer();
+//            BeanUtils.copyProperties(requestManufacturerDto, manufacturer);
+//            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
+//            manufacturerRepository.save(manufacturer);
+//        } catch (Exception ex) {
+//            System.out.println("Loi:" + ex.getCause());
+//            throw new RuntimeException("Error while saving Manufacturer", ex);
+//        }
+//        return requestManufacturerDto;
+//    }
     @Override
-    public RequestManufacturerDto save(RequestManufacturerDto requestManufacturerDto) {
+    @Transactional
+    public ResponseManufacturerDto save(RequestManufacturerDto requestManufacturerDto) {
+        ResponseManufacturerDto responseManufacturerDto = new ResponseManufacturerDto();
         try {
             Manufacturer manufacturer = new Manufacturer();
             BeanUtils.copyProperties(requestManufacturerDto, manufacturer);
-            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status, khong the lay duoc gia tri mac dinh set trong database :(
+            manufacturer.setStatus("UNLOCKED"); //dto khong co truong status
             manufacturerRepository.save(manufacturer);
+
+            BeanUtils.copyProperties(manufacturer, responseManufacturerDto);
+            List<ManufacturerProductBO> manufacturerProductBOList = manufacturer.getManufacturerProductBOS();
+            List<ResponseManufacturerProductBODto> responseManufacturerProductBODtoList = new ArrayList<>();
+            for(ManufacturerProductBO ele: manufacturerProductBOList){
+                ResponseManufacturerProductBODto responseManufacturerProductBODto = new ResponseManufacturerProductBODto();
+                responseManufacturerProductBODto.setId(ele.getId());
+                responseManufacturerProductBODto.setManufacturerId(ele.getManufacturer().getId());
+                responseManufacturerProductBODto.setManufacturerName(ele.getManufacturer().getName());
+                responseManufacturerProductBODto.setProductBOId(ele.getProductBO().getId());
+                responseManufacturerProductBODto.setProductBOName(ele.getProductBO().getName());
+
+                responseManufacturerProductBODtoList.add(responseManufacturerProductBODto);
+            }
+            responseManufacturerDto.setResponseManufacturerProductBODtos(responseManufacturerProductBODtoList);
         } catch (Exception ex) {
             System.out.println("Loi:" + ex.getCause());
-            throw new RuntimeException("Error while saving Manufacturer", ex);
+            throw new RuntimeException("Error while saving Member", ex);
         }
-        return requestManufacturerDto;
+        return responseManufacturerDto;
     }
+
 
     @Override
     public boolean block(Long id) {
@@ -111,6 +141,17 @@ public class ManufacturerServiceImpl implements ManufacturerService {
                 manufacturerRepository.save(manufacturer);
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addImage(Long id, String imageUrl) {
+        Manufacturer manufacturer = manufacturerRepository.findById(id).orElse(null);
+        if (manufacturer != null) {
+            manufacturer.setImage(imageUrl);
+            manufacturerRepository.save(manufacturer);
+            return true;
         }
         return false;
     }

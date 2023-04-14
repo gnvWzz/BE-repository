@@ -1,13 +1,14 @@
 package com.codegym.springboot_modul_6.model.FE_BO_Model.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "manufacturer_product")
 public class ManufacturerProductBO {
     @Id

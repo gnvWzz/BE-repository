@@ -1,28 +1,21 @@
-package com.codegym.springboot_modul_6.model.FE_SF_Model.dto;
+package com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serializable;
+import javax.persistence.Column;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductSFDetailDto implements Serializable {
-
-    private Double price1;
-
-    private Double price2;
-
-    private Double price3;
-
-    private Double price4;
+public class ResponseProductSFDetailDto {
+    private Long price;
 
     private String serialNumber;
 
@@ -44,5 +37,7 @@ public class ProductSFDetailDto implements Serializable {
 
     private String display;
 
-    private String size_color_img_quantity;
+    private String packageId;
+
+    private String  size_color_img_quantity;
 }

@@ -2,6 +2,7 @@ package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICategoriesRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,6 @@ public class CategoriesService implements ICategoryService {
 
     @Autowired
     private ICategoriesRepository iCategoriesRepository;
-
 
     @Override
     public Iterable<Categories> findAll() {

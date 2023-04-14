@@ -2,9 +2,12 @@ package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.UserOnlineService;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -37,5 +40,24 @@ public class ProductsController {
         Page<ProductSF> temp = productService.findAllPaging(offset, 16);
         return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
     }
-}
 
+    @GetMapping("/package-id-product/{package-id}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
+        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
+        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
+    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
+                                                            @PathVariable("size") String size,
+                                                            @PathVariable("package_id") String packageId) throws ParseException {
+        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/create-new-product")
+    public ResponseEntity<?> createNewProduct(@RequestBody ProductSF productSF) {
+        productService.save(productSF);
+        return new ResponseEntity<>("Done!", HttpStatus.OK);
+    }
+}

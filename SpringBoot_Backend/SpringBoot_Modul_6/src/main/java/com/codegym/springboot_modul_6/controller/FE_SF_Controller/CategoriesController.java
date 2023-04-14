@@ -30,17 +30,20 @@ public class CategoriesController {
     @Autowired
     private LongMapper longMapper;
 
+    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
+
     @Autowired
     private RequestMapper requestMapper;
 
-    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
 
     @GetMapping(value = "/find-all")
     public ResponseEntity<?> getAllCategories() {
+
         CacheModel cacheModel = new CacheModel();
         cacheModel.setCategories(longMapper.mapperCategories((List<Categories>) categoryCache.getCacheCategories().get(categoryCache.CATEGORY)));
         cacheModel.setProvinces(requestMapper.provinceDtoList((List<Province>) categoryCache.getCacheCategories().get(categoryCache.PROVINCE)));
         return new ResponseEntity<>(cacheModel, HttpStatus.OK);
+
     }
 }
