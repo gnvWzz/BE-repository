@@ -31,7 +31,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Optional<ProductSF> findById(Long id) {
-        return Optional.empty();
+        return productRepositorySF.findById(id);
     }
 
     @Override
@@ -80,6 +80,8 @@ public class ProductService implements IProductService {
     public Page<ProductSF> findAllPaging(int offset, int pageSize) {
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
+
+
 
 
     @Override

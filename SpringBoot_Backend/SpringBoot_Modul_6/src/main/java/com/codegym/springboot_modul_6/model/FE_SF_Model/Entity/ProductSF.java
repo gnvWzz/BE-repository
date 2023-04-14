@@ -1,5 +1,7 @@
 package com.codegym.springboot_modul_6.model.FE_SF_Model.Entity;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,17 +28,14 @@ public class ProductSF implements Serializable {
     @Column(name = "package_id")
     private String packageId;
     private String status;
-    private String manufacturer;
+//    private String manufacturer;
 
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
     private List<ProductSFDetail> productSFDetail;
 
-    public ProductSF(String name, String category, String packageId, String status, String manufacturer, List<ProductSFDetail> productSFDetail) {
-        this.name = name;
-        this.category = category;
-        this.packageId = packageId;
-        this.status = status;
-        this.manufacturer = manufacturer;
-        this.productSFDetail = productSFDetail;
-    }
+    @JoinColumn(name = "store_id")
+    @ManyToOne
+    @JsonIgnore
+    private Store store;
+
 }

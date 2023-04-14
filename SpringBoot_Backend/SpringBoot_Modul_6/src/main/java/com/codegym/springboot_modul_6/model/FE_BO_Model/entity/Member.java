@@ -1,7 +1,6 @@
 package com.codegym.springboot_modul_6.model.FE_BO_Model.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,8 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Table(name = "`member`")
 public class Member {
     @Id
@@ -32,8 +33,8 @@ public class Member {
     private Date signup;
     @Column(name = "`status`")
     private String status;
-    @Column(name = "icon")
-    private String icon;
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "image")
+    private String image;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<MemberRole> memberRoles = new ArrayList<>();
 }

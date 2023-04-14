@@ -2,14 +2,15 @@ package com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@AllArgsConstructor
+@Getter
+@Setter
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestManufacturerDto {
     private Long id;
@@ -22,5 +23,5 @@ public class RequestManufacturerDto {
     private String field;
     private Date signup;
     private String website;
-    private String icon;
+//    private String image;
 }

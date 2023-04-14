@@ -111,12 +111,13 @@ public class ThirdService {
     }
 
     public ArrayList<Categories> getData(){
-        if (checkCache()){
+        /*if (checkCache()){
             return categoryCache.getCacheCategories().get("CATEGORY");
         }
         else {
             return categoryCache.getCacheCategories().get("CATEGORY");
-        }
+        }*/
+        return null;
     }
 
     public ProductSFDto getProductSFDto(String packageId) {
