@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -27,6 +28,8 @@ public class CategoriesController {
     @Autowired
     private LongMapper longMapper;
 
+    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
+
     @Autowired
     private ICategoryService iCategoryService;
 
@@ -36,6 +39,6 @@ public class CategoriesController {
 
     @GetMapping(value = "/find-all")
     public ResponseEntity<?> getAllCategories() {
-        return new ResponseEntity<>(longMapper.mapperCategories(thirdService.getData()), HttpStatus.OK);
+        return new ResponseEntity<>(longMapper.mapperCategories(categoryCache.getCacheCategories().get(categoryCache.CATEGORY)), HttpStatus.OK);
     }
 }

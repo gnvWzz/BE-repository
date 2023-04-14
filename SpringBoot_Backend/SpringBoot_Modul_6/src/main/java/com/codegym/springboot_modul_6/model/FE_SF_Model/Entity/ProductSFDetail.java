@@ -26,7 +26,13 @@ public class ProductSFDetail implements Serializable {
     @JsonIgnore
     private ProductSF productSF;
 
-    private Double price;
+    private Double price1;
+
+    private Double price2;
+
+    private Double price3;
+
+    private Double price4;
 
     @Column(name = "serial_number")
     private String serialNumber;
