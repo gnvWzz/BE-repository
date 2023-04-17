@@ -30,8 +30,11 @@ public class ProductSF implements Serializable {
     private String status;
 //    private String manufacturer;
 
-    @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     private List<ProductSFDetail> productSFDetail;
+
+    @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    private List<PriceList> prices;
 
     @JoinColumn(name = "store_id")
     @ManyToOne

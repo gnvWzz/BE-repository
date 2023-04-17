@@ -67,14 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**").disable();
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
                 .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home").permitAll()
-                .antMatchers( "/api/product/**", "/api/cart/**", "/api/order/**").hasAnyRole("USER")
+                .antMatchers( "/api/product/**", "/api/cart/**", "/api/order/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
