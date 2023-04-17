@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface IOrderRepository extends JpaRepository<OrderSF, Long> {
 
-    @Query(value = "select u from OrderSF u where u.username = ?1")
-    Optional<OrderSF> getOrderByName(String username);
+//    @Query(value = "select u from OrderSF u where u.username = ?1")
+//    Optional<OrderSF> getOrderByName(String username);
 }

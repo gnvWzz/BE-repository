@@ -39,22 +39,26 @@ public class ProductsController {
 
     }
 
-//    @GetMapping(value = "/{category}")
-//    public ResponseEntity<?> getProductByName(@PathVariable(value = "category") String category,
-//                                              @RequestParam(value = "offset") int offset,
-//                                              @RequestParam(value = "name") String name){
-//        try{
-//            Page<ProductSF> temp = productService.getByName(category, name, offset, 16);
-//            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
-//        }catch (Exception e){
-//            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping(value = "/getName/{category}")
+    public ResponseEntity<?> getProductByName(@PathVariable(value = "category") String category,
+                                              @RequestParam(value = "offset") int offset,
+                                              @RequestParam(value = "name") String name){
+        try{
+            Page<ProductSF> temp = productService.getByName(category, name, offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping(value = "/get_home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
-        Page<ProductSF> temp = productService.findAllPaging(offset, 16);
-        return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        try {
+            Page<ProductSF> temp = productService.findAllPaging(offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/package-id-product/{package-id}")
