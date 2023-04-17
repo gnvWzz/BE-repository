@@ -78,6 +78,32 @@ public class ThirdService {
         return null;
     }
 
+    public Account update (AccountDto accountDto){
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String passwordDb = account.getPassword();
+        if (account != null){
+            account.setCity(accountDto.getCity());
+            account.setDistrict(accountDto.getDistrict());
+            account.setStreet(accountDto.getStreet());
+            account.setFirstName(accountDto.getFirstName());
+            account.setLastName(accountDto.getLastName());
+            account.setPhone(accountDto.getPhone());
+            account.setPassword(passwordDb);
+            accountService.save(account);
+            return account;
+        }
+        return null;
+    }
+
+    public boolean checkPassword (String password , String username){
+       return accountService.checkLogin(username,password);
+    }
+
+    public void updatePassword(Account account,String password){
+        account.setPassword(password);
+        accountService.save(account);
+    }
+
     public Account signUpOwner(AccountDto accountDto){
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
