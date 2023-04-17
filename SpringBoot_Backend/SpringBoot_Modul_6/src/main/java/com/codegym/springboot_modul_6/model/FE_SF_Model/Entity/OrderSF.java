@@ -31,8 +31,6 @@ public class OrderSF {
     @Column(name = "street_address")
     private String streetAddress;
 
-    private String town;
-
     private String district;
 
     private String phone;
@@ -53,12 +51,11 @@ public class OrderSF {
     private List<OrderDetailSF> orderDetailSFS;
 
 
-    public OrderSF(String firstName, String lastName, String country, String streetAddress, String town, String district, String phone, String email, double totalPrice, String isDeleted, List<OrderDetailSF> orderDetailSFS) {
+    public OrderSF(String firstName, String lastName, String country, String streetAddress, String district, String phone, String email, double totalPrice, String isDeleted, List<OrderDetailSF> orderDetailSFS) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.country = country;
         this.streetAddress = streetAddress;
-        this.town = town;
         this.district = district;
         this.phone = phone;
         this.email = email;
@@ -67,3 +64,4 @@ public class OrderSF {
         this.orderDetailSFS = orderDetailSFS;
     }
 }
+

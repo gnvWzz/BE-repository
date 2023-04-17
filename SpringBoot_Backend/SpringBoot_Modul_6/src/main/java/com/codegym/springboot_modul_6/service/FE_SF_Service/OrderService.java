@@ -1,3 +1,4 @@
+
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
@@ -9,6 +10,7 @@ import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderReposito
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class OrderService implements IOrderService{
 
 
     @Override
+    @Transactional
     public void saveOrder(OrderDto orderDto, String username){
         Account account = iAccountService.findAccountByUsername(username).orElseThrow();
         OrderSF order = new OrderSF();
