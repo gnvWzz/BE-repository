@@ -22,7 +22,6 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     }
 
     @Override
-    @Transactional
     public void removeBySerialNumber(String serialNumber) {
         ProductSFDetail productSFDetail = productDetailRepository.findBySerialNumber(serialNumber);
         if(productSFDetail != null){

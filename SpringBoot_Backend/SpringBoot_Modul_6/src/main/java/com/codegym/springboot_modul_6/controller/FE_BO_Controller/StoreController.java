@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductBODto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
@@ -22,6 +23,15 @@ public class StoreController {
         return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
     }
 
-
+    @PostMapping("/update-image")
+    public ResponseEntity<?> updateImage(@RequestBody RequestStoreDto requestStoreDto) {
+        ResponseStoreDto response = storeService.updateImage(requestStoreDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PostMapping("/update-name")
+    public ResponseEntity<?> updateName(@RequestBody RequestStoreDto requestStoreDto) {
+        ResponseStoreDto response = storeService.updateName(requestStoreDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
 
