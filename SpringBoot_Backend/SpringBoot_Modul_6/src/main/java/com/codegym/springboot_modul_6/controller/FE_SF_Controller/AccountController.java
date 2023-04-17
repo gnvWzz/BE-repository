@@ -30,11 +30,11 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Fail", HttpStatus.OK);
+        return new ResponseEntity<>("Fail", HttpStatus.NO_CONTENT);
 
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AccountDto accountDto) {
         try {
             String token = thirdService.login(accountDto);
@@ -76,7 +76,7 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+        return new ResponseEntity<>("Not Exist", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/duplicate-username/{data}")
@@ -90,7 +90,7 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+        return new ResponseEntity<>("Not Exist", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/duplicate-phone/{data}")
@@ -104,7 +104,7 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Not Exist", HttpStatus.OK);
+        return new ResponseEntity<>("Not Exist", HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/signup-owner")
@@ -117,8 +117,20 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>("Fail", HttpStatus.OK);
+        return new ResponseEntity<>("Fail", HttpStatus.NO_CONTENT);
+    }
 
+    @GetMapping("/user/{username}")
+    public ResponseEntity<?> getUser(@PathVariable("username") String username){
+        try {
+            AccountDto accountDto = thirdService.getUser(username);
+            if (accountDto != null) {
+                return new ResponseEntity<>(accountDto, HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
 }
