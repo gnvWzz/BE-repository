@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -67,6 +68,15 @@ public class ThirdService {
         account.setRolesList(accountRolesList);
         accountService.save(account);
         return account;
+    }
+
+    public AccountDto getUser(String username){
+        Account account = accountService.findAccountByUsername(username).get();
+        if (account != null){
+            AccountDto accountDto = requestMapper.toAccountDto(account);
+            return accountDto;
+        }
+        return null;
     }
 
     public Account signUpOwner(AccountDto accountDto){
@@ -151,7 +161,6 @@ public class ThirdService {
         for (ProductSFDetail productSFDetail: productSFDetailList) {
             JSONParser parser = new JSONParser();
             JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-            JSONObject jsonObject = new JSONObject();
             Gson gson = new GsonBuilder().create();
             SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
             if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
@@ -162,4 +171,17 @@ public class ThirdService {
         return null;
     }
 
+    public ProductSF mapProductSF(ProductSFDto productSFDto) {
+        List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
+        List<ProductSFDetail> productSFDetailList = new ArrayList<>();
+        for (ProductSFDetailDto productSFDetailDto: productSFDetailDtoList) {
+            ProductSFDetail productSFDetail = new ProductSFDetail();
+            BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
+            productSFDetailList.add(productSFDetail);
+        }
+        ProductSF productSF = new ProductSF();
+        BeanUtils.copyProperties(productSFDto, productSF);
+        productSF.setProductSFDetail(productSFDetailList);
+        return productSF;
+    }
 }

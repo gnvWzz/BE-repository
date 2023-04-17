@@ -37,6 +37,8 @@ public class ProductSFDetail implements Serializable {
 
     private Double weight;
 
+    private double price;
+
     private String material;
 
     private String cpu;
@@ -53,7 +55,7 @@ public class ProductSFDetail implements Serializable {
     private String status;
 
 
-    public ProductSFDetail(ProductSF productSF, Double price1, Double price2, Double price3, Double price4, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity) {
+    public ProductSFDetail(ProductSF productSF, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity) {
         this.productSF = productSF;
         this.serialNumber = serialNumber;
         this.briefDescription = briefDescription;

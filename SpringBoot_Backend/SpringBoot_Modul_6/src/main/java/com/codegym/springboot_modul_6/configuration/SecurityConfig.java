@@ -2,9 +2,6 @@ package com.codegym.springboot_modul_6.configuration;
 import com.codegym.springboot_modul_6.security.CustomAccessDeniedHandler;
 import com.codegym.springboot_modul_6.security.JwtAuthenticationFilter;
 import com.codegym.springboot_modul_6.security.RestAuthenticationEntryPoint;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,7 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**").disable();
@@ -76,6 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home").permitAll()
                 .antMatchers( "/api/product/**").hasAnyRole("USER","OWNER")
                 .antMatchers( "/api/store/**","/api/productdetail/**").hasAnyRole("OWNER")
+                .antMatchers( "/api/product/**", "/api/cart/**", "/api/order/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)

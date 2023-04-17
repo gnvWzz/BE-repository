@@ -55,13 +55,14 @@ public class CartService implements ICartService {
 
     @Override
     public void removeCartItem(String serialNumber, String accountName) {
-        Optional<CartSF> cartOld = iCartRepository.findAccountName(accountName);
-        iCartRepository.removeCartItem(cartOld.orElseThrow(), serialNumber);
-        Optional<CartSF> cartNew = iCartRepository.findAccountName(accountName);
-        Account account = iAccountRepository.findByUsername(accountName).orElseThrow();
-        cartNew.orElseThrow().setAccount(account);
-        cartNew.orElseThrow().setTotalPrice(getTotalMoney(cartNew.orElseThrow().getCartDetailSFS()));
-        iCartRepository.save(cartNew.get());
+        Optional<CartSF> cart = iCartRepository.findAccountName(accountName);
+        for (CartDetailSF c : cart.orElseThrow().getCartDetailSFS()
+                ) {
+            if (Objects.equals(c.getSerialNumber(), serialNumber)){
+                c.setIsDeleted("true");
+            }
+        }
+        iCartRepository.save(cart.orElseThrow());
     }
 
     @Override
@@ -104,6 +105,7 @@ public class CartService implements ICartService {
                     cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
                     cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
+                    cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().remove(c);
                     cartOld.getCartDetailSFS().add(cartDetailSF);
                     break;
@@ -114,6 +116,7 @@ public class CartService implements ICartService {
                     cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
                     cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
+                    cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().add(cartDetailSF);
                     break;
                 }
