@@ -19,16 +19,18 @@ public class RequestMapper {
         return account;
     }
 
+    public AccountDto toAccountDto(Account account) {
+        AccountDto accountDto = new AccountDto();
+        BeanUtils.copyProperties( account,accountDto);
+        return accountDto;
+    }
+
+
+
     public List<ProvinceDto> provinceDtoList (List<Province> provinces){
         List<ProvinceDto> provinceDtoList = new ArrayList<>();
         provinceDtoList= provinces.stream().map(this::toProvinceDto).collect(Collectors.toList());
 
-//        for (Province p:provinces
-//             ) {
-//            ProvinceDto provinceDto = new ProvinceDto();
-//            BeanUtils.copyProperties(p,provinceDto);
-//            provinceDtoList.add(provinceDto);
-//        }
         return provinceDtoList;
     }
     public ProvinceDto toProvinceDto(Province province) {

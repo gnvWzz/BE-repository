@@ -17,6 +17,11 @@ public class Account {
     private String password;
     private String status;
 
+    @JoinColumn(name = "firstname")
+
+     private String firstName;
+    @JoinColumn(name = "lastname")
+     private String lastName;
     private String phone;
 
     private String city;
@@ -33,17 +38,36 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String username, String email, String password, String status, String phone, String city, String district, String street, List<AccountRoles> rolesList) {
+    public Account(Long id, String username, String email, String password, String status, String firstName, String lastName, String phone, String city, String district, String street, Store store, List<AccountRoles> rolesList) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.status = status;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.phone = phone;
         this.city = city;
         this.district = district;
         this.street = street;
+        this.store = store;
         this.rolesList = rolesList;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getCity() {

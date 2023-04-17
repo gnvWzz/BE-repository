@@ -69,6 +69,15 @@ public class ThirdService {
         return account;
     }
 
+    public AccountDto getUser(String username){
+        Account account = accountService.findAccountByUsername(username).get();
+        if (account != null){
+            AccountDto accountDto = requestMapper.toAccountDto(account);
+            return accountDto;
+        }
+        return null;
+    }
+
     public Account signUpOwner(AccountDto accountDto){
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
