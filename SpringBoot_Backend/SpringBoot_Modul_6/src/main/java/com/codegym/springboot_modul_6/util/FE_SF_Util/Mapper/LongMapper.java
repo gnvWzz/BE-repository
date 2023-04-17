@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -78,10 +79,12 @@ public class LongMapper {
         List<CartDetailModel> temp = new ArrayList<>();
         for (CartDetailSF c: cartDetailSFS
              ) {
-            CartDetailModel cartDetailModel = new CartDetailModel();
-            BeanUtils.copyProperties(c, cartDetailModel);
-            cartDetailModel.setSize_color_img_quantity(getJSONSQLString(c.getSerialNumber()));
-            temp.add(cartDetailModel);
+            if (Objects.equals(c.getIsDeleted(), "false")){
+                CartDetailModel cartDetailModel = new CartDetailModel();
+                BeanUtils.copyProperties(c, cartDetailModel);
+                cartDetailModel.setSize_color_img_quantity(getJSONSQLString(c.getSerialNumber()));
+                temp.add(cartDetailModel);
+            }
         }
         return temp;
     }
