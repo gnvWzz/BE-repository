@@ -37,7 +37,6 @@ public class ProductSFDetail implements Serializable {
 
     private Double weight;
 
-    private double price;
 
     private String material;
 
