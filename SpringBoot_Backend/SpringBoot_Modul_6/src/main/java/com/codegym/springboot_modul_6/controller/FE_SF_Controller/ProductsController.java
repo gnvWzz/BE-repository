@@ -75,6 +75,12 @@ public class ProductsController {
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
     }
 
+    @PostMapping("/remove/{id}")
+    public ResponseEntity<?> removeProduct(@PathVariable Long id) {
+        productService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/new-product")
     public ResponseEntity<?> createNewProduct(@RequestBody ProductSFDto productSFDto) {
         ProductSF productSF = productService.mapProductSF(productSFDto);

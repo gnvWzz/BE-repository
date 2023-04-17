@@ -51,8 +51,9 @@ public class ProductSFDetail implements Serializable {
     private String storageDrive;
 
     private String display;
+    private String  size_color_img_quantity;
+    private String status;
 
-    private String size_color_img_quantity;
 
     public ProductSFDetail(ProductSF productSF, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity) {
         this.productSF = productSF;
