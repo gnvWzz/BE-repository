@@ -36,7 +36,7 @@ public class ProductService implements IProductService {
 
     @Override
     public void save(ProductSF productSF) {
-
+        productRepositorySF.save(productSF);
     }
 
     @Override
@@ -98,5 +98,10 @@ public class ProductService implements IProductService {
     @Override
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
         return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+    }
+
+    @Override
+    public ProductSF mapProductSF(ProductSFDto productSFDto) {
+        return thirdService.mapProductSF(productSFDto);
     }
 }

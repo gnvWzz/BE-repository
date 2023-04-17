@@ -67,7 +67,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/**").disable();
