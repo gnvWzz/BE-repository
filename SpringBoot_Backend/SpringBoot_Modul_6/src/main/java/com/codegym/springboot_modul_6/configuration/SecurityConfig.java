@@ -75,7 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 
                 .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home","/api/product/**").permitAll()
-//                .antMatchers( "/api/product/**").hasAnyRole("USER")
+                .antMatchers( "/api/product/**").permitAll()
 
                 .anyRequest().authenticated()
                 .and().csrf().disable();

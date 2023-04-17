@@ -33,6 +33,9 @@ public class ProductSF implements Serializable {
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
     private List<ProductSFDetail> productSFDetail;
 
+    @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY)
+    private List<PriceList> prices;
+
     @JoinColumn(name = "store_id")
     @ManyToOne
     @JsonIgnore

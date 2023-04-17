@@ -18,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -162,4 +163,17 @@ public class ThirdService {
         return null;
     }
 
+    public ProductSF mapProductSF(ProductSFDto productSFDto) {
+        List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
+        List<ProductSFDetail> productSFDetailList = new ArrayList<>();
+        for (ProductSFDetailDto productSFDetailDto: productSFDetailDtoList) {
+            ProductSFDetail productSFDetail = new ProductSFDetail();
+            BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
+            productSFDetailList.add(productSFDetail);
+        }
+        ProductSF productSF = new ProductSF();
+        BeanUtils.copyProperties(productSFDto, productSF);
+        productSF.setProductSFDetail(productSFDetailList);
+        return productSF;
+    }
 }
