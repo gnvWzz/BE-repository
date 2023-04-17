@@ -32,7 +32,7 @@ public class OrderService implements IOrderService{
         OrderSF order = new OrderSF();
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
-        order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList()));
+        order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList(), order));
         order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
         iOrderRepository.save(order);
     }
@@ -47,12 +47,13 @@ public class OrderService implements IOrderService{
     }
 
 
-    private List<OrderDetailSF> orderDetailSFList(List<OrderDetailDto> orderDetailDtoList){
+    private List<OrderDetailSF> orderDetailSFList(List<OrderDetailDto> orderDetailDtoList, OrderSF orderSF){
         List<OrderDetailSF> orderDetailSFS = new ArrayList<>();
         for (OrderDetailDto o :
                 orderDetailDtoList) {
             OrderDetailSF orderDetailSF = new OrderDetailSF();
             BeanUtils.copyProperties(o, orderDetailSF);
+            orderDetailSF.setOrderSF(orderSF);
             orderDetailSFS.add(orderDetailSF);
         }
         return orderDetailSFS;
