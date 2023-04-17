@@ -49,13 +49,4 @@ public class CategoryCache {
     public CategoryCache() {
     }
 
-
-    public void addCategories(ArrayList<?> catelogs) {
-        cacheCategories.put(CATEGORY, catelogs);
-    }
-
-
-    public void removeCategory(String name) {
-        cacheCategories.remove(name);
-    }
 }

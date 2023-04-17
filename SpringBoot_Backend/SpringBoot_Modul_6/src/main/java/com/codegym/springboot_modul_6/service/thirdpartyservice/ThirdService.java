@@ -161,7 +161,6 @@ public class ThirdService {
         for (ProductSFDetail productSFDetail: productSFDetailList) {
             JSONParser parser = new JSONParser();
             JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-            JSONObject jsonObject = new JSONObject();
             Gson gson = new GsonBuilder().create();
             SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
             if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
