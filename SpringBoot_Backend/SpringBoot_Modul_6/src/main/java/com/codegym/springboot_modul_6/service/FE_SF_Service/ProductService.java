@@ -101,6 +101,12 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    public Page<ProductSF> getByName(String category, String name, int offset, int pageSize) {
+        Page<ProductSF> productNameSFPage = productRepositorySF.getAllProductByName(category, name, PageRequest.of(offset, pageSize));
+        return productNameSFPage;
+    }
+
+    @Override
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         return thirdService.mapProductSF(productSFDto);
     }

@@ -22,5 +22,9 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException;
 
+
+    Page<ProductSF> getByName(String category, String name, int offset, int i);
+
     ProductSF mapProductSF(ProductSFDto productSFDto);
+
 }

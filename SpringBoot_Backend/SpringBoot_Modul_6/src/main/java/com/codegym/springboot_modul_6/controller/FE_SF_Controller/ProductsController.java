@@ -6,7 +6,6 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
-import com.codegym.springboot_modul_6.service.thirdpartyservice.UserOnlineService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,16 +28,37 @@ public class ProductsController {
 
     @GetMapping(value = "/{category}")
     public ResponseEntity<?> getAllByCategory(@PathVariable(value = "category") String category,
-                                    @RequestParam(required = true, value = "offset") int offset,
+                                    @RequestParam(value = "offset") int offset,
                                     @RequestParam(required = false, value = "sort") String sort) {
-        Page<ProductSF> temp = productService.getAllByCategory(category, sort, offset, 16);
-        return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        try{
+            Page<ProductSF> temp = productService.getAllByCategory(category, sort, offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @GetMapping(value = "/getName/{category}")
+    public ResponseEntity<?> getProductByName(@PathVariable(value = "category") String category,
+                                              @RequestParam(value = "offset") int offset,
+                                              @RequestParam(value = "name") String name){
+        try{
+            Page<ProductSF> temp = productService.getByName(category, name, offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping(value = "/get_home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
-        Page<ProductSF> temp = productService.findAllPaging(offset, 16);
-        return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        try {
+            Page<ProductSF> temp = productService.findAllPaging(offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/package-id-product/{package-id}")
