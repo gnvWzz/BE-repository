@@ -59,7 +59,10 @@ public class CartService implements ICartService {
         }
     }
 
-
+    @Override
+    public void deleteCartItem(Long id){
+        iCartRepository.removeCartItemById(id);
+    }
 
     @Override
     public Optional<CartModel> getCart(String accountName) {
@@ -67,6 +70,7 @@ public class CartService implements ICartService {
         Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
         return cartModel;
     }
+
 
 
 

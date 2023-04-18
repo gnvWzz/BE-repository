@@ -14,4 +14,6 @@ public interface ICartService extends IGeneralService<CartSF>{
     Optional<CartSF> findCartSFByAccountName(String name);
 
     Optional<CartSF> findCartSFByAccountId(Long id);
+
+    void deleteCartItem(Long id);
 }

@@ -32,12 +32,17 @@ public class OrderService implements IOrderService{
     @Override
     @Transactional
     public void saveOrder(OrderDto orderDto, String username){
-//        Account account = iAccountService.findAccountByUsername(username).orElseThrow();
-//        CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
-//                .orElseThrow(() -> new RuntimeException("Cart Not Found"));
-//        saveOrder(orderDto, account);
-//        replaceTotalPriceCart(cartSF);
-//        cleanCartItems(cartSF);
+        Account account = iAccountService.findAccountByUsername(username).orElseThrow();
+        CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
+                .orElseThrow(() -> new RuntimeException("Cart Not Found"));
+        saveOrder(orderDto, account);
+        replaceTotalPriceCart(cartSF);
+        cleanCartItems(cartSF);
+    }
+
+
+    private void cleanCartItems(CartSF cartSF) {
+        iCartService.deleteCartItem(cartSF.getId());
     }
 
 
