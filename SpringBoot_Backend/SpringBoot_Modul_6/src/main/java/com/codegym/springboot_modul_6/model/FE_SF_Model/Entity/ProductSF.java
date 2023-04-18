@@ -28,6 +28,7 @@ public class ProductSF implements Serializable {
     @Column(name = "package_id")
     private String packageId;
     private String status;
+
     private String manufacturer;
 
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})

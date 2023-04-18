@@ -30,7 +30,7 @@ public class ProvinceServiceIplm implements ProvinceService{
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        return false;
     }
 }

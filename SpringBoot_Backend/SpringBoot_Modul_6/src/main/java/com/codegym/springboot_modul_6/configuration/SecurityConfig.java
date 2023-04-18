@@ -2,9 +2,6 @@ package com.codegym.springboot_modul_6.configuration;
 import com.codegym.springboot_modul_6.security.CustomAccessDeniedHandler;
 import com.codegym.springboot_modul_6.security.JwtAuthenticationFilter;
 import com.codegym.springboot_modul_6.security.RestAuthenticationEntryPoint;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -72,9 +69,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**").disable();
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-
-                .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home","/api/cart/**", "/api/order/**","/api/product/**").permitAll()
-//                .antMatchers( "/api/product/**").hasAnyRole("USER")
+                .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home","/api/product/**","/api/cart/**").permitAll()
+//                .antMatchers( "/api/product/**").hasAnyRole("USER","OWNER")
+                .antMatchers( "/api/store/**","/api/productdetail/**").hasAnyRole("OWNER")
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
