@@ -20,6 +20,4 @@ public class OrderDetailDto {
     private Double price;
 
     private String serialNumber;
-
-    private String accountName;
 }
