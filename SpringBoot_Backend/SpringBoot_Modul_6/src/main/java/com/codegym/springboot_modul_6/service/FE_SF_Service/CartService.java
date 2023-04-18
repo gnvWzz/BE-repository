@@ -59,17 +59,7 @@ public class CartService implements ICartService {
         }
     }
 
-    @Override
-    public void removeCartItem(String serialNumber, String accountName) {
-        Optional<CartSF> cart = iCartRepository.findCartByAccountName(accountName);
-        for (CartDetailSF c : cart.orElseThrow().getCartDetailSFS()
-                ) {
-            if (Objects.equals(c.getSerialNumber(), serialNumber)){
-                c.setIsDeleted("true");
-            }
-        }
-        iCartRepository.save(cart.orElseThrow());
-    }
+
 
     @Override
     public Optional<CartModel> getCart(String accountName) {
@@ -79,10 +69,6 @@ public class CartService implements ICartService {
     }
 
 
-    @Override
-    public void deleteCartItem(Long id){
-        iCartRepository.removeCartItem(id);
-    }
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         Account account = iAccountRepository.findByUsername(cartNew.getAccountName()).orElseThrow();
