@@ -20,14 +20,13 @@ public class OrderDto {
 
     private String lastName;
 
-    @JsonProperty(value = "city")
-    private String country;
+    private String city;
 
     @JsonProperty(value = "orderDetails")
     private List<OrderDetailDto> orderDetailDtoList;
 
     @JsonProperty(value = "street")
-    private String streetAddress;
+    private String street;
 
 
     private String district;
