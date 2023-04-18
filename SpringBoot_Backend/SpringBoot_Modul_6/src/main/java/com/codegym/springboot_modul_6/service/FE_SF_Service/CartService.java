@@ -45,7 +45,13 @@ public class CartService implements ICartService {
 
     @Override
     public void save(CartSF cartSF) {
-        Optional<CartSF> cart = findAccountName(cartSF.getAccountName());
+        iCartRepository.save(cartSF);
+    }
+
+
+    @Override
+    public void saveCart(CartSF cartSF) {
+        Optional<CartSF> cart = findCartSFByAccountName(cartSF.getAccountName());
         if (cart.isPresent()) {
             addCartExistOrNewItem(cartSF, cart.get());
         } else {
@@ -55,7 +61,7 @@ public class CartService implements ICartService {
 
     @Override
     public void removeCartItem(String serialNumber, String accountName) {
-        Optional<CartSF> cart = iCartRepository.findAccountName(accountName);
+        Optional<CartSF> cart = iCartRepository.findCartByAccountName(accountName);
         for (CartDetailSF c : cart.orElseThrow().getCartDetailSFS()
                 ) {
             if (Objects.equals(c.getSerialNumber(), serialNumber)){
@@ -67,9 +73,15 @@ public class CartService implements ICartService {
 
     @Override
     public Optional<CartModel> getCart(String accountName) {
-        Optional<CartSF> cartSF = iCartRepository.findAccountName(accountName);
+        Optional<CartSF> cartSF = iCartRepository.findCartByAccountName(accountName);
         Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
         return cartModel;
+    }
+
+
+    @Override
+    public void deleteCartItem(Long id){
+        iCartRepository.removeCartItem(id);
     }
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
@@ -240,8 +252,14 @@ public class CartService implements ICartService {
         return tempCartDetail;
     }
 
-    private Optional<CartSF> findAccountName(String name) {
-        return iCartRepository.findAccountName(name);
+    @Override
+    public Optional<CartSF> findCartSFByAccountName(String name) {
+        return iCartRepository.findCartByAccountName(name);
+    }
+
+    @Override
+    public Optional<CartSF> findCartSFByAccountId(Long accountId) {
+        return iCartRepository.findByAccountId(accountId);
     }
 
 

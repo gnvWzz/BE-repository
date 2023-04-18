@@ -29,7 +29,7 @@ public class CartController {
         try {
             CartSF cartSF =  mapper.mapperCart(carDto);
             if (cartSF != null) {
-                iCartService.save(cartSF);
+                iCartService.saveCart(cartSF);
                 return new ResponseEntity<>("Add successfully", HttpStatus.OK);
             }
         } catch (Exception e) {

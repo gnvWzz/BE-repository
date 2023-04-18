@@ -2,6 +2,7 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.CartSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderDetailSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDetailDto;
@@ -24,11 +25,32 @@ public class OrderService implements IOrderService{
     @Autowired
     private IAccountService iAccountService;
 
+    @Autowired
+    private ICartService iCartService;
+
 
     @Override
     @Transactional
     public void saveOrder(OrderDto orderDto, String username){
         Account account = iAccountService.findAccountByUsername(username).orElseThrow();
+        CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
+                .orElseThrow(() -> new RuntimeException("Cart Not Found"));
+        saveOrder(orderDto, account);
+        replaceTotalPriceCart(cartSF);
+        cleanCartItems(cartSF);
+    }
+
+    private void cleanCartItems(CartSF cartSF) {
+        iCartService.deleteCartItem(cartSF.getId());
+    }
+
+    private void replaceTotalPriceCart(CartSF cartSF){
+        double beginTotalPrice = 0;
+        cartSF.setTotalPrice(beginTotalPrice);
+        iCartService.save(cartSF);
+    }
+
+    private void saveOrder(OrderDto orderDto, Account account) {
         OrderSF order = new OrderSF();
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
