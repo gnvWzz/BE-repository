@@ -27,13 +27,13 @@ public class CartDetailSF {
 
     private String name;
 
-    private Double price;
+    private double price;
 
     @Column(name = "serial_number")
     private String serialNumber;
 
     @Column(name = "sub_total")
-    private Double subTotal;
+    private double subTotal;
 
     private String isDeleted = "false";
 

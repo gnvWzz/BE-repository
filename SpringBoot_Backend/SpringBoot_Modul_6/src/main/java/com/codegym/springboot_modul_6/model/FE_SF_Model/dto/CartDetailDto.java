@@ -17,7 +17,7 @@ public class CartDetailDto {
 
     private String name;
 
-    private Double price;
+    private double price;
 
     private String serialNumber;
 

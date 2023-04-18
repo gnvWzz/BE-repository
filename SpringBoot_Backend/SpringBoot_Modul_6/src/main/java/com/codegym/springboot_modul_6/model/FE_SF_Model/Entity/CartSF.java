@@ -27,17 +27,16 @@ public class CartSF {
     @Column(name = "account_name")
     private String accountName;
 
-
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
 
     @Column(name = "total_price_cart")
-    private Double totalPrice;
+    private double totalPrice;
 
     private String isDeleted = "false";
 
-    public CartSF(List<CartDetailSF> cartDetailSFS, String accountName, Account account, Double totalPrice, String isDeleted) {
+    public CartSF(List<CartDetailSF> cartDetailSFS, String accountName, Account account, double totalPrice, String isDeleted) {
         this.cartDetailSFS = cartDetailSFS;
         this.accountName = accountName;
         this.account = account;
