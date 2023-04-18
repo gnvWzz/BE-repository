@@ -25,7 +25,6 @@ public class OrderDto {
     @JsonProperty(value = "orderDetails")
     private List<OrderDetailDto> orderDetailDtoList;
 
-    @JsonProperty(value = "street")
     private String street;
 
 
