@@ -54,6 +54,7 @@ public class OrderService implements IOrderService{
             OrderDetailSF orderDetailSF = new OrderDetailSF();
             BeanUtils.copyProperties(o, orderDetailSF);
             orderDetailSF.setOrderSF(orderSF);
+            orderDetailSF.setSubTotal(orderDetailSF.getPrice() * orderDetailSF.getQuantity());
             orderDetailSFS.add(orderDetailSF);
         }
         return orderDetailSFS;

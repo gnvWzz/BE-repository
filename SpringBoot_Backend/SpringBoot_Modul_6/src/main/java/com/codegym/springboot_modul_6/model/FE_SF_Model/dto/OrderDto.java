@@ -27,7 +27,6 @@ public class OrderDto {
 
     private String street;
 
-
     private String district;
 
     private String phone;
