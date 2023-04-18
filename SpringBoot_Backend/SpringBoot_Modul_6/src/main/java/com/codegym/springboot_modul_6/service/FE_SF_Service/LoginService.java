@@ -28,7 +28,7 @@ public class LoginService implements IGeneralService<Account> {
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        return false;
     }
 }

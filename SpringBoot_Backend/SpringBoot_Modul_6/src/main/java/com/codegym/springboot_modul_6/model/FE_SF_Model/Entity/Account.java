@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Account")
+@Table(name = "account")
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,10 +35,13 @@ public class Account {
     @OneToMany(mappedBy = "account",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
     private List<AccountRoles> rolesList;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    private List<OrderSF> orderSFList;
+
     public Account() {
     }
 
-    public Account(Long id, String username, String email, String password, String status, String firstName, String lastName, String phone, String city, String district, String street, Store store, List<AccountRoles> rolesList) {
+    public Account(Long id, String username, String email, String password, String status, String firstName, String lastName, String phone, String city, String district, String street, Store store, List<AccountRoles> rolesList, List<OrderSF> orderSFList) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -52,6 +55,15 @@ public class Account {
         this.street = street;
         this.store = store;
         this.rolesList = rolesList;
+        this.orderSFList = orderSFList;
+    }
+
+    public List<OrderSF> getOrderSFList() {
+        return orderSFList;
+    }
+
+    public void setOrderSFList(List<OrderSF> orderSFList) {
+        this.orderSFList = orderSFList;
     }
 
     public String getFirstName() {

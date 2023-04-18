@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class AccountService implements IAccountService {
+
     @Autowired
     private IAccountRepository iAccountRepository;
 
@@ -33,13 +35,17 @@ public class AccountService implements IAccountService {
 
     @Override
     public void save(Account account) {
-        account.setPassword(BCrypt.hashpw(account.getPassword(),BCrypt.gensalt(10)));
+        String pattern = "^\\$2[ayb]\\$.{56}$";
+        if (account.getPassword() != null && !Pattern.matches(pattern, account.getPassword())){
+            account.setStatus("false");
+            account.setPassword(BCrypt.hashpw(account.getPassword(),BCrypt.gensalt(10)));
+        }
         iAccountRepository.save(account);
     }
 
     @Override
-    public void remove(Long id) {
-
+    public boolean remove(Long id) {
+        return false;
     }
 
     @Override

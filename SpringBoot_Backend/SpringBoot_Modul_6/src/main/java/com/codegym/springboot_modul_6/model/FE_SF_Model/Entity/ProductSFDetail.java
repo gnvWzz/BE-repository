@@ -37,6 +37,7 @@ public class ProductSFDetail implements Serializable {
 
     private Double weight;
 
+
     private String material;
 
     private String cpu;
@@ -49,10 +50,10 @@ public class ProductSFDetail implements Serializable {
     private String storageDrive;
 
     private String display;
-
     private String size_color_img_quantity;
+    private String status;
 
-    public ProductSFDetail(ProductSF productSF, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity) {
+    public ProductSFDetail(ProductSF productSF, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity, String status) {
         this.productSF = productSF;
         this.serialNumber = serialNumber;
         this.briefDescription = briefDescription;
@@ -65,5 +66,6 @@ public class ProductSFDetail implements Serializable {
         this.storageDrive = storageDrive;
         this.display = display;
         this.size_color_img_quantity = size_color_img_quantity;
+        this.status = status;
     }
 }
