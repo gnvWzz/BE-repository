@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -65,6 +66,7 @@ public class CartService implements ICartService {
         for (CartDetailSF c : cart.orElseThrow().getCartDetailSFS()
                 ) {
             if (Objects.equals(c.getSerialNumber(), serialNumber)){
+                c.setQuantity(0L);
                 c.setIsDeleted("true");
             }
         }
@@ -81,12 +83,13 @@ public class CartService implements ICartService {
 
     @Override
     public void deleteCartItem(Long id){
-        iCartRepository.removeCartItem(id);
+        iCartRepository.removeCartItemById(id);
     }
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         Account account = iAccountRepository.findByUsername(cartNew.getAccountName()).orElseThrow();
         CartSF cartSF = new CartSF();
+        int count = 1;
         cartSF.setId(cartOld.getId());
         cartSF.setAccountName(cartOld.getAccountName());
         ProductSFDetail getBySerialNumber = iProductDetailSFRepository.getProductSFDetail(cartNew.getCartDetailSFS().get(0).getSerialNumber()).orElseThrow();
@@ -115,13 +118,19 @@ public class CartService implements ICartService {
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setName(productSF.getName());
                     cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
-                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
+                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity() + c.getQuantity());
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                     cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().remove(c);
                     cartOld.getCartDetailSFS().add(cartDetailSF);
+                    count--;
                     break;
-                } else {
+                }
+            }
+            if (count == 1){
+                for (CartDetailSF c: cartOld.getCartDetailSFS()
+                     ) {
+                    CartDetailSF cartDetailSF = new CartDetailSF();
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setSerialNumber(cartNew.getCartDetailSFS().get(0).getSerialNumber());
                     cartDetailSF.setName(productSF.getName());
@@ -133,6 +142,7 @@ public class CartService implements ICartService {
                     break;
                 }
             }
+
             cartSF.setAccount(account);
             cartSF.setCartDetailSFS(cartOld.getCartDetailSFS());
             cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));

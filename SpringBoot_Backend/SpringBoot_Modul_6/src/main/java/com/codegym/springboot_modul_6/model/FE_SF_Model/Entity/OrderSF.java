@@ -20,7 +20,6 @@ public class OrderSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
 
     @Column(name = "first_name_order")
     private String firstName;
@@ -42,7 +41,7 @@ public class OrderSF {
     private double totalPrice;
 
     @Column(name = "is_deleted")
-    private String isDeleted;
+    private String isDeleted = "false";
 
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -50,6 +49,9 @@ public class OrderSF {
 
     @OneToMany(mappedBy = "orderSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private List<OrderDetailSF> orderDetailSFS;
+
+    @Column(name = "date_order")
+    private String dateOrder;
 
     public OrderSF(String firstName, String lastName, String city, String street, String district, String phone, String email, double totalPrice, String isDeleted, Account account, List<OrderDetailSF> orderDetailSFS) {
         this.firstName = firstName;
