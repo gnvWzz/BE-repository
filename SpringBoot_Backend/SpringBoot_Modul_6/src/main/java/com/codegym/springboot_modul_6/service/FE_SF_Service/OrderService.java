@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,11 +53,13 @@ public class OrderService implements IOrderService{
     }
 
     private void saveOrder(OrderDto orderDto, Account account) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         OrderSF order = new OrderSF();
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
         order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList(), order));
         order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
+        order.setDateOrder(simpleDateFormat.format(new Date()));
         iOrderRepository.save(order);
     }
 

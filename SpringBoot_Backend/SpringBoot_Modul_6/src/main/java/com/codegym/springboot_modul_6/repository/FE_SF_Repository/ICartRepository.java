@@ -17,7 +17,7 @@ public interface ICartRepository extends JpaRepository<CartSF, Long> {
 
     @Modifying
     @Query(value = "delete from btob_database.cart_detail where cart_id = ?1", nativeQuery = true)
-    void removeCartItem(Long cartId);
+    void removeCartItemById(Long cartId);
 
     Optional<CartSF> findByAccountId(Long accountId);
 }

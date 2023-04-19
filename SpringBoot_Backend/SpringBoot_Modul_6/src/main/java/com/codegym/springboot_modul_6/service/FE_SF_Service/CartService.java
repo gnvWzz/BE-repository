@@ -81,7 +81,7 @@ public class CartService implements ICartService {
 
     @Override
     public void deleteCartItem(Long id){
-        iCartRepository.removeCartItem(id);
+        iCartRepository.removeCartItemById(id);
     }
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {

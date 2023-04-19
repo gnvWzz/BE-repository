@@ -34,4 +34,6 @@ public class OrderDto {
     private String email;
 
     private double totalPrice;
+
+    private String dateOrder;
 }
