@@ -8,12 +8,13 @@ import java.util.Optional;
 public interface ICartService extends IGeneralService<CartSF>{
     void saveCart(CartSF cartSF);
 
+    void removeCartItem(String serialNumber, String accountName);
+
     Optional<CartModel> getCart(String accountName);
 
+    void deleteCartItem(Long id);
 
     Optional<CartSF> findCartSFByAccountName(String name);
 
     Optional<CartSF> findCartSFByAccountId(Long id);
-
-    void deleteCartItem(Long id);
 }

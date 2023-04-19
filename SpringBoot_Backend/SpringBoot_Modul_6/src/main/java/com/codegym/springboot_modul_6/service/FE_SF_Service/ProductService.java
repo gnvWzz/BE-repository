@@ -123,4 +123,9 @@ public class ProductService implements IProductService {
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         return thirdService.mapProductSF(productSFDto);
     }
+
+    @Override
+    public Page<ProductSF> productService_getRandomProduct(int offset, int pageSize){
+        return productRepositorySF.productRepository_getRanDomProduct(PageRequest.of(offset, pageSize));
+    }
 }

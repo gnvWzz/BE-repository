@@ -20,6 +20,7 @@ public class OrderSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(name = "first_name_order")
     private String firstName;
 
@@ -43,7 +44,7 @@ public class OrderSF {
     private double totalPrice;
 
     @Column(name = "is_deleted")
-    private String isDeleted;
+    private String isDeleted = "false";
 
     @ManyToOne
     @JoinColumn(name = "account_id")
@@ -58,4 +59,3 @@ public class OrderSF {
 
 
 }
-
