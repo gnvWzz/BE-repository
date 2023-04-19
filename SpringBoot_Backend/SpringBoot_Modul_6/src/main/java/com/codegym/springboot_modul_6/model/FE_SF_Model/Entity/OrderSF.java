@@ -37,6 +37,9 @@ public class OrderSF {
 
     private String email;
 
+    @Column(name = "ordercode")
+    private String orderCode;
+
     @Column(name = "total_price")
     private double totalPrice;
 
@@ -47,23 +50,12 @@ public class OrderSF {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy = "orderSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
-    private List<OrderDetailSF> orderDetailSFS;
 
     @Column(name = "date_order")
     private String dateOrder;
 
-    public OrderSF(String firstName, String lastName, String city, String street, String district, String phone, String email, double totalPrice, String isDeleted, Account account, List<OrderDetailSF> orderDetailSFS) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.street = street;
-        this.district = district;
-        this.phone = phone;
-        this.email = email;
-        this.totalPrice = totalPrice;
-        this.isDeleted = isDeleted;
-        this.account = account;
-        this.orderDetailSFS = orderDetailSFS;
-    }
+    @OneToMany(mappedBy = "orderSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<OrderDetailSF> orderDetailSFS;
+
+
 }

@@ -79,11 +79,11 @@ public class CartService implements ICartService {
         return cartModel;
     }
 
-
     @Override
     public void deleteCartItem(Long id) {
         iCartRepository.removeCartItemById(id);
     }
+
 
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         Account account = iAccountRepository.findByUsername(cartNew.getAccountName()).orElseThrow();
@@ -151,7 +151,6 @@ public class CartService implements ICartService {
 
     }
 
-
     private void addNewCart(CartSF cartSF) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
         ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartSF.getCartDetailSFS().get(0).getSerialNumber()).orElseThrow();
@@ -172,6 +171,7 @@ public class CartService implements ICartService {
         iCartRepository.save(cartSF);
     }
 
+
     private Double getTotalMoney(Iterable<CartDetailSF> cartDetailSFS) {
         double tempMoney = 0.0;
         for (CartDetailSF c :
@@ -180,6 +180,7 @@ public class CartService implements ICartService {
         }
         return tempMoney;
     }
+
 
     private Optional<ProductSFDetail> findProductSFDetailBySerialNumber(String serialNumber) {
         return iProductDetailSFRepository.getProductSFDetail(serialNumber);
@@ -190,9 +191,11 @@ public class CartService implements ICartService {
         for (CartDetailSF c : cartDetailSFS
         ) {
             tempCartDetail.add(findProductSFDetailBySerialNumber(c.getSerialNumber()).orElseThrow(() -> new RuntimeException("Product Detail find by serial number not found")));
+            return tempCartDetail;
         }
         return tempCartDetail;
     }
+
 
     @Override
     public Optional<CartSF> findCartSFByAccountName(String name) {
@@ -208,21 +211,21 @@ public class CartService implements ICartService {
     public void updateCart(CartSF cartSF) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
         CartSF cartOld = iCartRepository.findCartByAccountName(cartSF.getAccountName()).orElseThrow(() -> new RuntimeException("Cart not found"));
-        int i = 0;
-        for (CartDetailSF c: cartOld.getCartDetailSFS()
-             ) {
-            if (Objects.equals(c.getIsDeleted(), "false")){
+        int countCartItemIsNotDeleted = 0;
+        for (CartDetailSF c : cartOld.getCartDetailSFS()
+        ) {
+            if (Objects.equals(c.getIsDeleted(), "false")) {
                 CartDetailSF cartDetailSF = new CartDetailSF();
                 cartDetailSF.setCartSF(c.getCartSF());
                 cartDetailSF.setId(c.getId());
-                cartDetailSF.setName(cartSF.getCartDetailSFS().get(i).getName());
-                cartDetailSF.setPrice(cartSF.getCartDetailSFS().get(i).getPrice());
-                cartDetailSF.setQuantity(cartSF.getCartDetailSFS().get(i).getQuantity());
-                cartDetailSF.setSerialNumber(cartSF.getCartDetailSFS().get(i).getSerialNumber());
+                cartDetailSF.setName(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getName());
+                cartDetailSF.setPrice(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getPrice());
+                cartDetailSF.setQuantity(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getQuantity());
+                cartDetailSF.setSerialNumber(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getSerialNumber());
                 cartDetailSF.setIsDeleted(c.getIsDeleted());
                 cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                 cartDetailSFS.add(cartDetailSF);
-                i++;
+                countCartItemIsNotDeleted++;
             }
         }
         cartOld.setCartDetailSFS(cartDetailSFS);
