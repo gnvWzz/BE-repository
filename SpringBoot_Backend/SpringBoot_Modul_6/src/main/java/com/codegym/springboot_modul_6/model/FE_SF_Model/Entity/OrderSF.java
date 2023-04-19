@@ -20,6 +20,8 @@ public class OrderSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String username;
+
     @Column(name = "first_name_order")
     private String firstName;
 
@@ -52,7 +54,6 @@ public class OrderSF {
     @Column(name = "date_order")
     private String dateOrder;
 
-
     public OrderSF(String firstName, String lastName, String city, String street, String district, String phone, String email, double totalPrice, String isDeleted, Account account, List<OrderDetailSF> orderDetailSFS) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -67,4 +68,3 @@ public class OrderSF {
         this.orderDetailSFS = orderDetailSFS;
     }
 }
-

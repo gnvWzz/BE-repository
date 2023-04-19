@@ -115,7 +115,7 @@ public class CartService implements ICartService {
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setName(productSF.getName());
                     cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
-                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
+                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity() + c.getQuantity());
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                     cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().remove(c);
