@@ -2,12 +2,8 @@ package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.CategoriesDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.CacheModel;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.CategoriesService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.CategoryCache;
-import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 

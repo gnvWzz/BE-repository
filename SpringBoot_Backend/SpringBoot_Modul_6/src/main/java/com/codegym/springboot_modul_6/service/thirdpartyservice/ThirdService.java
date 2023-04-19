@@ -4,10 +4,13 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.IOrderService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
@@ -26,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -38,6 +42,9 @@ public class ThirdService {
 
     @Autowired
     private LongMapper mapper;
+
+    @Autowired
+    private IOrderRepository orderRepository;
 
     @Autowired
     private RolesService rolesService;
@@ -229,4 +236,12 @@ public class ThirdService {
         productSF.setPrices(priceLists);
         return productSF;
     }
+
+    public List<OrderSFModel> getListOrder(String username){
+        Account account = accountService.findAccountByUsername(username).get();
+        List<OrderSF> orderSFList = orderRepository.getAllByAccount_Id(account.getId());
+        return requestMapper.orderSFModelList(orderSFList);
+    }
+
+
 }
