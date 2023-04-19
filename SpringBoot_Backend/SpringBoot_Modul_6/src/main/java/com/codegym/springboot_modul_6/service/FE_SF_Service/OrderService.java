@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderService implements IOrderService{
@@ -40,6 +43,11 @@ public class OrderService implements IOrderService{
         cleanCartItems(cartSF);
     }
 
+    @Override
+    public List<OrderSF> getAllOrderByAccountId(Long accountId) {
+        return iOrderRepository.getAllByAccount_Id(accountId);
+    }
+
 
     private void cleanCartItems(CartSF cartSF) {
         iCartService.deleteCartItem(cartSF.getId());
@@ -54,11 +62,15 @@ public class OrderService implements IOrderService{
     }
 
     private void saveOrder(OrderDto orderDto, Account account) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         OrderSF order = new OrderSF();
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
         order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList(), order));
         order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
+        UUID uuid = UUID.randomUUID();
+        order.setOrderCode(String.valueOf(uuid));
+        order.setDateOrder(simpleDateFormat.format(new Date()));
         iOrderRepository.save(order);
     }
 
