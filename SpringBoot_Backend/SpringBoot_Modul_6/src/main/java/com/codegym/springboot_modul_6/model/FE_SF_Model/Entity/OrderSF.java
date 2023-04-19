@@ -20,7 +20,6 @@ public class OrderSF {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
 
     @Column(name = "first_name_order")
     private String firstName;
