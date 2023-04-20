@@ -14,6 +14,8 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> getAllByCategory(String category, String sort, int offset, int pageSize);
 
+    Page<ProductSF> getMaxMinPriceProduct(Double min, Double max, String category,int offset, int pageSize);
+
     Page<ProductSF> findAllPaging(int offset, int pageSize);
 
 

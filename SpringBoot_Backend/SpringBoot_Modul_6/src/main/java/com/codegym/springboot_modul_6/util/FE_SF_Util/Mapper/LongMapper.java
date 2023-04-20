@@ -83,13 +83,23 @@ public class LongMapper {
     public Optional<CartModel> cartModel (CartSF cartSF){
         Optional<CartModel> cartModelTemp = Optional.of(new CartModel());
         cartModelTemp.orElseThrow().setAccountName(cartSF.getAccountName());
-        cartModelTemp.orElseThrow().setTotalPrice(cartSF.getTotalPrice());
         cartModelTemp.orElseThrow().setCartDetailModelList(cartDetailModelList(cartSF.getCartDetailSFS()));
+        cartModelTemp.orElseThrow().setTotalPrice(getTotalMoney(cartModelTemp.get().getCartDetailModelList()));
         return cartModelTemp;
+    }
+
+    private Double getTotalMoney (List<CartDetailModel> cartDetailModelList){
+        double money = 0.0;
+        for (CartDetailModel c: cartDetailModelList
+             ) {
+            money += c.getSubTotal();
+        }
+        return money;
     }
 
     private List<CartDetailModel> cartDetailModelList(List<CartDetailSF> cartDetailSFS){
         List<CartDetailModel> temp = new ArrayList<>();
+        int cartIsNotDeleted = 0;
         for (CartDetailSF c: cartDetailSFS
              ) {
             if (Objects.equals(c.getIsDeleted(), "false")){
