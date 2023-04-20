@@ -8,7 +8,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Table(name = "product_detail")
@@ -50,9 +49,8 @@ public class ProductSFDetail implements Serializable {
     private String storageDrive;
 
     private String display;
-    private String  size_color_img_quantity;
+    private String size_color_img_quantity;
     private String status;
-
 
     public ProductSFDetail(ProductSF productSF, String serialNumber, String briefDescription, String fullDescription, Double weight, String material, String cpu, String gpu, String ram, String storageDrive, String display, String size_color_img_quantity, String status) {
         this.productSF = productSF;

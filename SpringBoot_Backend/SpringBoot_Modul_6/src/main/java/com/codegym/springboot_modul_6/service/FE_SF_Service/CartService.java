@@ -45,7 +45,13 @@ public class CartService implements ICartService {
 
     @Override
     public void save(CartSF cartSF) {
-        Optional<CartSF> cart = findAccountName(cartSF.getAccountName());
+        iCartRepository.save(cartSF);
+    }
+
+
+    @Override
+    public void saveCart(CartSF cartSF) {
+        Optional<CartSF> cart = findCartSFByAccountName(cartSF.getAccountName());
         if (cart.isPresent()) {
             addCartExistOrNewItem(cartSF, cart.get());
         } else {
@@ -55,10 +61,11 @@ public class CartService implements ICartService {
 
     @Override
     public void removeCartItem(String serialNumber, String accountName) {
-        Optional<CartSF> cart = iCartRepository.findAccountName(accountName);
+        Optional<CartSF> cart = iCartRepository.findCartByAccountName(accountName);
         for (CartDetailSF c : cart.orElseThrow().getCartDetailSFS()
-                ) {
-            if (Objects.equals(c.getSerialNumber(), serialNumber)){
+        ) {
+            if (Objects.equals(c.getSerialNumber(), serialNumber)) {
+                c.setQuantity(0L);
                 c.setIsDeleted("true");
             }
         }
@@ -67,14 +74,21 @@ public class CartService implements ICartService {
 
     @Override
     public Optional<CartModel> getCart(String accountName) {
-        Optional<CartSF> cartSF = iCartRepository.findAccountName(accountName);
+        Optional<CartSF> cartSF = iCartRepository.findCartByAccountName(accountName);
         Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
         return cartModel;
     }
 
+    @Override
+    public void deleteCartItem(Long id) {
+        iCartRepository.removeCartItemById(id);
+    }
+
+
     public void addCartExistOrNewItem(CartSF cartNew, CartSF cartOld) {
         Account account = iAccountRepository.findByUsername(cartNew.getAccountName()).orElseThrow();
         CartSF cartSF = new CartSF();
+        int count = 1;
         cartSF.setId(cartOld.getId());
         cartSF.setAccountName(cartOld.getAccountName());
         ProductSFDetail getBySerialNumber = iProductDetailSFRepository.getProductSFDetail(cartNew.getCartDetailSFS().get(0).getSerialNumber()).orElseThrow();
@@ -103,13 +117,19 @@ public class CartService implements ICartService {
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setName(productSF.getName());
                     cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
-                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
+                    cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity() + c.getQuantity());
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                     cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().remove(c);
                     cartOld.getCartDetailSFS().add(cartDetailSF);
+                    count--;
                     break;
-                } else {
+                }
+            }
+            if (count == 1) {
+                for (CartDetailSF c : cartOld.getCartDetailSFS()
+                ) {
+                    CartDetailSF cartDetailSF = new CartDetailSF();
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setSerialNumber(cartNew.getCartDetailSFS().get(0).getSerialNumber());
                     cartDetailSF.setName(productSF.getName());
@@ -121,6 +141,7 @@ public class CartService implements ICartService {
                     break;
                 }
             }
+
             cartSF.setAccount(account);
             cartSF.setCartDetailSFS(cartOld.getCartDetailSFS());
             cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
@@ -128,74 +149,6 @@ public class CartService implements ICartService {
         }
 
 
-    }
-
-    private void updateCart() {
-        //===========================================================
-//        int count = 0;
-//        if (cartNew.getCartDetailSFS().size() < cartOld.getCartDetailSFS().size()) {
-//            for (int i = 0; i < cartNew.getCartDetailSFS().size(); i++) {
-//                for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
-//                    CartDetailSF cartDetailSF = new CartDetailSF();
-//                    if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
-//                        ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
-//                        ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
-//                        BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-//                        cartDetailSF.setName(productSF.getName());
-//                        cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
-//                        cartDetailSF.setCartSF(cartOld);
-//                        cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-//                        cartDetailSFS.add(cartDetailSF);
-//                        count++;
-//                    }
-//                }
-//            }
-//            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
-//                CartDetailSF cartDetailSF = new CartDetailSF();
-//                ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
-//                ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
-//                BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-//                cartDetailSF.setName(productSF.getName());
-//                cartDetailSF.setCartSF(cartOld);
-//                cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-//                cartDetailSFS.add(cartDetailSF);
-//            }
-//            cartSF.setCartDetailSFS(cartDetailSFS);
-//            cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()) + cartOld.getTotalPrice());
-//            iCartRepository.save(cartSF);
-//        } else {
-//            for (int i = 0; i < cartNew.getCartDetailSFS().size(); i++) {
-//                for (int j = 0; j < cartOld.getCartDetailSFS().size(); j++) {
-//                    CartDetailSF cartDetailSF = new CartDetailSF();
-//                    if (Objects.equals(cartOld.getCartDetailSFS().get(j).getSerialNumber(), cartNew.getCartDetailSFS().get(i).getSerialNumber())) {
-//                        ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
-//                        ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
-//                        BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-//                        cartDetailSF.setName(productSF.getName());
-//                        cartDetailSF.setId(cartOld.getCartDetailSFS().get(j).getId());
-//                        cartDetailSF.setCartSF(cartOld);
-//                        cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-//                        cartDetailSFS.add(cartDetailSF);
-//                        count++;
-//                    }
-//                }
-//            }
-//            for (int i = count; i < cartNew.getCartDetailSFS().size(); i++) {
-//                CartDetailSF cartDetailSF = new CartDetailSF();
-//                ProductSFDetail productSFDetail = findProductSFDetailBySerialNumber(cartNew.getCartDetailSFS().get(i).getSerialNumber()).orElseThrow();
-//                ProductSF productSF = iProductService.findById(productSFDetail.getProductSF().getId()).orElseThrow();
-//                BeanUtils.copyProperties(cartNew.getCartDetailSFS().get(i), cartDetailSF);
-//                cartDetailSF.setName(productSF.getName());
-//                cartDetailSF.setCartSF(cartOld);
-//                cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
-//                cartDetailSFS.add(cartDetailSF);
-//            }
-//            cartSF.setAccount(account);
-//            cartSF.setCartDetailSFS(cartDetailSFS);
-//            cartSF.setTotalPrice(getTotalMoney(cartSF.getCartDetailSFS()));
-//            iCartRepository.save(cartSF);
-//        }
-//=================================================================
     }
 
     private void addNewCart(CartSF cartSF) {
@@ -218,6 +171,7 @@ public class CartService implements ICartService {
         iCartRepository.save(cartSF);
     }
 
+
     private Double getTotalMoney(Iterable<CartDetailSF> cartDetailSFS) {
         double tempMoney = 0.0;
         for (CartDetailSF c :
@@ -227,6 +181,7 @@ public class CartService implements ICartService {
         return tempMoney;
     }
 
+
     private Optional<ProductSFDetail> findProductSFDetailBySerialNumber(String serialNumber) {
         return iProductDetailSFRepository.getProductSFDetail(serialNumber);
     }
@@ -235,13 +190,48 @@ public class CartService implements ICartService {
         List<ProductSFDetail> tempCartDetail = new ArrayList<>();
         for (CartDetailSF c : cartDetailSFS
         ) {
-            tempCartDetail.add(findProductSFDetailBySerialNumber(c.getSerialNumber()).get());
+            tempCartDetail.add(findProductSFDetailBySerialNumber(c.getSerialNumber()).orElseThrow(() -> new RuntimeException("Product Detail find by serial number not found")));
+            return tempCartDetail;
         }
         return tempCartDetail;
     }
 
-    private Optional<CartSF> findAccountName(String name) {
-        return iCartRepository.findAccountName(name);
+
+    @Override
+    public Optional<CartSF> findCartSFByAccountName(String name) {
+        return iCartRepository.findCartByAccountName(name);
+    }
+
+    @Override
+    public Optional<CartSF> findCartSFByAccountId(Long accountId) {
+        return iCartRepository.findByAccountId(accountId);
+    }
+
+    @Override
+    public void updateCart(CartSF cartSF) {
+        List<CartDetailSF> cartDetailSFS = new ArrayList<>();
+        CartSF cartOld = iCartRepository.findCartByAccountName(cartSF.getAccountName()).orElseThrow(() -> new RuntimeException("Cart not found"));
+        int countCartItemIsNotDeleted = 0;
+        for (CartDetailSF c : cartOld.getCartDetailSFS()
+        ) {
+            if (Objects.equals(c.getIsDeleted(), "false")) {
+                CartDetailSF cartDetailSF = new CartDetailSF();
+                cartDetailSF.setCartSF(c.getCartSF());
+                cartDetailSF.setId(c.getId());
+                cartDetailSF.setName(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getName());
+                cartDetailSF.setPrice(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getPrice());
+                cartDetailSF.setQuantity(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getQuantity());
+                cartDetailSF.setSerialNumber(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getSerialNumber());
+                cartDetailSF.setIsDeleted(c.getIsDeleted());
+                cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
+                cartDetailSFS.add(cartDetailSF);
+                countCartItemIsNotDeleted++;
+            }
+        }
+        cartOld.setCartDetailSFS(cartDetailSFS);
+        cartOld.setTotalPrice(getTotalMoney(cartOld.getCartDetailSFS()));
+        cartOld.setIsDeleted("false");
+        iCartRepository.save(cartOld);
     }
 
 

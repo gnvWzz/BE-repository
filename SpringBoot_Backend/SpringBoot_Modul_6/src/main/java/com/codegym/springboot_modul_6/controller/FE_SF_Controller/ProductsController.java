@@ -87,4 +87,14 @@ public class ProductsController {
         productService.save(productSF);
         return new ResponseEntity<>("Done!", HttpStatus.OK);
     }
+
+    @GetMapping("/get-home")
+    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset){
+        try {
+            Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(page), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

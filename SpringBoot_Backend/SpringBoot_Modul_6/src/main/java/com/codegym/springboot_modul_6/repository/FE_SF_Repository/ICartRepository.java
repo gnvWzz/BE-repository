@@ -14,10 +14,15 @@ public interface ICartRepository extends JpaRepository<CartSF, Long> {
     @Query(value = "select u from CartSF u where u.accountName = ?1")
     Optional<CartSF> findAccountName(String accountUser);
 
+
+
+    Optional<CartSF> findCartByAccountName(String name);
+
+    Optional<CartSF> findByAccountId(Long accountId);
+
     @Modifying
-    @Transactional
-    @Query(value = "delete from CartDetailSF where cartSF = ?1 and serialNumber = ?2")
-    void removeCartItem(CartSF cartSF, String serialNumber);
+    @Query(value = "delete from btob_database.cart_detail where cart_id = ?1", nativeQuery = true)
+    void removeCartItemById(Long cartId);
 
 
 }

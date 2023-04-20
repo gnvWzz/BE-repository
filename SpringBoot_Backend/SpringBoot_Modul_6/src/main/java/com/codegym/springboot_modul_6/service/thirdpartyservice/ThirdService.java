@@ -6,9 +6,10 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.security.JwtProvider;
-import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
@@ -22,7 +23,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -42,6 +42,9 @@ public class ThirdService {
 
     @Autowired
     private LongMapper mapper;
+
+    @Autowired
+    private IOrderRepository orderRepository;
 
     @Autowired
     private RolesService rolesService;
@@ -86,6 +89,33 @@ public class ThirdService {
         return null;
     }
     @Transactional
+
+    public Account update (AccountDto accountDto){
+        Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
+        String passwordDb = account.getPassword();
+        if (account != null){
+            account.setCity(accountDto.getCity());
+            account.setDistrict(accountDto.getDistrict());
+            account.setStreet(accountDto.getStreet());
+            account.setFirstName(accountDto.getFirstName());
+            account.setLastName(accountDto.getLastName());
+            account.setPhone(accountDto.getPhone());
+            account.setPassword(passwordDb);
+            accountService.save(account);
+            return account;
+        }
+        return null;
+    }
+
+    public boolean checkPassword (String password , String username){
+       return accountService.checkLogin(username,password);
+    }
+
+    public void updatePassword(Account account,String password){
+        account.setPassword(password);
+        accountService.save(account);
+    }
+
     public Account signUpOwner(AccountDto accountDto){
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
@@ -157,15 +187,23 @@ public class ThirdService {
     public ProductSFDto getProductSFDto(String packageId) {
         ProductSF productSF = productRepositorySF.findByPackageId(packageId);
         List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+        List<PriceList> priceLists = productSF.getPrices();
         List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
         for (ProductSFDetail p: productSFDetailList) {
             ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
             BeanUtils.copyProperties(p, productSFDetailDto);
             productSFDetailDtoList.add(productSFDetailDto);
         }
+        List<PriceListDto> priceListDtos = new ArrayList<>();
+        for (PriceList priceList: priceLists) {
+            PriceListDto priceListDto = new PriceListDto();
+            BeanUtils.copyProperties(priceList, priceListDto);
+            priceListDtos.add(priceListDto);
+        }
         ProductSFDto productSFDto = new ProductSFDto();
         BeanUtils.copyProperties(productSF, productSFDto);
         productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
+        productSFDto.setPriceListDtos(priceListDtos);
         return productSFDto;
     }
 
@@ -195,6 +233,7 @@ public class ThirdService {
             BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
             productSFDetail.setProductSF(productSF);
             productSFDetail.setStatus("true");
+
             productSFDetailList.add(productSFDetail);
         }
         BeanUtils.copyProperties(productSFDto, productSF);
@@ -213,6 +252,15 @@ public class ThirdService {
         Long accountId = accountService.findAccountByUsername(accountUsername).get().getId();
         Store store = storeRepository.findByAccount_Id(accountId).get();
         productSF.setStore(store);
+
         return productSF;
     }
+
+    public List<OrderSFModel> getListOrder(String username){
+        Account account = accountService.findAccountByUsername(username).get();
+        List<OrderSF> orderSFList = orderRepository.getAllByAccount_Id(account.getId());
+        return requestMapper.orderSFModelList(orderSFList);
+    }
+
+
 }

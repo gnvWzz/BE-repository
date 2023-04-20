@@ -17,9 +17,7 @@ public class OrderDetailDto {
 
     private String name;
 
-    private Double price;
+    private double price;
 
     private String serialNumber;
-
-    private String accountName;
 }

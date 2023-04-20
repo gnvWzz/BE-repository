@@ -133,4 +133,48 @@ public class AccountController {
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
+    @PutMapping("")
+    public ResponseEntity<?>update(@RequestBody AccountDto accountDto){
+        try {
+            Account account = thirdService.update(accountDto);
+
+            if (account != null) {
+                return new ResponseEntity<>( HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/password/{data}/{usernameLogin}")
+    public ResponseEntity<?> checkPassword(@PathVariable("data") String password,
+                                                    @PathVariable ("usernameLogin") String username) {
+        try {
+            boolean checkPassword = thirdService.checkPassword(password,username);
+            if (checkPassword) {
+                return new ResponseEntity<>("Exist", HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("Not Exist", HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/password/{data}/{usernameLogin}")
+    public ResponseEntity<?> updatePassword(@PathVariable("data") String password,
+                                                    @PathVariable ("usernameLogin") String username){
+        try {
+            Account account = thirdService.checkValidateUsernmae(username);
+            if (account != null) {
+                thirdService.updatePassword(account,password);
+                return new ResponseEntity<>( HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+    }
+
+
 }

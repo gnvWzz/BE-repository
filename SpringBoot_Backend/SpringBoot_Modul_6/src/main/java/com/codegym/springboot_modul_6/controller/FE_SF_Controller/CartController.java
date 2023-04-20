@@ -29,13 +29,29 @@ public class CartController {
         try {
             CartSF cartSF =  mapper.mapperCart(carDto);
             if (cartSF != null) {
-                iCartService.save(cartSF);
+                iCartService.saveCart(cartSF);
                 return new ResponseEntity<>("Add successfully", HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return new ResponseEntity<>("Fail", HttpStatus.OK);
+    }
+
+
+    @PutMapping(value = "")
+    public ResponseEntity<?> updateCart(@RequestBody CartDto cartDto){
+        try {
+            CartSF cartSF = mapper.mapperCart(cartDto);
+            if (cartSF != null){
+                iCartService.updateCart(cartSF);
+                return new ResponseEntity<>("OK", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("FAIL", HttpStatus.OK);
     }
 
     @DeleteMapping(value = "cartItem")
@@ -48,6 +64,7 @@ public class CartController {
         }
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
+
 
     @GetMapping(value = "")
     public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){

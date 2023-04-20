@@ -1,7 +1,7 @@
-
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.CartSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderDetailSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDetailDto;
@@ -12,8 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderService implements IOrderService{
@@ -21,19 +24,57 @@ public class OrderService implements IOrderService{
     @Autowired
     private IOrderRepository iOrderRepository;
 
+//    public Optional<OrderSF> checkOutOrder(String username){
+//
+//    }
+
     @Autowired
     private IAccountService iAccountService;
+
+    @Autowired
+    private ICartService iCartService;
 
 
     @Override
     @Transactional
     public void saveOrder(OrderDto orderDto, String username){
         Account account = iAccountService.findAccountByUsername(username).orElseThrow();
+        CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
+                .orElseThrow(() -> new RuntimeException("Cart Not Found"));
+        saveOrder(orderDto, account);
+        replaceTotalPriceCart(cartSF);
+        cleanCartItems(cartSF);
+    }
+
+    @Override
+    public List<OrderSF> getAllOrderByAccountId(Long accountId) {
+        return iOrderRepository.getAllByAccount_Id(accountId);
+    }
+
+
+    private void cleanCartItems(CartSF cartSF) {
+        iCartService.deleteCartItem(cartSF.getId());
+    }
+
+
+
+    private void replaceTotalPriceCart(CartSF cartSF){
+        double beginTotalPrice = 0;
+        cartSF.setTotalPrice(beginTotalPrice);
+        iCartService.save(cartSF);
+    }
+
+    private void saveOrder(OrderDto orderDto, Account account) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         OrderSF order = new OrderSF();
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
         order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList(), order));
         order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
+        UUID uuid = UUID.randomUUID();
+        order.setOrderCode(String.valueOf(uuid));
+
+        order.setDateOrder(simpleDateFormat.format(new Date()));
         iOrderRepository.save(order);
     }
 
@@ -54,6 +95,7 @@ public class OrderService implements IOrderService{
             OrderDetailSF orderDetailSF = new OrderDetailSF();
             BeanUtils.copyProperties(o, orderDetailSF);
             orderDetailSF.setOrderSF(orderSF);
+            orderDetailSF.setSubTotal(orderDetailSF.getPrice() * orderDetailSF.getQuantity());
             orderDetailSFS.add(orderDetailSF);
         }
         return orderDetailSFS;

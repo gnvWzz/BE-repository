@@ -29,4 +29,5 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     ProductSF mapProductSF(ProductSFDto productSFDto);
 
+    Page<ProductSF> productService_getRandomProduct(int offset, int pageSize);
 }
