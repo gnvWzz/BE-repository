@@ -41,6 +41,10 @@ public class OrderService implements IOrderService{
         Account account = iAccountService.findAccountByUsername(username).orElseThrow();
         CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
                 .orElseThrow(() -> new RuntimeException("Cart Not Found"));
+        for (OrderDetailDto o: orderDto.getOrderDetailDtoList()
+             ) {
+
+        }
         saveOrder(orderDto, account);
         replaceTotalPriceCart(cartSF);
         cleanCartItems(cartSF);
