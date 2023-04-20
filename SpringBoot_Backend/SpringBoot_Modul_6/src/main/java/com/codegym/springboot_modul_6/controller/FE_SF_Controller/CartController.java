@@ -38,6 +38,20 @@ public class CartController {
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
 
+    @PutMapping(value = "")
+    public ResponseEntity<?> updateCart(@RequestBody CartDto cartDto){
+        try {
+            CartSF cartSF = mapper.mapperCart(cartDto);
+            if (cartSF != null){
+                iCartService.updateCart(cartSF);
+                return new ResponseEntity<>("OK", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>("FAIL", HttpStatus.OK);
+    }
 
     @DeleteMapping(value = "cartItem")
     public ResponseEntity<?> deleteAItemCart(@RequestBody Map<String, String > json){
@@ -49,6 +63,7 @@ public class CartController {
         }
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
+
 
     @GetMapping(value = "")
     public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){

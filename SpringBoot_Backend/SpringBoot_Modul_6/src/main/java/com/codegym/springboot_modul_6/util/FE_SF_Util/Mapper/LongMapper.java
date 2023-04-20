@@ -20,6 +20,7 @@ public class LongMapper {
     @Autowired
     private IProductDetailSFRepository iProductDetailSFRepository;
 
+
     public List<CategoriesDto> mapperCategories(List<Categories> categories) {
         List<CategoriesDto> list = new ArrayList<>();
         for (int i = 0; i < categories.size(); i++) {
