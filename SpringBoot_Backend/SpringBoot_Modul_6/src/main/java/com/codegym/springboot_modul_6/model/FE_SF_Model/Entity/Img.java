@@ -5,16 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class SizeColorImgQuantity {
-    private String size;
-    private String color;
-    private Long quantity;
-    private List<Img> img;
+public class Img {
+    private Long id;
+    private String url;
 }
-

@@ -17,12 +17,11 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getStoreById(@PathVariable Long id){
-        ResponseStoreDto responseStoreDto = storeService.findById(id).orElse(null);
+    @GetMapping("/{accountUsername}")
+    public ResponseEntity<?> getStoreByAccountUsername(@PathVariable String accountUsername){
+        ResponseStoreDto responseStoreDto = storeService.findStoreByAccountUsername(accountUsername).orElse(null);
         return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
     }
-
     @PostMapping("/update-image")
     public ResponseEntity<?> updateImage(@RequestBody RequestStoreDto requestStoreDto) {
         ResponseStoreDto response = storeService.updateImage(requestStoreDto);
