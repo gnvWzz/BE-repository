@@ -1,16 +1,17 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.security.JwtProvider;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IOrderService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
@@ -22,14 +23,13 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 
 @Service
@@ -61,6 +61,8 @@ public class ThirdService {
 
     @Autowired
     private IProductDetailSFRepository productSFDetailRepository;
+    @Autowired
+    private StoreRepository storeRepository;
 
 
     public Account signUp(AccountDto accountDto){
@@ -86,6 +88,7 @@ public class ThirdService {
         }
         return null;
     }
+    @Transactional
 
     public Account update (AccountDto accountDto){
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
@@ -125,6 +128,14 @@ public class ThirdService {
         accountRolesList.add(accountRoles);
         account.setRolesList(accountRolesList);
         accountService.save(account);
+
+        String accountName = account.getUsername();
+        Store store = new Store();
+        store.setName(accountName);
+        store.setImage("https://cdn.shopify.com/s/files/1/0580/2885/products/Sundown-Discord-PFP-Shaded_4db3867d-3dc5-4054-9199-ab7f7a055ad6.jpg?v=1667710328&width=1445");
+        store.setAccount(account);
+        storeRepository.save(store);
+
         return account;
     }
 
@@ -212,7 +223,7 @@ public class ThirdService {
         }
         return null;
     }
-
+    @Transactional
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
         List<ProductSFDetail> productSFDetailList = new ArrayList<>();
@@ -221,6 +232,8 @@ public class ThirdService {
             ProductSFDetail productSFDetail = new ProductSFDetail();
             BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
             productSFDetail.setProductSF(productSF);
+            productSFDetail.setStatus("true");
+
             productSFDetailList.add(productSFDetail);
         }
         BeanUtils.copyProperties(productSFDto, productSF);
@@ -234,6 +247,12 @@ public class ThirdService {
             priceLists.add(priceList);
         }
         productSF.setPrices(priceLists);
+
+        String accountUsername = productSFDto.getAccountUsername();
+        Long accountId = accountService.findAccountByUsername(accountUsername).get().getId();
+        Store store = storeRepository.findByAccount_Id(accountId).get();
+        productSF.setStore(store);
+
         return productSF;
     }
 

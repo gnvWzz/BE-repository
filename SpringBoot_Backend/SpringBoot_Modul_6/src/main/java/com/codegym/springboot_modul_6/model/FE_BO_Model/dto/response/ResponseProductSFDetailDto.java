@@ -37,6 +37,6 @@ public class ResponseProductSFDetailDto {
 
     private String display;
     private String status;
-
+    private Double standardPrice;
     private String  size_color_img_quantity;
 }

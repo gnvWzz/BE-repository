@@ -16,6 +16,5 @@ public class SizeColorImgQuantity {
     private String color;
     private Long quantity;
     private List<Img> img;
-
 }
 

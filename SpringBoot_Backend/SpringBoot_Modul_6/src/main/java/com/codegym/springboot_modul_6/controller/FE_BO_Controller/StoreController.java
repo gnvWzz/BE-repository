@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductBODto;
+
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.impl.StoreServiceImpl;
@@ -17,12 +17,11 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getStoreById(@PathVariable Long id){
-        ResponseStoreDto responseStoreDto = storeService.findById(id).orElse(null);
+    @GetMapping("/{accountUsername}")
+    public ResponseEntity<?> getStoreByAccountUsername(@PathVariable String accountUsername){
+        ResponseStoreDto responseStoreDto = storeService.findStoreByAccountUsername(accountUsername).orElse(null);
         return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
     }
-
     @PostMapping("/update-image")
     public ResponseEntity<?> updateImage(@RequestBody RequestStoreDto requestStoreDto) {
         ResponseStoreDto response = storeService.updateImage(requestStoreDto);
