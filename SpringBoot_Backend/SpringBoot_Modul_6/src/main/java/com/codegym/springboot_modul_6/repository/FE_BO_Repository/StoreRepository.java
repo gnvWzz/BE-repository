@@ -18,4 +18,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     @Query(value = "select * from store as s where s.name = :name", nativeQuery = true)
     Optional<Store> findStoreByName(@Param("name") String name);
 
+    Optional<Store> findByAccount_Id(Long id);
+
 }

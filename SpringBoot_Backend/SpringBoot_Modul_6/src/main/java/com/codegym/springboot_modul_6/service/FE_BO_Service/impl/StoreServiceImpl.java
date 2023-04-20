@@ -4,10 +4,13 @@ import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStore
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.PriceListRepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,34 +23,48 @@ import java.util.Optional;
 public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreRepository storeRepository;
+@Autowired
+private PriceListRepository priceListRepository;
+@Autowired
+private AccountService accountService;
     @Override
-    public Optional<ResponseStoreDto> findById(Long id) {
+    public Optional<ResponseStoreDto> findStoreByAccountUsername(String accountUsername) {
         ResponseStoreDto responseStoreDto = new ResponseStoreDto();
         List<ResponseProductSFDetailDto> responseProductSFDetailDtoList = new ArrayList<>();
-        try {
-            Store store = storeRepository.findById(id).orElse(null);
-            BeanUtils.copyProperties(store,responseStoreDto);
+        Account account = accountService.findAccountByUsername(accountUsername).orElse(null);
+        if (account != null){
+            try {
+                Long accountId = account.getId();
+                Store store = storeRepository.findByAccount_Id(accountId).orElse(null);
+                BeanUtils.copyProperties(store,responseStoreDto);
 
-            List<ProductSF> productSFList = store.getProductSF();
-            for(ProductSF productSF: productSFList){
-                List<ProductSFDetail> productSFDetails = productSF.getProductSFDetail();
-                for(ProductSFDetail ele: productSFDetails){
-                    if(ele.getStatus().equals("true")) {
-                        ResponseProductSFDetailDto responseProductSFDetailDto = new ResponseProductSFDetailDto();
-                        BeanUtils.copyProperties(ele, responseProductSFDetailDto);
+                List<ProductSF> productSFList = store.getProductSF();
 
-                        responseProductSFDetailDtoList.add(responseProductSFDetailDto);
+                for(ProductSF productSF: productSFList){
+                    Long productId = productSF.getId();
+                    Double standardPrice = priceListRepository.findStandardPrice(productId);
+                    List<ProductSFDetail> productSFDetails = productSF.getProductSFDetail();
+                    for(ProductSFDetail ele: productSFDetails){
+                        if(ele.getStatus().equals("true")) {
+                            ResponseProductSFDetailDto responseProductSFDetailDto = new ResponseProductSFDetailDto();
+                            BeanUtils.copyProperties(ele, responseProductSFDetailDto);
+                            responseProductSFDetailDto.setStandardPrice(standardPrice);
+
+                            responseProductSFDetailDtoList.add(responseProductSFDetailDto);
+                        }
                     }
                 }
-            }
 
-        } catch (Exception ex) {
-            System.out.println("Loi:" + ex.getCause());
-            throw new RuntimeException("Error while getting Store", ex);
+            } catch (Exception ex) {
+                System.out.println("Loi:" + ex.getCause());
+                throw new RuntimeException("Error while getting Store", ex);
+            }
+            responseStoreDto.setResponseProductSFDetailDtoList(responseProductSFDetailDtoList);
+            return Optional.of(responseStoreDto);
         }
-        responseStoreDto.setResponseProductSFDetailDtoList(responseProductSFDetailDtoList);
-        return Optional.of(responseStoreDto);
+        return null;
     }
+
 
     @Override
     @Transactional
