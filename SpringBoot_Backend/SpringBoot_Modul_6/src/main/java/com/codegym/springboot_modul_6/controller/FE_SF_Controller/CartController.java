@@ -38,7 +38,6 @@ public class CartController {
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
 
-
     @PutMapping(value = "")
     public ResponseEntity<?> updateCart(@RequestBody CartDto cartDto){
         try {
