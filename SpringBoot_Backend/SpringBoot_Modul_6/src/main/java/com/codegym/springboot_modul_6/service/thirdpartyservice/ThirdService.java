@@ -1,4 +1,5 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
@@ -220,6 +221,8 @@ public class ThirdService {
         BeanUtils.copyProperties(productSF, productSFDto);
         productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
         productSFDto.setPriceListDtos(priceListDtos);
+        productSFDto.setStoreName(productSF.getStore().getName());
+        productSFDto.setStoreImage(productSF.getStore().getImage());
         return productSFDto;
     }
 
@@ -284,6 +287,4 @@ public class ThirdService {
         List<OrderDetailsSFModel>  orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
         return orderDetailsSFModelList;
     }
-
-
 }
