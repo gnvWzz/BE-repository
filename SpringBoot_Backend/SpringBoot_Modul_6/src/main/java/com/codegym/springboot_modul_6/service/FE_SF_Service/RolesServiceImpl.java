@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RolesServiceIplm implements RolesService{
+public class RolesServiceImpl implements RolesService{
     @Autowired
     IRolesRepository iRolesRepository;
 

@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
@@ -108,13 +109,13 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductSFDto getProductSFDto(String packageId) {
-        return thirdService.getProductSFDto(packageId);
+    public ProductSFDto getProductSFDto(String name) {
+        return thirdService.getProductSFDto(name);
     }
 
     @Override
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
-        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException, ParseException {
+        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, name);
     }
 
 
@@ -132,5 +133,19 @@ public class ProductService implements IProductService {
     @Override
     public Page<ProductSF> productService_getRandomProduct(int offset, int pageSize){
         return productRepositorySF.productRepository_getRanDomProduct(PageRequest.of(offset, pageSize));
+    }
+
+    public ProductSF findProductSFByName(String name){
+        ProductSF productSF = productRepositorySF.findProductSFByName(name);
+        return productSF;
+    }
+    @Override
+    public void updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
+        String curName = requestProductGeneralInfoDto.getCurName();
+        ProductSF productSF = productRepositorySF.findProductSFByName(curName);
+        productSF.setName(requestProductGeneralInfoDto.getNewName());
+        productSF.setCategory(requestProductGeneralInfoDto.getCategory());
+        productSF.setManufacturer(requestProductGeneralInfoDto.getManufacturer());
+        productRepositorySF.save(productSF);
     }
 }
