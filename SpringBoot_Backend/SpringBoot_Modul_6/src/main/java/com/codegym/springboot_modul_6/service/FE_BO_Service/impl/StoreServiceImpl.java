@@ -10,6 +10,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
+import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class StoreServiceImpl implements StoreService {
 private PriceListServiceImpl priceListService;
 @Autowired
 private AccountService accountService;
+
+    @Autowired
+    private ThirdService thirdService;
+
     @Override
     public Optional<ResponseStoreDto> findStoreByAccountUsername(String accountUsername) {
         ResponseStoreDto responseStoreDto = new ResponseStoreDto();
@@ -97,5 +102,4 @@ private AccountService accountService;
         }
         return null;
     }
-
 }
