@@ -82,11 +82,11 @@ public class ProductsController {
         return new ResponseEntity<>(productSFDto, HttpStatus.OK);
     }
 
-    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
+    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{name}")
     public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
                                                             @PathVariable("size") String size,
-                                                            @PathVariable("package_id") String packageId) throws ParseException {
-        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+                                                            @PathVariable("name") String name) throws ParseException {
+        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
     }
 

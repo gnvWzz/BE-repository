@@ -113,8 +113,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
-        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
+        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, name);
     }
 
 
