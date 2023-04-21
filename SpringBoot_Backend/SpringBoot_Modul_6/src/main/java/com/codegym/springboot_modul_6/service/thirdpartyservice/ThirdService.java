@@ -5,6 +5,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
@@ -260,6 +261,12 @@ public class ThirdService {
         Account account = accountService.findAccountByUsername(username).get();
         List<OrderSF> orderSFList = orderRepository.getAllByAccount_Id(account.getId());
         return requestMapper.orderSFModelList(orderSFList);
+    }
+
+    public List<OrderDetailsSFModel> getListOrderDetails (String orderCode){
+        OrderSF orderSF = orderRepository.findByOrderCode(orderCode).orElseThrow(() -> new RuntimeException("Order Not Found"));
+        List<OrderDetailsSFModel>  orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
+        return orderDetailsSFModelList;
     }
 
 

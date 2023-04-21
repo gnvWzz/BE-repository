@@ -29,6 +29,8 @@ public class OrderDetailSF {
 
     private double price;
 
+    private String size_color_img_quantity;
+
     @Column(name = "serial_number")
     private String serialNumber;
 
@@ -37,11 +39,12 @@ public class OrderDetailSF {
 
     private String isDeleted = "false";
 
-    public OrderDetailSF(OrderSF orderSF, Long quantity, String name, double price, String serialNumber, Double subTotal, String isDeleted) {
+    public OrderDetailSF(OrderSF orderSF, Long quantity, String name, double price, String size_color_img_quantity, String serialNumber, Double subTotal, String isDeleted) {
         this.orderSF = orderSF;
         this.quantity = quantity;
         this.name = name;
         this.price = price;
+        this.size_color_img_quantity = size_color_img_quantity;
         this.serialNumber = serialNumber;
         this.subTotal = subTotal;
         this.isDeleted = isDeleted;

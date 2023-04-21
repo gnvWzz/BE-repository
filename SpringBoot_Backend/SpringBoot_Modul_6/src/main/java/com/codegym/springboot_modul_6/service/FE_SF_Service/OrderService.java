@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class OrderService implements IOrderService{
@@ -86,6 +83,11 @@ public class OrderService implements IOrderService{
     @Override
     public List<OrderSF> getAllOrderByAccountId(Long accountId) {
         return iOrderRepository.getAllByAccount_Id(accountId);
+    }
+
+    @Override
+    public Optional<OrderSF> findOrderByOrderCode(String orderCode) {
+        return iOrderRepository.findByOrderCode(orderCode);
     }
 
 
