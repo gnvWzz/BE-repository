@@ -5,6 +5,7 @@ import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProdu
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.ICartService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.json.simple.parser.ParseException;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -75,19 +77,19 @@ public class ProductsController {
         }
     }
 
-//    @GetMapping("/package-id-product/{package-id}")
-//    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
-//        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
-//        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
-//    }
-//
-//    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
-//    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
-//                                                            @PathVariable("size") String size,
-//                                                            @PathVariable("package_id") String packageId) throws ParseException {
-//        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
-//        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
-//    }
+    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{name}")
+    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
+                                                            @PathVariable("size") String size,
+                                                            @PathVariable("name") String name) throws ParseException {
+        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
+        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/name-product/{name}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable("name")String name) {
+        ProductSFDto productSFDto = productService.getProductSFDto(name);
+        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+    }
 
     @PostMapping("/remove/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id) {
@@ -108,7 +110,8 @@ public class ProductsController {
     }
 
     @GetMapping("/get-home")
-    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset){
+    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset,
+                                       @RequestParam(required = false, value = "sort") String sort){
         try {
             Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
             return new ResponseEntity<>(thirdService.productSFDtoPage(page), HttpStatus.OK);

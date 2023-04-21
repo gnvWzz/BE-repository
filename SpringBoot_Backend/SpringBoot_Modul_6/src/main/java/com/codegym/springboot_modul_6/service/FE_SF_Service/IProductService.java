@@ -28,6 +28,10 @@ public interface IProductService extends IGeneralService<ProductSF> {
 //    ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException;
 //
 
+    ProductSFDto getProductSFDto(String name);
+
+    ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException, ParseException;
+
     Page<ProductSF> getByName(String category, String name, int offset, int i);
 
     ProductSF mapProductSF(ProductSFDto productSFDto);

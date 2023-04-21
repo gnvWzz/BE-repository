@@ -2,10 +2,12 @@ package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -106,15 +108,15 @@ public class ProductService implements IProductService {
         return productSFS;
     }
 
-//    @Override
-//    public ProductSFDto getProductSFDto(String packageId) {
-//        return thirdService.getProductSFDto(packageId);
-//    }
-//
-//    @Override
-//    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
-//        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
-//    }
+    @Override
+    public ProductSFDto getProductSFDto(String name) {
+        return thirdService.getProductSFDto(name);
+    }
+
+    @Override
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException, ParseException {
+        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, name);
+    }
 
 
     @Override
@@ -133,10 +135,10 @@ public class ProductService implements IProductService {
         return productRepositorySF.productRepository_getRanDomProduct(PageRequest.of(offset, pageSize));
     }
 
-//    public ProductSF findProductSFByName(String name){
-//        ProductSF productSF = productRepositorySF.findProductSFByName(name);
-//        return productSF;
-//    }
+    public ProductSF findProductSFByName(String name){
+        ProductSF productSF = productRepositorySF.findProductSFByName(name);
+        return productSF;
+    }
     @Override
     public void updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
         String curName = requestProductGeneralInfoDto.getCurName();
