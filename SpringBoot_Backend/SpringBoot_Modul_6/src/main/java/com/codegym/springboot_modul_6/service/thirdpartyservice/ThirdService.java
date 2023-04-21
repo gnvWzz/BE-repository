@@ -143,8 +143,16 @@ public class ThirdService {
     public String login(AccountDto accountDto){
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-        String role = account.getRolesList().get(0).getRoles().getName();
-        if (isLogin && (role.equals("ROLE_USER"))){
+        List<AccountRoles> roles = account.getRolesList();
+        boolean isRole  = false;
+        for (AccountRoles role :
+             roles ) {
+            if (role.getRoles().getName().equals("ROLE_USER")) {
+                isRole = true;
+                break;
+            }
+        }
+        if (isLogin && isRole){
             String jwt = jwtProvider.generateTokenLogin(account);
           return jwt;
         }
@@ -152,10 +160,18 @@ public class ThirdService {
     }
 
     public String loginOwner(AccountDto accountDto){
-        boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
+        boolean isLogin= accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-        String role = account.getRolesList().get(0).getRoles().getName();
-        if (isLogin && (role.equals("ROLE_OWNER"))){
+        List<AccountRoles> roles = account.getRolesList();
+        boolean isRole  = false;
+        for (AccountRoles role :
+                roles ) {
+            if (role.getRoles().getName().equals("ROLE_OWNER")) {
+                isRole = true;
+                break;
+            }
+        }
+        if (isLogin && isRole){
 
             String jwt = jwtProvider.generateTokenLogin(account);
             return jwt;
