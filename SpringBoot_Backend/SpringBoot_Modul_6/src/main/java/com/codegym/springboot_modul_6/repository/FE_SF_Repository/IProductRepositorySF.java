@@ -16,10 +16,10 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query("select u from ProductSF u where u.category = ?1 ")
     Page<ProductSF> getAllProductByCategory(String category, PageRequest of);
 
-    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price_id = 0 order by price_list.price asc", nativeQuery = true)
-    Page<ProductSF> getAllProductPriceAsc(@Param(value = "category") String category, PageRequest of);
+    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price_id = 0 and product.category = ?1 order by price_list.price asc", nativeQuery = true)
+    Page<ProductSF> getAllProductPriceAsc(String category, PageRequest of);
 
-    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price_id = 0 order by price_list.price desc", nativeQuery = true)
+    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price_id = 0 and product.category = ?1 order by price_list.price desc", nativeQuery = true)
     Page<ProductSF> getAllProductPriceDesc(String category, PageRequest of);
 
     @Query(value = "select u from ProductSF u where u.category = :category and u.name like concat('%', :name, '%') ")
@@ -31,4 +31,7 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
 
     @Query(value = "select u from ProductSF u order by rand()")
     Page<ProductSF> productRepository_getRanDomProduct(PageRequest of);
+
+    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
+    Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
 }

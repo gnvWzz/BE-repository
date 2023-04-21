@@ -1,6 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IOrderService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
@@ -43,6 +45,16 @@ public class OrderController {
         try {
             List<OrderSFModel> orderSFModelList = thirdService.getListOrder( username);
             return new ResponseEntity<>(orderSFModelList, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/orderDetails/{orderCode}")
+    public ResponseEntity<?> getOrderDetails(@PathVariable("orderCode") String orderCode){
+        try {
+          List<OrderDetailsSFModel> orderDetailsSFModelList = thirdService.getListOrderDetails( orderCode);
+            return new ResponseEntity<>(orderDetailsSFModelList, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
         }

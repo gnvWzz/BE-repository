@@ -4,6 +4,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.CartModel;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IAccountRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICartRepository;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IPriceListRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +23,9 @@ public class CartService implements ICartService {
     private ICartRepository iCartRepository;
 
     @Autowired
+    private IPriceListRepository iPriceListRepository;
+
+    @Autowired
     private IAccountRepository iAccountRepository;
 
     @Autowired
@@ -32,6 +36,7 @@ public class CartService implements ICartService {
 
     @Autowired
     private IProductService iProductService;
+
 
     @Override
     public Iterable<CartSF> findAll() {
@@ -99,8 +104,8 @@ public class CartService implements ICartService {
             cartDetailSF.setCartSF(cartOld);
             cartDetailSF.setName(productSF.getName());
             cartDetailSF.setSerialNumber(cartNew.getCartDetailSFS().get(0).getSerialNumber());
-            cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
             cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
+            cartDetailSF.setPrice(cartService_getPriceFromPriceList(cartDetailSF.getQuantity(), cartDetailSF.getSerialNumber()));
             cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
             cartDetailSFSNew.add(cartDetailSF);
             cartSF.setAccount(account);
@@ -116,8 +121,8 @@ public class CartService implements ICartService {
                     cartDetailSF.setId(c.getId());
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setName(productSF.getName());
-                    cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
                     cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity() + c.getQuantity());
+                    cartDetailSF.setPrice(cartService_getPriceFromPriceList(cartDetailSF.getQuantity(), c.getSerialNumber()));
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                     cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().remove(c);
@@ -133,8 +138,8 @@ public class CartService implements ICartService {
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setSerialNumber(cartNew.getCartDetailSFS().get(0).getSerialNumber());
                     cartDetailSF.setName(productSF.getName());
-                    cartDetailSF.setPrice(cartNew.getCartDetailSFS().get(0).getPrice());
                     cartDetailSF.setQuantity(cartNew.getCartDetailSFS().get(0).getQuantity());
+                    cartDetailSF.setPrice(cartService_getPriceFromPriceList(cartDetailSF.getQuantity(), cartDetailSF.getSerialNumber()));
                     cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                     cartDetailSF.setIsDeleted("false");
                     cartOld.getCartDetailSFS().add(cartDetailSF);
@@ -219,9 +224,9 @@ public class CartService implements ICartService {
                 cartDetailSF.setCartSF(c.getCartSF());
                 cartDetailSF.setId(c.getId());
                 cartDetailSF.setName(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getName());
-                cartDetailSF.setPrice(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getPrice());
                 cartDetailSF.setQuantity(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getQuantity());
                 cartDetailSF.setSerialNumber(cartSF.getCartDetailSFS().get(countCartItemIsNotDeleted).getSerialNumber());
+                cartDetailSF.setPrice(cartService_getPriceFromPriceList(cartDetailSF.getQuantity(), cartDetailSF.getSerialNumber()));
                 cartDetailSF.setIsDeleted(c.getIsDeleted());
                 cartDetailSF.setSubTotal(cartDetailSF.getPrice() * cartDetailSF.getQuantity());
                 cartDetailSFS.add(cartDetailSF);
@@ -234,6 +239,21 @@ public class CartService implements ICartService {
         iCartRepository.save(cartOld);
     }
 
+
+    private Double cartService_getPriceFromPriceList(Long quantity, String serialNumber){
+        ProductSFDetail productSF = iProductDetailSFRepository.getProductSFDetail(serialNumber).orElseThrow(() -> new RuntimeException(
+                "Product detail not found"
+        ));
+        List<PriceList> priceLists = iPriceListRepository.getPriceListByProductId(productSF.getProductSF().getId());
+        Double priceOfCartItem = 0.0;
+        for (PriceList p: priceLists
+             ) {
+            if ((p.getToQuantity() >= quantity) && (p.getFromQuantity() <= quantity)){
+                priceOfCartItem = p.getPrice();
+            }
+        }
+        return priceOfCartItem;
+    }
 
     @Override
     public boolean remove(Long id) {

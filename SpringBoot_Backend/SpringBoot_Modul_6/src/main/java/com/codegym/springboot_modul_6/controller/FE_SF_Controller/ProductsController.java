@@ -53,6 +53,19 @@ public class ProductsController {
         }
     }
 
+    @GetMapping(value = "/max_min/{category}")
+    public ResponseEntity<?> product_controllerGetMaxMin(@PathVariable(value = "category") String category,
+                                                         @RequestParam(value = "offset") int offset,
+                                                         @RequestParam(value = "min_price") Double minPrice,
+                                                         @RequestParam(value = "max_price") Double maxPrice){
+        try {
+            Page<ProductSF> temp = productService.getMaxMinPriceProduct(minPrice, maxPrice, category, offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value = "/get_home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
         try {

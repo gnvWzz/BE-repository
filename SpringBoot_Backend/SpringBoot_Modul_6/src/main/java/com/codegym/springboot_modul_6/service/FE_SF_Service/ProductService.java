@@ -85,7 +85,12 @@ public class ProductService implements IProductService {
                 return null;
             }
         }
+    }
 
+    @Override
+    public Page<ProductSF> getMaxMinPriceProduct(Double min, Double max, String category, int offset, int pageSize){
+        Page<ProductSF> productSFS = productRepositorySF.findProductsByMinPriceToMaxPrice(min, max, category,PageRequest.of(offset, pageSize));
+        return productSFS;
     }
 
     @Override

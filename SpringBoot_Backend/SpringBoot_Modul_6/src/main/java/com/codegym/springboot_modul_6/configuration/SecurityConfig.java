@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home").permitAll()
                 .antMatchers( "/api/product/**" ,"/api/cart/**").hasAnyRole("USER","OWNER")
                 .antMatchers( "/api/store/**","/api/productdetail/**").hasAnyRole("OWNER")
-                .antMatchers("/api/product/**","/api/categories/**", "/api/account/**", "/api/product/get_home","/api/store/**","/api/productdetail/**").permitAll()
+//                .antMatchers("/api/product/**","/api/categories/**", "/api/account/**", "/api/product/get_home","/api/store/**","/api/productdetail/**").permitAll()
 //                .antMatchers( ).hasAnyRole("USER","OWNER")
 //                .antMatchers( "/api/store/**","/api/productdetail/**").hasAnyRole("OWNER")
                 .antMatchers(  "/api/cart/**", "/api/order/**").hasAnyRole("USER")

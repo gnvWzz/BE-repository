@@ -1,22 +1,22 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.CartSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderDetailSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class OrderService implements IOrderService{
@@ -34,6 +34,9 @@ public class OrderService implements IOrderService{
     @Autowired
     private ICartService iCartService;
 
+    @Autowired
+    private IProductDetailSFRepository iProductDetailSFRepository;
+
 
     @Override
     @Transactional
@@ -41,6 +44,37 @@ public class OrderService implements IOrderService{
         Account account = iAccountService.findAccountByUsername(username).orElseThrow();
         CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
                 .orElseThrow(() -> new RuntimeException("Cart Not Found"));
+        List<String> serialNumbers = new ArrayList<>();
+        for (OrderDetailDto o: orderDto.getOrderDetailDtoList()
+             ) {
+            serialNumbers.add(o.getSerialNumber());
+        }
+        List<ProductSFDetail> productSFDetails = iProductDetailSFRepository.getProductSFDetails(serialNumbers);
+        for (ProductSFDetail p: productSFDetails
+             ) {
+            JSONParser parser = new JSONParser();
+            try {
+                JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(p.getSize_color_img_quantity());
+                Gson gson = new GsonBuilder().create();
+                SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
+                for (OrderDetailDto o: orderDto.getOrderDetailDtoList()
+                     ) {
+                    if (o.getSerialNumber().equals(p.getSerialNumber())) {
+                        if (sizeColorImgQuantity1.getQuantity() - o.getQuantity() >= 0){
+                            sizeColorImgQuantity1.setQuantity(sizeColorImgQuantity1.getQuantity() - o.getQuantity());
+                            String temp = gson.toJson(sizeColorImgQuantity1).toString();
+                            p.setSize_color_img_quantity(temp);
+                            iProductDetailSFRepository.save(p);
+                        }
+                        else {
+                            throw new RuntimeException("Out of stock");
+                        }
+                    }
+                }
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        }
         saveOrder(orderDto, account);
         replaceTotalPriceCart(cartSF);
         cleanCartItems(cartSF);
@@ -49,6 +83,11 @@ public class OrderService implements IOrderService{
     @Override
     public List<OrderSF> getAllOrderByAccountId(Long accountId) {
         return iOrderRepository.getAllByAccount_Id(accountId);
+    }
+
+    @Override
+    public Optional<OrderSF> findOrderByOrderCode(String orderCode) {
+        return iOrderRepository.findByOrderCode(orderCode);
     }
 
 
