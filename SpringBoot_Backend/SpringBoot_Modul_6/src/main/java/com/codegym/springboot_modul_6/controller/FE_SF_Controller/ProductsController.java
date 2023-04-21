@@ -76,9 +76,9 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/package-id-product/{package-id}")
-    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
-        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
+    @GetMapping("/name-product/{name}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable("name")String name) {
+        ProductSFDto productSFDto = productService.getProductSFDto(name);
         return new ResponseEntity<>(productSFDto, HttpStatus.OK);
     }
 
