@@ -1,6 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
@@ -51,6 +52,19 @@ public class ProductsController {
         }
     }
 
+    @GetMapping(value = "/max_min/{category}")
+    public ResponseEntity<?> product_controllerGetMaxMin(@PathVariable(value = "category") String category,
+                                                         @RequestParam(value = "offset") int offset,
+                                                         @RequestParam(value = "min_price") Double minPrice,
+                                                         @RequestParam(value = "max_price") Double maxPrice){
+        try {
+            Page<ProductSF> temp = productService.getMaxMinPriceProduct(minPrice, maxPrice, category, offset, 16);
+            return new ResponseEntity<>(thirdService.productSFDtoPage(temp), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value = "/get_home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset){
         try {
@@ -61,23 +75,28 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/package-id-product/{package-id}")
-    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
-        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
-        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
-    }
-
-    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
-    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
-                                                            @PathVariable("size") String size,
-                                                            @PathVariable("package_id") String packageId) throws ParseException {
-        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
-        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
-    }
+//    @GetMapping("/package-id-product/{package-id}")
+//    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
+//        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
+//        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
+//    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
+//                                                            @PathVariable("size") String size,
+//                                                            @PathVariable("package_id") String packageId) throws ParseException {
+//        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
+//        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+//    }
 
     @PostMapping("/remove/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id) {
         productService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/update/general")
+    public ResponseEntity<?> updateProductGeneralInfo(@RequestBody RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
+        productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

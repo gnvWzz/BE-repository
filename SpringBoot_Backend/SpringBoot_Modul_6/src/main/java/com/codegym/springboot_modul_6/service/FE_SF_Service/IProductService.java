@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
@@ -14,20 +15,24 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> getAllByCategory(String category, String sort, int offset, int pageSize);
 
+    Page<ProductSF> getMaxMinPriceProduct(Double min, Double max, String category,int offset, int pageSize);
+
     Page<ProductSF> findAllPaging(int offset, int pageSize);
 
 
     List<ProductSF> productSFS();
 
-    ProductSFDto getProductSFDto(String packageId);
-
-
-    ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException;
-
+//    ProductSFDto getProductSFDto(String packageId);
+//
+//
+//    ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException;
+//
 
     Page<ProductSF> getByName(String category, String name, int offset, int i);
 
     ProductSF mapProductSF(ProductSFDto productSFDto);
 
     Page<ProductSF> productService_getRandomProduct(int offset, int pageSize);
+
+    void updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto);
 }

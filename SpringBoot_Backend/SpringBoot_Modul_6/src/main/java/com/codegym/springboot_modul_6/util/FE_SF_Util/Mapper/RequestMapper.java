@@ -1,10 +1,12 @@
 package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderDetailSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProvinceDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -52,6 +54,18 @@ public class RequestMapper {
         OrderSFModel orderSFModel  =new OrderSFModel();
         BeanUtils.copyProperties(orderSF,orderSFModel);
         return orderSFModel;
+    }
+
+    public List<OrderDetailsSFModel> orderDetailsSFModelList(List<OrderDetailSF> orderDetailSFList){
+        List<OrderDetailsSFModel> orderDetailsSFModelList = new ArrayList<>();
+        orderDetailsSFModelList = orderDetailSFList.stream().map(this:: toOrderDetailsSF).collect(Collectors.toList());
+        return orderDetailsSFModelList;
+    }
+
+    private OrderDetailsSFModel  toOrderDetailsSF(OrderDetailSF orderDetailSF) {
+        OrderDetailsSFModel orderDetailsSFModel = new OrderDetailsSFModel();
+        BeanUtils.copyProperties(orderDetailSF,orderDetailsSFModel);
+        return orderDetailsSFModel;
     }
 
 }

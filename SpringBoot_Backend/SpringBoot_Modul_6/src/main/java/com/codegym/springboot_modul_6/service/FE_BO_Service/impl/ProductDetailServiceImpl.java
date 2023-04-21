@@ -22,9 +22,8 @@ public class ProductDetailServiceImpl implements ProductDetailService {
     @Autowired
     private ProductService productService;
     @Autowired
-    private PriceListRepository priceListRepository;
+    private PriceListServiceImpl priceListService;
     @Override
-    @Transactional
     public ResponseProductDetailDto findProductDetailInfoBySerialNumber(String serialNumber) {
         ProductSFDetail productSFDetail = productDetailRepository.findBySerialNumber(serialNumber);
         ResponseProductDetailDto responseProductDetailDto = new ResponseProductDetailDto();
@@ -39,7 +38,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
             responseProductDetailDto.setCategory(category);
             String manufacturer = productSF.getManufacturer();
             responseProductDetailDto.setManufacturer(manufacturer);
-            Double standardPrice = priceListRepository.findStandardPrice(productId);
+            Double standardPrice = priceListService.findStandardPriceByProductId(productId);
             responseProductDetailDto.setStandardPrice(standardPrice);
 
             return responseProductDetailDto;

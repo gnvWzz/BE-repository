@@ -20,4 +20,6 @@ public class OrderDetailDto {
     private double price;
 
     private String serialNumber;
+
+    private String size_color_img_quantity;
 }

@@ -5,6 +5,7 @@ import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
@@ -184,45 +185,45 @@ public class ThirdService {
     }
 
 
-    public ProductSFDto getProductSFDto(String packageId) {
-        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
-        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-        List<PriceList> priceLists = productSF.getPrices();
-        List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
-        for (ProductSFDetail p: productSFDetailList) {
-            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-            BeanUtils.copyProperties(p, productSFDetailDto);
-            productSFDetailDtoList.add(productSFDetailDto);
-        }
-        List<PriceListDto> priceListDtos = new ArrayList<>();
-        for (PriceList priceList: priceLists) {
-            PriceListDto priceListDto = new PriceListDto();
-            BeanUtils.copyProperties(priceList, priceListDto);
-            priceListDtos.add(priceListDto);
-        }
-        ProductSFDto productSFDto = new ProductSFDto();
-        BeanUtils.copyProperties(productSF, productSFDto);
-        productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
-        productSFDto.setPriceListDtos(priceListDtos);
-        return productSFDto;
-    }
-
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
-        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
-        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        for (ProductSFDetail productSFDetail: productSFDetailList) {
-            JSONParser parser = new JSONParser();
-            JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-            Gson gson = new GsonBuilder().create();
-            SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
-            if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
-                BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-                return productSFDetailDto;
-            }
-        }
-        return null;
-    }
+//    public ProductSFDto getProductSFDto(String packageId) {
+//        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
+//        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+//        List<PriceList> priceLists = productSF.getPrices();
+//        List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
+//        for (ProductSFDetail p: productSFDetailList) {
+//            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+//            BeanUtils.copyProperties(p, productSFDetailDto);
+//            productSFDetailDtoList.add(productSFDetailDto);
+//        }
+//        List<PriceListDto> priceListDtos = new ArrayList<>();
+//        for (PriceList priceList: priceLists) {
+//            PriceListDto priceListDto = new PriceListDto();
+//            BeanUtils.copyProperties(priceList, priceListDto);
+//            priceListDtos.add(priceListDto);
+//        }
+//        ProductSFDto productSFDto = new ProductSFDto();
+//        BeanUtils.copyProperties(productSF, productSFDto);
+//        productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
+//        productSFDto.setPriceListDtos(priceListDtos);
+//        return productSFDto;
+//    }
+//
+//    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
+//        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
+//        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+//        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+//        for (ProductSFDetail productSFDetail: productSFDetailList) {
+//            JSONParser parser = new JSONParser();
+//            JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
+//            Gson gson = new GsonBuilder().create();
+//            SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
+//            if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
+//                BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
+//                return productSFDetailDto;
+//            }
+//        }
+//        return null;
+//    }
     @Transactional
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
@@ -260,6 +261,12 @@ public class ThirdService {
         Account account = accountService.findAccountByUsername(username).get();
         List<OrderSF> orderSFList = orderRepository.getAllByAccount_Id(account.getId());
         return requestMapper.orderSFModelList(orderSFList);
+    }
+
+    public List<OrderDetailsSFModel> getListOrderDetails (String orderCode){
+        OrderSF orderSF = orderRepository.findByOrderCode(orderCode).orElseThrow(() -> new RuntimeException("Order Not Found"));
+        List<OrderDetailsSFModel>  orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
+        return orderDetailsSFModelList;
     }
 
 

@@ -7,8 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Optional;
 
 
@@ -28,4 +28,7 @@ public interface IProductDetailSFRepository extends JpaRepository<ProductSFDetai
     @Query("select u from ProductSFDetail u where u.serialNumber = ?1 ")
 
     ProductSFDetail findBySerialNumber(String serialNumber);
+
+    @Query(value = "select * from product_detail where serial_number in :serials", nativeQuery = true)
+    List<ProductSFDetail> getProductSFDetails(@Param(value = "serials") List<String> serials);
 }

@@ -69,11 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**").disable();
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/api/product/**","/api/categories/**", "/api/account/**", "/api/product/get_home","/api/store/**","/api/productdetail/**").permitAll()
-//                .antMatchers( ).hasAnyRole("USER","OWNER")
-//                .antMatchers( "/api/store/**","/api/productdetail/**").hasAnyRole("OWNER")
-                .antMatchers(  "/api/cart/**", "/api/order/**").hasAnyRole("USER")
-
+                .antMatchers("/api/categories/**", "/api/account/**", "/api/product/get_home","/api/product/**","/api/productdetail/**","/api/cart/**","/api/store/**","/api/order/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
