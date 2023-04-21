@@ -4,6 +4,7 @@ package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.service.FE_SF_Service.ICartService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.json.simple.parser.ParseException;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -74,9 +76,9 @@ public class ProductsController {
         }
     }
 
-    @GetMapping("/package-id-product/{package-id}")
-    public ResponseEntity<?> getProductByProductId(@PathVariable("package-id")String packageId) {
-        ProductSFDto productSFDto = productService.getProductSFDto(packageId);
+    @GetMapping("/name-product/{name}")
+    public ResponseEntity<?> getProductByProductId(@PathVariable("name")String name) {
+        ProductSFDto productSFDto = productService.getProductSFDto(name);
         return new ResponseEntity<>(productSFDto, HttpStatus.OK);
     }
 
@@ -102,7 +104,8 @@ public class ProductsController {
     }
 
     @GetMapping("/get-home")
-    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset){
+    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset,
+                                       @RequestParam(required = false, value = "sort") String sort){
         try {
             Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
             return new ResponseEntity<>(thirdService.productSFDtoPage(page), HttpStatus.OK);
