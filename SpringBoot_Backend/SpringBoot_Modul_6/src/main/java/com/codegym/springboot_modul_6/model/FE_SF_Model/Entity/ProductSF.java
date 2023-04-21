@@ -25,8 +25,6 @@ public class ProductSF implements Serializable {
     private String name;
     private String category;
 
-    @Column(name = "package_id")
-    private String packageId;
     private String status;
 
     private String manufacturer;

@@ -185,8 +185,8 @@ public class ThirdService {
     }
 
 
-    public ProductSFDto getProductSFDto(String packageId) {
-        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
+    public ProductSFDto getProductSFDto(String name) {
+        ProductSF productSF = productRepositorySF.findProductSFByName(name);
         List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
         List<PriceList> priceLists = productSF.getPrices();
         List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
@@ -208,8 +208,8 @@ public class ThirdService {
         return productSFDto;
     }
 
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException {
-        ProductSF productSF = productRepositorySF.findByPackageId(packageId);
+    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
+        ProductSF productSF = productRepositorySF.findProductSFByName(name);
         List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
         for (ProductSFDetail productSFDetail: productSFDetailList) {
