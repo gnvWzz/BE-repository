@@ -1,6 +1,7 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
@@ -76,23 +77,28 @@ public class ProductsController {
         }
     }
 
+    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{name}")
+    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
+                                                            @PathVariable("size") String size,
+                                                            @PathVariable("name") String name) throws ParseException {
+        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
+        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+    }
+
     @GetMapping("/name-product/{name}")
     public ResponseEntity<?> getProductByProductId(@PathVariable("name")String name) {
         ProductSFDto productSFDto = productService.getProductSFDto(name);
         return new ResponseEntity<>(productSFDto, HttpStatus.OK);
     }
 
-    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{package_id}")
-    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
-                                                            @PathVariable("size") String size,
-                                                            @PathVariable("package_id") String packageId) throws ParseException {
-        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, packageId);
-        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
-    }
-
     @PostMapping("/remove/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id) {
         productService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PutMapping("/update/general")
+    public ResponseEntity<?> updateProductGeneralInfo(@RequestBody RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
+        productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

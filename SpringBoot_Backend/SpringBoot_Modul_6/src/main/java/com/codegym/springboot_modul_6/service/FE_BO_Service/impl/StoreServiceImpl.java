@@ -1,13 +1,12 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductDetailDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.PriceListRepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
@@ -24,13 +23,13 @@ public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreRepository storeRepository;
 @Autowired
-private PriceListRepository priceListRepository;
+private PriceListServiceImpl priceListService;
 @Autowired
 private AccountService accountService;
     @Override
     public Optional<ResponseStoreDto> findStoreByAccountUsername(String accountUsername) {
         ResponseStoreDto responseStoreDto = new ResponseStoreDto();
-        List<ResponseProductSFDetailDto> responseProductSFDetailDtoList = new ArrayList<>();
+        List<ResponseProductDetailDto> responseProductDetailDtoList = new ArrayList<>();
         Account account = accountService.findAccountByUsername(accountUsername).orElse(null);
         if (account != null){
             try {
@@ -42,15 +41,15 @@ private AccountService accountService;
 
                 for(ProductSF productSF: productSFList){
                     Long productId = productSF.getId();
-                    Double standardPrice = priceListRepository.findStandardPrice(productId);
+                    Double standardPrice = priceListService.findStandardPriceByProductId(productId);
                     List<ProductSFDetail> productSFDetails = productSF.getProductSFDetail();
                     for(ProductSFDetail ele: productSFDetails){
                         if(ele.getStatus().equals("true")) {
-                            ResponseProductSFDetailDto responseProductSFDetailDto = new ResponseProductSFDetailDto();
-                            BeanUtils.copyProperties(ele, responseProductSFDetailDto);
-                            responseProductSFDetailDto.setStandardPrice(standardPrice);
+                            ResponseProductDetailDto responseProductDetailDto = new ResponseProductDetailDto();
+                            BeanUtils.copyProperties(ele, responseProductDetailDto);
+                            responseProductDetailDto.setStandardPrice(standardPrice);
 
-                            responseProductSFDetailDtoList.add(responseProductSFDetailDto);
+                            responseProductDetailDtoList.add(responseProductDetailDto);
                         }
                     }
                 }
@@ -59,7 +58,7 @@ private AccountService accountService;
                 System.out.println("Loi:" + ex.getCause());
                 throw new RuntimeException("Error while getting Store", ex);
             }
-            responseStoreDto.setResponseProductSFDetailDtoList(responseProductSFDetailDtoList);
+            responseStoreDto.setResponseProductDetailDtoList(responseProductDetailDtoList);
             return Optional.of(responseStoreDto);
         }
         return null;

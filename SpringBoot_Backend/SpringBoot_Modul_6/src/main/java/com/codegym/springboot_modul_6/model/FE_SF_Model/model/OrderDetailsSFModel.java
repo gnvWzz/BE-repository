@@ -11,7 +11,6 @@ public class OrderDetailsSFModel {
 
     private String size_color_img_quantity;
 
-
     public OrderDetailsSFModel() {
     }
 

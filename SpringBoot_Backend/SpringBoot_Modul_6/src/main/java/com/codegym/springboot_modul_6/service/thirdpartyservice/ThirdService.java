@@ -184,7 +184,6 @@ public class ThirdService {
         return page;
     }
 
-
     public ProductSFDto getProductSFDto(String name) {
         ProductSF productSF = productRepositorySF.findProductSFByName(name);
         List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
@@ -224,6 +223,7 @@ public class ThirdService {
         }
         return null;
     }
+
     @Transactional
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
