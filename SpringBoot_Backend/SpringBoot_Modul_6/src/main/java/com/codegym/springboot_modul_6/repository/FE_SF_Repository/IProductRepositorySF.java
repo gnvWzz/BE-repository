@@ -24,13 +24,13 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
 
     @Query(value = "select u from ProductSF u where u.category = :category and u.name like concat('%', :name, '%') ")
     Page<ProductSF> getAllProductByName(@Param(value = "category") String category,@Param(value = "name") String name, PageRequest of);
-    @Query(value = "select u from ProductSF u ")
+    @Query(value = "select u from ProductSF u " )
     Page<ProductSF> getAll(PageRequest of);
 
     ProductSF findByPackageId(String packageId);
 
 
-    @Query(value = "select u from ProductSF u order by rand()")
+    @Query(value = "select u from ProductSF u order by rand()" )
     Page<ProductSF> productRepository_getRanDomProduct(PageRequest of);
 
     @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
