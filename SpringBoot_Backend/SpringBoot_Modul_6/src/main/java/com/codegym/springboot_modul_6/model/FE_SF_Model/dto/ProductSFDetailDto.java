@@ -37,9 +37,6 @@ public class ProductSFDetailDto implements Serializable {
     private String display;
 
     private String size_color_img_quantity;
-//    private String status;
+    private String status;
 
-    private String productName;
-    private String category;
-    private Double standardPrice;
 }

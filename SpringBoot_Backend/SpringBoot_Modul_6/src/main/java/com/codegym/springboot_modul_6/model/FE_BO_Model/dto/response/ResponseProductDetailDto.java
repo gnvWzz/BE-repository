@@ -6,16 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseProductSFDetailDto {
-    private Double price;
+public class ResponseProductDetailDto {
 
     private String serialNumber;
 
@@ -36,7 +33,12 @@ public class ResponseProductSFDetailDto {
     private String storageDrive;
 
     private String display;
-    private String status;
-    private Double standardPrice;
+//    private String status;
     private String  size_color_img_quantity;
+
+
+    private String productName;
+    private String category;
+    private String manufacturer;
+    private Double standardPrice;
 }
