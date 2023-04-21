@@ -102,7 +102,8 @@ public class ProductsController {
     }
 
     @GetMapping("/get-home")
-    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset){
+    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset,
+                                       @RequestParam(required = false, value = "sort") String sort){
         try {
             Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
             return new ResponseEntity<>(thirdService.productSFDtoPage(page), HttpStatus.OK);
