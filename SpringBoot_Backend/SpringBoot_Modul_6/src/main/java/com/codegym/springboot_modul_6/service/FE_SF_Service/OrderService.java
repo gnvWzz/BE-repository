@@ -50,6 +50,7 @@ public class OrderService implements IOrderService{
             serialNumbers.add(o.getSerialNumber());
         }
         List<ProductSFDetail> productSFDetails = iProductDetailSFRepository.getProductSFDetails(serialNumbers);
+        List<String> productHaveQuantityEqual0 = new ArrayList<>();
         for (ProductSFDetail p: productSFDetails
              ) {
             JSONParser parser = new JSONParser();
@@ -57,24 +58,28 @@ public class OrderService implements IOrderService{
                 JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(p.getSize_color_img_quantity());
                 Gson gson = new GsonBuilder().create();
                 SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
-                for (OrderDetailDto o: orderDto.getOrderDetailDtoList()
-                     ) {
+                for (OrderDetailDto o : orderDto.getOrderDetailDtoList()
+                ) {
                     if (o.getSerialNumber().equals(p.getSerialNumber())) {
-                        if (sizeColorImgQuantity1.getQuantity() - o.getQuantity() >= 0){
+                        if (sizeColorImgQuantity1.getQuantity() - o.getQuantity() >= 0) {
                             sizeColorImgQuantity1.setQuantity(sizeColorImgQuantity1.getQuantity() - o.getQuantity());
                             String temp = gson.toJson(sizeColorImgQuantity1).toString();
                             p.setSize_color_img_quantity(temp);
                             iProductDetailSFRepository.save(p);
-                        }
-                        else {
-                            throw new RuntimeException("Out of stock");
+                        } else {
+                            productHaveQuantityEqual0.add(o.getName());
                         }
                     }
                 }
             } catch (ParseException e) {
-                throw new RuntimeException(e);
+                System.out.println(e);
             }
         }
+
+        if (productHaveQuantityEqual0.size() > 0){
+            throw new RuntimeException(productHaveQuantityEqual0.toString());
+        }
+
         saveOrder(orderDto, account);
         replaceTotalPriceCart(cartSF);
         cleanCartItems(cartSF);
