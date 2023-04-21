@@ -53,23 +53,22 @@ public class CartController {
         return new ResponseEntity<>("FAIL", HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "cartItem")
-    public ResponseEntity<?> deleteAItemCart(@RequestBody Map<String, String > json){
-        try{
-            iCartService.removeCartItem(json.get("serialNumber"), json.get("accountName"));
-            return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping(value = "")
+    public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){
+        try {
+            Optional<CartModel> cartModel = iCartService.getCart(accountName);
+            return new ResponseEntity<>(cartModel.orElseThrow(), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
 
-
-    @GetMapping(value = "")
-    public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){
-        try {
-            Optional<CartModel> cartModel = iCartService.getCart(accountName);
-            return new ResponseEntity<>(cartModel.orElseThrow(), HttpStatus.OK);
+    @DeleteMapping(value = "cartItem")
+    public ResponseEntity<?> deleteAItemCart(@RequestBody Map<String, String > json){
+        try{
+            iCartService.removeCartItem(json.get("serialNumber"), json.get("accountName"));
+            return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
         }
