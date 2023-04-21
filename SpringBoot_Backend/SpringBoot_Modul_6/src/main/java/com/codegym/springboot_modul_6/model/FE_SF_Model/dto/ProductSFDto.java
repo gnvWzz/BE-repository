@@ -22,8 +22,6 @@ public class ProductSFDto implements Serializable {
 
     private String name;
     private String category;
-
-    private String packageId;
     private String status;
     private String manufacturer;
     private String accountUsername;
