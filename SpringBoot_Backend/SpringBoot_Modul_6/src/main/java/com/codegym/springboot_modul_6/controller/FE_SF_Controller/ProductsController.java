@@ -119,4 +119,14 @@ public class ProductsController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/random-single-product/{product_name}")
+    public ResponseEntity<?> getRandomProductYouLikeThis (@PathVariable("product_name")  String productName ){
+        try{
+            List<ProductSFDto> productSFDtos = thirdService.getListProductDtoRandomByProductName(productName);
+            return new ResponseEntity<>(productSFDtos, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

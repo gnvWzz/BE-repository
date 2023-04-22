@@ -287,4 +287,10 @@ public class ThirdService {
         List<OrderDetailsSFModel>  orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
         return orderDetailsSFModelList;
     }
+
+    public List<ProductSFDto> getListProductDtoRandomByProductName ( String productName){
+        ProductSF productSF = productRepositorySF.findProductSFByName(productName);
+        List<ProductSF> productSFList = productRepositorySF.findRandomProductYouLikeThis(productSF.getCategory(), productName);
+        return mapper.mapperProductSFDto(productSFList);
+    }
 }
