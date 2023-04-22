@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
@@ -34,4 +36,7 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
 
     ProductSF findProductSFByName(String name);
+
+    @Query(value = "select  * from product where  category =?1 and not name =?2 order by rand() limit 4", nativeQuery = true)
+    List<ProductSF> findRandomProductYouLikeThis (String category, String productName);
 }
