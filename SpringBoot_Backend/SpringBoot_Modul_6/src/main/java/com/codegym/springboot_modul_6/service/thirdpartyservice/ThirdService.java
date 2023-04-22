@@ -181,6 +181,9 @@ public class ThirdService {
 
     public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
         List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
+        if  (entity.getContent().size() == 0){
+            throw new RuntimeException("No data");
+        }
         Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
         return page;
     }
