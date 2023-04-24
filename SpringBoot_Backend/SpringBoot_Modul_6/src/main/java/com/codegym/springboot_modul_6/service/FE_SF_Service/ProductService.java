@@ -143,6 +143,18 @@ public class ProductService implements IProductService {
         return productRepositorySF.productRepository_getRanDomProduct(PageRequest.of(offset, pageSize));
     }
 
+    @Override
+    public Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName){
+        ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElse(null);
+        if(productSF != null) {
+            Long storeId = productSF.getStore().getId();
+
+            Page<ProductSF> productSFS = productRepositorySF.getProductStoreById(storeId, PageRequest.of(offset, pageSize));
+            return productSFS;
+        }
+        return null;
+    }
+
     public ProductSF findProductSFByName(String name){
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
         if(productSF != null) {

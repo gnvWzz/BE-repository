@@ -41,4 +41,6 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Boolean updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto);
 
+    Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName);
+
 }
