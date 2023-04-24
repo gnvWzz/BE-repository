@@ -34,7 +34,7 @@ public class AccountController {
 
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AccountDto accountDto) {
         try {
             String token = thirdService.login(accountDto);
@@ -133,7 +133,7 @@ public class AccountController {
         return new ResponseEntity<>( HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("")
+    @PutMapping("/")
     public ResponseEntity<?>update(@RequestBody AccountDto accountDto){
         try {
             Account account = thirdService.update(accountDto);

@@ -24,7 +24,7 @@ public class CartController {
     @Autowired
     private ICartService iCartService;
 
-    @PostMapping(value = "add-to-cart")
+    @PostMapping(value = "/add-to-cart")
     public ResponseEntity<?> addToCart(@RequestBody CartDto carDto){
         try {
             CartSF cartSF =  mapper.mapperCart(carDto);
@@ -38,7 +38,7 @@ public class CartController {
         return new ResponseEntity<>("Fail", HttpStatus.OK);
     }
 
-    @PutMapping(value = "")
+    @PutMapping(value = "/")
     public ResponseEntity<?> updateCart(@RequestBody CartDto cartDto){
         try {
             CartSF cartSF = mapper.mapperCart(cartDto);
@@ -53,7 +53,7 @@ public class CartController {
         return new ResponseEntity<>("FAIL", HttpStatus.OK);
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/")
     public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){
         try {
             Optional<CartModel> cartModel = iCartService.getCart(accountName);
@@ -67,7 +67,7 @@ public class CartController {
 
     }
 
-    @DeleteMapping(value = "cartItem")
+    @DeleteMapping(value = "/cartItem")
     public ResponseEntity<?> deleteAItemCart(@RequestBody Map<String, String > json){
         try{
             iCartService.removeCartItem(json.get("serialNumber"), json.get("accountName"));
