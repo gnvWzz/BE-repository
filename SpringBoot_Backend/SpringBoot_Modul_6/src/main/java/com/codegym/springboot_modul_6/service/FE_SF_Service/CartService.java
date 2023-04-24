@@ -80,6 +80,9 @@ public class CartService implements ICartService {
     @Override
     public Optional<CartModel> getCart(String accountName) {
         Optional<CartSF> cartSF = iCartRepository.findCartByAccountName(accountName);
+        if (cartSF.isEmpty()){
+            return Optional.empty();
+        }
         Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
         return cartModel;
     }

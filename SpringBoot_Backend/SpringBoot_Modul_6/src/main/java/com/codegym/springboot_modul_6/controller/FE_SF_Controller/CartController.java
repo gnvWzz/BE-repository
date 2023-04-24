@@ -57,11 +57,14 @@ public class CartController {
     public ResponseEntity<?> getCartByAccountName(@RequestParam(value = "account-name") String accountName){
         try {
             Optional<CartModel> cartModel = iCartService.getCart(accountName);
+            if (cartModel.isEmpty()){
+                return new ResponseEntity<>("Empty", HttpStatus.OK);
+            }
             return new ResponseEntity<>(cartModel.orElseThrow(), HttpStatus.OK);
         }catch (Exception e){
-            e.printStackTrace();
+            return new ResponseEntity<>("Fail", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>("Fail", HttpStatus.OK);
+
     }
 
     @DeleteMapping(value = "cartItem")
