@@ -1,13 +1,18 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductDetailInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 
 import org.json.simple.parser.ParseException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +25,9 @@ public class ProductService implements IProductService {
 
     @Autowired
     private IProductRepositorySF productRepositorySF;
+
+    @Autowired
+    private IProductDetailSFRepository productDetailRepository;
 
     @Autowired
     private ThirdService thirdService;
@@ -136,16 +144,33 @@ public class ProductService implements IProductService {
     }
 
     public ProductSF findProductSFByName(String name){
-        ProductSF productSF = productRepositorySF.findProductSFByName(name);
-        return productSF;
+        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
+        if(productSF != null) {
+            return productSF;
+        }
+        return null;
     }
     @Override
-    public void updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
+    public Boolean updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
         String curName = requestProductGeneralInfoDto.getCurName();
-        ProductSF productSF = productRepositorySF.findProductSFByName(curName);
-        productSF.setName(requestProductGeneralInfoDto.getNewName());
-        productSF.setCategory(requestProductGeneralInfoDto.getCategory());
-        productSF.setManufacturer(requestProductGeneralInfoDto.getManufacturer());
-        productRepositorySF.save(productSF);
+        ProductSF productSF = productRepositorySF.findProductSFByName(curName).orElse(null);
+        String newName = requestProductGeneralInfoDto.getNewName();
+        if(productSF != null) {
+            if(curName == newName){
+            } else {
+                Optional<ProductSF> obj = productRepositorySF.findProductSFByName(newName);
+                if(obj.isPresent()){
+                    return false;
+                }
+            }
+            productSF.setName(newName);
+            productSF.setCategory(requestProductGeneralInfoDto.getCategory());
+            productSF.setManufacturer(requestProductGeneralInfoDto.getManufacturer());
+            productRepositorySF.save(productSF);
+            return true;
+        }
+        return false;
     }
+
+
 }

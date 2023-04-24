@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 
 @Repository
 public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
@@ -34,5 +36,5 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
     Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
 
-    ProductSF findProductSFByName(String name);
+    Optional<ProductSF> findProductSFByName(String name);
 }

@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductDetailDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
@@ -22,14 +22,12 @@ import java.util.Optional;
 public class StoreServiceImpl implements StoreService {
     @Autowired
     private StoreRepository storeRepository;
-@Autowired
-private PriceListServiceImpl priceListService;
-@Autowired
-private AccountService accountService;
+    @Autowired
+    private AccountService accountService;
     @Override
     public Optional<ResponseStoreDto> findStoreByAccountUsername(String accountUsername) {
         ResponseStoreDto responseStoreDto = new ResponseStoreDto();
-        List<ResponseProductDetailDto> responseProductDetailDtoList = new ArrayList<>();
+        List<ResponseProductInfoDto> responseProductInfoDtoList = new ArrayList<>();
         Account account = accountService.findAccountByUsername(accountUsername).orElse(null);
         if (account != null){
             try {
@@ -40,25 +38,30 @@ private AccountService accountService;
                 List<ProductSF> productSFList = store.getProductSF();
 
                 for(ProductSF productSF: productSFList){
-                    Long productId = productSF.getId();
-                    Double standardPrice = priceListService.findStandardPriceByProductId(productId);
+//                    Long productId = productSF.getId();
+//                    Double standardPrice = priceListService.findStandardPriceByProductId(productId);
+                    String productName = productSF.getName();
+                    String category = productSF.getCategory();
+                    String manufacturer = productSF.getManufacturer();
                     List<ProductSFDetail> productSFDetails = productSF.getProductSFDetail();
                     for(ProductSFDetail ele: productSFDetails){
                         if(ele.getStatus().equals("true")) {
-                            ResponseProductDetailDto responseProductDetailDto = new ResponseProductDetailDto();
-                            BeanUtils.copyProperties(ele, responseProductDetailDto);
-                            responseProductDetailDto.setStandardPrice(standardPrice);
+                            ResponseProductInfoDto responseProductInfoDto = new ResponseProductInfoDto();
+                            BeanUtils.copyProperties(ele, responseProductInfoDto);
+//                            responseProductInfoDto.setStandardPrice(standardPrice);
+                            responseProductInfoDto.setProductName(productName);
+                            responseProductInfoDto.setCategory(category);
+                            responseProductInfoDto.setManufacturer(manufacturer);
 
-                            responseProductDetailDtoList.add(responseProductDetailDto);
+                            responseProductInfoDtoList.add(responseProductInfoDto);
                         }
                     }
                 }
-
             } catch (Exception ex) {
                 System.out.println("Loi:" + ex.getCause());
                 throw new RuntimeException("Error while getting Store", ex);
             }
-            responseStoreDto.setResponseProductDetailDtoList(responseProductDetailDtoList);
+            responseStoreDto.setResponseProductInfoDtoList(responseProductInfoDtoList);
             return Optional.of(responseStoreDto);
         }
         return null;

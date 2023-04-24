@@ -185,40 +185,45 @@ public class ThirdService {
     }
 
     public ProductSFDto getProductSFDto(String name) {
-        ProductSF productSF = productRepositorySF.findProductSFByName(name);
-        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-        List<PriceList> priceLists = productSF.getPrices();
-        List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
-        for (ProductSFDetail p: productSFDetailList) {
-            ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-            BeanUtils.copyProperties(p, productSFDetailDto);
-            productSFDetailDtoList.add(productSFDetailDto);
+        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
+        if(productSF != null) {
+            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+            List<PriceList> priceLists = productSF.getPrices();
+            List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
+            for (ProductSFDetail p : productSFDetailList) {
+                ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+                BeanUtils.copyProperties(p, productSFDetailDto);
+                productSFDetailDtoList.add(productSFDetailDto);
+            }
+            List<PriceListDto> priceListDtos = new ArrayList<>();
+            for (PriceList priceList : priceLists) {
+                PriceListDto priceListDto = new PriceListDto();
+                BeanUtils.copyProperties(priceList, priceListDto);
+                priceListDtos.add(priceListDto);
+            }
+            ProductSFDto productSFDto = new ProductSFDto();
+            BeanUtils.copyProperties(productSF, productSFDto);
+            productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
+            productSFDto.setPriceListDtos(priceListDtos);
+            return productSFDto;
         }
-        List<PriceListDto> priceListDtos = new ArrayList<>();
-        for (PriceList priceList: priceLists) {
-            PriceListDto priceListDto = new PriceListDto();
-            BeanUtils.copyProperties(priceList, priceListDto);
-            priceListDtos.add(priceListDto);
-        }
-        ProductSFDto productSFDto = new ProductSFDto();
-        BeanUtils.copyProperties(productSF, productSFDto);
-        productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
-        productSFDto.setPriceListDtos(priceListDtos);
-        return productSFDto;
+        return null;
     }
 
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
-        ProductSF productSF = productRepositorySF.findProductSFByName(name);
-        List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        for (ProductSFDetail productSFDetail: productSFDetailList) {
-            JSONParser parser = new JSONParser();
-            JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-            Gson gson = new GsonBuilder().create();
-            SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(),SizeColorImgQuantity.class);
-            if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
-                BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-                return productSFDetailDto;
+        if(productSF != null) {
+            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+            for (ProductSFDetail productSFDetail : productSFDetailList) {
+                JSONParser parser = new JSONParser();
+                JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
+                Gson gson = new GsonBuilder().create();
+                SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
+                if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
+                    BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
+                    return productSFDetailDto;
+                }
             }
         }
         return null;

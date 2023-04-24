@@ -15,7 +15,8 @@ import java.util.List;
 @Setter
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ResponseProductDetailDto {
+public class ResponseProductInfoDto {
+
     private String serialNumber;
 
     private String briefDescription;
@@ -35,9 +36,14 @@ public class ResponseProductDetailDto {
     private String storageDrive;
 
     private String display;
-    //    private String status;
+//    private String status;
     private String  size_color_img_quantity;
-    //cần category để xu ly UpdateProductDetailInfo.js//
+
+
+    private String productName;
     private String category;
+    private String manufacturer;
+//    private Double standardPrice;
+    private List<PriceListDto> priceListDtos;
 
 }
