@@ -1,9 +1,12 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
+import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Promos;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PromoOrderDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IOrderService;
+import com.codegym.springboot_modul_6.service.thirdpartyservice.CategoryCache;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/order")
@@ -23,6 +25,8 @@ public class OrderController {
 
     @Autowired
     private ThirdService thirdService;
+
+    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
     @GetMapping(value = "")
     public ResponseEntity<?> getOrderByName(@RequestBody String username) {
@@ -57,6 +61,18 @@ public class OrderController {
             return new ResponseEntity<>(orderDetailsSFModelList, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    Long them vao chuc nang promos
+    @PostMapping("/getPromo")
+    public ResponseEntity<?> getPromosOrder(@RequestBody PromoOrderDto promoOrderDto){
+        try {
+            List<Promos> promos = (List<Promos>) categoryCache.getCacheCategories().get(categoryCache.PROMOS);
+            PromoOrderDto afterDiscount = iOrderService.orderSerive_promoOrderDto(promoOrderDto, promos).orElseThrow(() -> new RuntimeException("Illegal order"));
+            return new ResponseEntity<>(afterDiscount, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Promo is invalid",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
