@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/product")
@@ -116,6 +118,16 @@ public class ProductController {
         try {
             Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
             return new ResponseEntity<>(thirdService.productSFDtoPage(page), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/random-single-product/{product_name}")
+    public ResponseEntity<?> getRandomProductYouLikeThis (@PathVariable("product_name")  String productName ){
+        try{
+            List<ProductSFDto> productSFDtos = thirdService.getListProductDtoRandomByProductName(productName);
+            return new ResponseEntity<>(productSFDtos, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

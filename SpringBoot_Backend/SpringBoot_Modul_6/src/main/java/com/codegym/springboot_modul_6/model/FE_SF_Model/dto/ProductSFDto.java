@@ -27,5 +27,6 @@ public class ProductSFDto implements Serializable {
     private String accountUsername;
     private List<ProductSFDetailDto> productSFDetailDtos;
     private List<PriceListDto> priceListDtos;
-
+    private String storeName;
+    private String storeImage;
 }

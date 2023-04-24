@@ -1,4 +1,5 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
@@ -143,8 +144,16 @@ public class ThirdService {
     public String login(AccountDto accountDto){
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-        String role = account.getRolesList().get(0).getRoles().getName();
-        if (isLogin && (role.equals("ROLE_USER"))){
+        List<AccountRoles> roles = account.getRolesList();
+        boolean isRole  = false;
+        for (AccountRoles role :
+             roles ) {
+            if (role.getRoles().getName().equals("ROLE_USER")) {
+                isRole = true;
+                break;
+            }
+        }
+        if (isLogin && isRole){
             String jwt = jwtProvider.generateTokenLogin(account);
           return jwt;
         }
@@ -152,10 +161,18 @@ public class ThirdService {
     }
 
     public String loginOwner(AccountDto accountDto){
-        boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
+        boolean isLogin= accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
-        String role = account.getRolesList().get(0).getRoles().getName();
-        if (isLogin && (role.equals("ROLE_OWNER"))){
+        List<AccountRoles> roles = account.getRolesList();
+        boolean isRole  = false;
+        for (AccountRoles role :
+                roles ) {
+            if (role.getRoles().getName().equals("ROLE_OWNER")) {
+                isRole = true;
+                break;
+            }
+        }
+        if (isLogin && isRole){
 
             String jwt = jwtProvider.generateTokenLogin(account);
             return jwt;
@@ -205,9 +222,12 @@ public class ThirdService {
             BeanUtils.copyProperties(productSF, productSFDto);
             productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
             productSFDto.setPriceListDtos(priceListDtos);
+            productSFDto.setStoreName(productSF.getStore().getName());
+            productSFDto.setStoreImage(productSF.getStore().getImage());
             return productSFDto;
         }
         return null;
+
     }
 
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
@@ -274,5 +294,12 @@ public class ThirdService {
         return orderDetailsSFModelList;
     }
 
-
+    public List<ProductSFDto> getListProductDtoRandomByProductName ( String productName){
+        ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElse(null);
+        if(productSF != null) {
+            List<ProductSF> productSFList = productRepositorySF.findRandomProductYouLikeThis(productSF.getCategory(), productName);
+            return mapper.mapperProductSFDto(productSFList);
+        }
+        return null;
+    }
 }

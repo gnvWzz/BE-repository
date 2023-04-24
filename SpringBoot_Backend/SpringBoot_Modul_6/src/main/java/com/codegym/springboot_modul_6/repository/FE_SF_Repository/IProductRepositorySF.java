@@ -1,7 +1,6 @@
 package com.codegym.springboot_modul_6.repository.FE_SF_Repository;
 
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 
 @Repository
@@ -29,12 +29,13 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select u from ProductSF u " )
     Page<ProductSF> getAll(PageRequest of);
 
-
     @Query(value = "select u from ProductSF u order by rand()" )
     Page<ProductSF> productRepository_getRanDomProduct(PageRequest of);
 
-    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
+    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and price_list.fromQuantity = 1 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
     Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
 
     Optional<ProductSF> findProductSFByName(String name);
+    @Query(value = "select  * from product where  category =?1 and not name =?2 order by rand() limit 4", nativeQuery = true)
+    List<ProductSF> findRandomProductYouLikeThis (String category, String productName);
 }
