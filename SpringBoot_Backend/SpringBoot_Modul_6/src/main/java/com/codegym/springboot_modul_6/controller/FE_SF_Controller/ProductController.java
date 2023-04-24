@@ -145,4 +145,11 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/find-product-detail-by-color/{color}/{name}")
+    public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
+                                                            @PathVariable("name") String name) throws ParseException {
+        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColor(color, name);
+        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+    }
 }

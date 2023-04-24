@@ -1,18 +1,14 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductDetailInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 
 import org.json.simple.parser.ParseException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -107,9 +103,6 @@ public class ProductService implements IProductService {
         return productRepositorySF.getAll(PageRequest.of(offset, pageSize));
     }
 
-
-
-
     @Override
     public List<ProductSF> productSFS() {
         List<ProductSF> productSFS = productRepositorySF.findAll();
@@ -184,5 +177,9 @@ public class ProductService implements IProductService {
         return false;
     }
 
+    @Override
+    public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException {
+        return thirdService.getProductSFDetailDtoByColor(color, name);
+    }
 
 }

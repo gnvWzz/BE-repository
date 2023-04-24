@@ -43,4 +43,5 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName);
 
+    ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException;
 }

@@ -305,4 +305,23 @@ public class ThirdService {
         }
         return null;
     }
+
+    public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException {
+        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
+        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+        if(productSF != null) {
+            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+            for (ProductSFDetail productSFDetail : productSFDetailList) {
+                JSONParser parser = new JSONParser();
+                JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
+                Gson gson = new GsonBuilder().create();
+                SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
+                if (sizeColorImgQuantity1.getColor().equals(color)) {
+                    BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
+                    return productSFDetailDto;
+                }
+            }
+        }
+        return null;
+    }
 }
