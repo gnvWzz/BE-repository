@@ -112,7 +112,7 @@ public class ProductDetailServiceImpl implements ProductDetailService {
         ProductSFDetail productDetail= productDetailRepository.getProductSFDetail(curSerialNumber).orElse(null);
         String newSerialNumber = requestProductDetailInfoDto.getNewSerialNumber();
         if(productDetail != null){
-            if(curSerialNumber == newSerialNumber){
+            if(curSerialNumber.equals(newSerialNumber)){
             } else {
                 Optional<ProductSFDetail> obj = productDetailRepository.getProductSFDetail(newSerialNumber);
                 if(obj.isPresent()){
