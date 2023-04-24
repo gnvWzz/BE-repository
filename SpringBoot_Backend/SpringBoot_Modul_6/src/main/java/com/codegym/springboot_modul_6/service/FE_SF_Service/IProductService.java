@@ -38,5 +38,8 @@ public interface IProductService extends IGeneralService<ProductSF> {
 
     Page<ProductSF> productService_getRandomProduct(int offset, int pageSize);
 
+
+    Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName);
+
     void updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto);
 }
