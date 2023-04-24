@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.controller.FE_SF_Controller;
 
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductDetailInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ICartService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.IProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.json.simple.parser.ParseException;
@@ -16,12 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/product")
-public class ProductsController {
+public class ProductController {
 
     @Autowired
     private IProductService productService;
@@ -98,9 +97,13 @@ public class ProductsController {
     }
     @PutMapping("/update/general")
     public ResponseEntity<?> updateProductGeneralInfo(@RequestBody RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
-        productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Boolean isSuccess = productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
+        if(isSuccess) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+
 
     @PostMapping("/new-product")
     public ResponseEntity<?> createNewProduct(@RequestBody ProductSFDto productSFDto) {
