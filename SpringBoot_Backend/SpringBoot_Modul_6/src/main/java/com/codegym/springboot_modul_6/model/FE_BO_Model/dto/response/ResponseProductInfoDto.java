@@ -43,7 +43,7 @@ public class ResponseProductInfoDto {
     private String productName;
     private String category;
     private String manufacturer;
-//    private Double standardPrice;
+    private Double standardPrice;
     private List<PriceListDto> priceListDtos;
 
 }
