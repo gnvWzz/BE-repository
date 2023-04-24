@@ -28,12 +28,12 @@ public class OrderController {
 
     private CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/")
     public ResponseEntity<?> getOrderByName(@RequestBody String username) {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/")
     public ResponseEntity<?> saveOrder(@RequestBody OrderDto orderDto,
                                            @RequestParam(value = "username") String username) {
         try {

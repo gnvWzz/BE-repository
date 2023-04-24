@@ -149,15 +149,17 @@ public class OrderService implements IOrderService{
 //    Long them chuc nang discount order
     @Override
     public Optional<PromoOrderDto> orderSerive_promoOrderDto(PromoOrderDto promoOrderDto, List<Promos> promos){
+        boolean have_promo = false;
         for (Promos p: promos
              ) {
             if (Objects.equals(p.getName(), promoOrderDto.getPromoCode())){
                 Long moneyPhantram = (long) (promoOrderDto.getTotalPrice() * p.getDiscount()/ 100);
                 promoOrderDto.setTotalPrice(promoOrderDto.getTotalPrice() - moneyPhantram);
-                break;
-            }else {
-                throw new RuntimeException();
+                have_promo = true;
             }
+        }
+        if (!have_promo){
+            throw new RuntimeException();
         }
         return Optional.ofNullable(promoOrderDto);
     }
