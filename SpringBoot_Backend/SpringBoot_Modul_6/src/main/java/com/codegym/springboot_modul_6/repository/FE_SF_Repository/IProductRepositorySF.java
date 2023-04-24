@@ -32,11 +32,12 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select u from ProductSF u order by rand()" )
     Page<ProductSF> productRepository_getRanDomProduct(PageRequest of);
 
+
+    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and price_list.from_quantity = 1 and product.category = ?3 order by price_list.price asc", nativeQuery = true)
+    Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
+
     @Query(value = "select u from ProductSF u where u.store.id = ?1 " )
     Page<ProductSF> getProductStoreById( Long storeId,PageRequest of );
-
-    @Query(value = "select * from product join price_list on product.id = price_list.product_id where price_list.price >= ?1 and price_list.price <= ?2 and price_list.fromQuantity = 1 and product.category = ?3 and price_list.from_quantity = 1 order by price_list.price asc", nativeQuery = true)
-    Page<ProductSF> findProductsByMinPriceToMaxPrice(Double minPrice, Double maxPrice, String category,PageRequest of);
 
     Optional<ProductSF> findProductSFByName(String name);
     @Query(value = "select  * from product where  category =?1 and not name =?2 order by rand() limit 4", nativeQuery = true)
