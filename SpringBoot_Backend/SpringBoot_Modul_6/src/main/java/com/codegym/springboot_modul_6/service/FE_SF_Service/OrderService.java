@@ -3,6 +3,7 @@ package com.codegym.springboot_modul_6.service.FE_SF_Service;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDetailDto;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDto;
+import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PromoOrderDto;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
 import com.google.gson.Gson;
@@ -114,10 +115,9 @@ public class OrderService implements IOrderService{
         order.setAccount(account);
         BeanUtils.copyProperties(orderDto, order);
         order.setOrderDetailSFS(orderDetailSFList(orderDto.getOrderDetailDtoList(), order));
-        order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
+//        order.setTotalPrice(getTotal(order.getOrderDetailSFS()));
         UUID uuid = UUID.randomUUID();
         order.setOrderCode(String.valueOf(uuid));
-
         order.setDateOrder(simpleDateFormat.format(new Date()));
         iOrderRepository.save(order);
     }
@@ -145,4 +145,20 @@ public class OrderService implements IOrderService{
         return orderDetailSFS;
     }
 
+
+//    Long them chuc nang discount order
+    @Override
+    public Optional<PromoOrderDto> orderSerive_promoOrderDto(PromoOrderDto promoOrderDto, List<Promos> promos){
+        for (Promos p: promos
+             ) {
+            if (Objects.equals(p.getName(), promoOrderDto.getPromoCode())){
+                Long moneyPhantram = (long) (promoOrderDto.getTotalPrice() * p.getDiscount()/ 100);
+                promoOrderDto.setTotalPrice(promoOrderDto.getTotalPrice() - moneyPhantram);
+                break;
+            }else {
+                throw new RuntimeException();
+            }
+        }
+        return Optional.ofNullable(promoOrderDto);
+    }
 }
