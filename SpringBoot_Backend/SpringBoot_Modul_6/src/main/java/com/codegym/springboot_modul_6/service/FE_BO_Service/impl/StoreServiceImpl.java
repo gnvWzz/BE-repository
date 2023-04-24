@@ -7,6 +7,7 @@ import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.repository.FE_BO_Repository.PriceRepository;
 import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
@@ -25,6 +26,8 @@ public class StoreServiceImpl implements StoreService {
     private StoreRepository storeRepository;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private PriceRepository priceRepository;
     @Override
     public Optional<ResponseStoreDto> findStoreByAccountUsername(String accountUsername) {
         ResponseStoreDto responseStoreDto = new ResponseStoreDto();
@@ -39,8 +42,8 @@ public class StoreServiceImpl implements StoreService {
                 List<ProductSF> productSFList = store.getProductSF();
 
                 for(ProductSF productSF: productSFList){
-//                    Long productId = productSF.getId();
-//                    Double standardPrice = priceListService.findStandardPriceByProductId(productId);
+                    Long productId = productSF.getId();
+                    Double standardPrice = priceRepository.findStandardPrice(productId);
                     String productName = productSF.getName();
                     String category = productSF.getCategory();
                     String manufacturer = productSF.getManufacturer();
@@ -49,7 +52,7 @@ public class StoreServiceImpl implements StoreService {
                         if(ele.getStatus().equals("true")) {
                             ResponseProductInfoDto responseProductInfoDto = new ResponseProductInfoDto();
                             BeanUtils.copyProperties(ele, responseProductInfoDto);
-//                            responseProductInfoDto.setStandardPrice(standardPrice);
+                            responseProductInfoDto.setStandardPrice(standardPrice);
                             responseProductInfoDto.setProductName(productName);
                             responseProductInfoDto.setCategory(category);
                             responseProductInfoDto.setManufacturer(manufacturer);
