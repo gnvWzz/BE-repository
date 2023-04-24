@@ -1,6 +1,8 @@
 package com.codegym.springboot_modul_6.controller.FE_BO_Controller;
 
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductDetailInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductDetailDto;
+import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductInfoDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductGeneralDto;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +18,44 @@ public class ProductDetailController {
     private ProductDetailService productDetailService;
 
     @GetMapping("/{serialNumber}")
-    public ResponseEntity<?> getProductDetailInfoBySerialNumber(@PathVariable String serialNumber){
-        ResponseProductDetailDto responseProductDetailDto = productDetailService.findProductDetailInfoBySerialNumber(serialNumber);
-        return new ResponseEntity<>(responseProductDetailDto, HttpStatus.OK);
+    public ResponseEntity<?> getProductInfoBySerialNumber(@PathVariable String serialNumber){
+        ResponseProductInfoDto responseProductInfoDto = productDetailService.findProductInfoBySerialNumber(serialNumber);
+        if(responseProductInfoDto != null) {
+            return new ResponseEntity<>(responseProductInfoDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/general/{serialNumber}")
     public ResponseEntity<?> getProductGeneralInfoBySerialNumber(@PathVariable String serialNumber){
         ResponseProductGeneralDto responseProductGeneralDto = productDetailService.findProductGeneralInfoBySerialNumber(serialNumber);
-        return new ResponseEntity<>(responseProductGeneralDto, HttpStatus.OK);
+        if(responseProductGeneralDto != null) {
+            return new ResponseEntity<>(responseProductGeneralDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping("/detail/{serialNumber}")
+    public ResponseEntity<?> getProductDetailInfoBySerialNumber(@PathVariable String serialNumber){
+        ResponseProductDetailDto responseProductDetailDto = productDetailService.findProductDetailInfoBySerialNumber(serialNumber);
+        if(responseProductDetailDto != null) {
+            return new ResponseEntity<>(responseProductDetailDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/remove/{serialNumber}")
     public ResponseEntity<?> removeProductDetailBySerialNumber(@PathVariable String serialNumber){
-        productDetailService.removeBySerialNumber(serialNumber);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Boolean isSuccess = productDetailService.removeBySerialNumber(serialNumber);
+        if(isSuccess) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateProductDetailInfo(@RequestBody RequestProductDetailInfoDto requestProductDetailInfoDto) {
+        Boolean isSuccess = productDetailService.updateProductDetailInfo(requestProductDetailInfoDto);
+        if(isSuccess) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

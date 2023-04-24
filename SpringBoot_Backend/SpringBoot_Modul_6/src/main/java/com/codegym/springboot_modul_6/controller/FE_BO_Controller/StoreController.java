@@ -18,17 +18,26 @@ public class StoreController {
     @GetMapping("/{accountUsername}")
     public ResponseEntity<?> getStoreByAccountUsername(@PathVariable String accountUsername){
         ResponseStoreDto responseStoreDto = storeService.findStoreByAccountUsername(accountUsername).orElse(null);
-        return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
+        if(responseStoreDto != null) {
+            return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/update-image")
     public ResponseEntity<?> updateImage(@RequestBody RequestStoreDto requestStoreDto) {
         ResponseStoreDto response = storeService.updateImage(requestStoreDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        if(response != null) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/update-name")
     public ResponseEntity<?> updateName(@RequestBody RequestStoreDto requestStoreDto) {
         ResponseStoreDto response = storeService.updateName(requestStoreDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        if(response != null) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
     }
 }
 

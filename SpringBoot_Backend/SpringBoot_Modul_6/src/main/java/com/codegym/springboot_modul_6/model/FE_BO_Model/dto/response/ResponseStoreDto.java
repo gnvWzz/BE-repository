@@ -17,5 +17,5 @@ import java.util.List;
 public class ResponseStoreDto {
     private String name;
     private String image;
-    private List<ResponseProductDetailDto> responseProductDetailDtoList;
+    private List<ResponseProductInfoDto> responseProductInfoDtoList;
 }
