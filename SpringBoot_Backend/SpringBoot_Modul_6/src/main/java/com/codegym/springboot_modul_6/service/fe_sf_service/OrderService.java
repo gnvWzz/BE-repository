@@ -11,10 +11,6 @@ import java.util.Optional;
 public interface OrderService {
     void saveOrder(OrderDto orderDto, String username);
 
-    List<OrderSF> getAllOrderByAccountId(Long accountId);
-
-    Optional<OrderSF> findOrderByOrderCode(String orderCode);
-
     //    Long them chuc nang discount order
     Optional<PromoOrderDto> orderSerive_promoOrderDto(PromoOrderDto promoOrderDto, List<Promos> promos);
 }

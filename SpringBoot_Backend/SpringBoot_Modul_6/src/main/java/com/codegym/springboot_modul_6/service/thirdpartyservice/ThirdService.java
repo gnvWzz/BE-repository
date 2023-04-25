@@ -17,11 +17,6 @@ import com.codegym.springboot_modul_6.service.fe_sf_service.RolesService;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.util.LongMapper;
 import com.codegym.springboot_modul_6.util.RequestMapper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -120,6 +115,7 @@ public class ThirdService {
         account.setPassword(password);
         accountService.save(account);
     }
+
     @Transactional
     public Account signUpOwner(AccountDto accountDto){
         Account account = new Account();
@@ -207,54 +203,6 @@ public class ThirdService {
         return page;
     }
 
-    public ProductSFDto getProductSFDto(String name) {
-        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
-        if(productSF != null) {
-            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-            List<PriceList> priceLists = productSF.getPrices();
-            List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
-            for (ProductSFDetail p : productSFDetailList) {
-                ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-                BeanUtils.copyProperties(p, productSFDetailDto);
-                productSFDetailDtoList.add(productSFDetailDto);
-            }
-            List<PriceListDto> priceListDtos = new ArrayList<>();
-            for (PriceList priceList : priceLists) {
-                PriceListDto priceListDto = new PriceListDto();
-                BeanUtils.copyProperties(priceList, priceListDto);
-                priceListDtos.add(priceListDto);
-            }
-            ProductSFDto productSFDto = new ProductSFDto();
-            BeanUtils.copyProperties(productSF, productSFDto);
-            productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
-            productSFDto.setPriceListDtos(priceListDtos);
-            productSFDto.setStoreName(productSF.getStore().getName());
-            productSFDto.setStoreImage(productSF.getStore().getImage());
-            return productSFDto;
-        }
-        return null;
-
-    }
-
-    public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
-        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
-        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        if(productSF != null) {
-            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-            for (ProductSFDetail productSFDetail : productSFDetailList) {
-                JSONParser parser = new JSONParser();
-                JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-                Gson gson = new GsonBuilder().create();
-                SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
-                if (sizeColorImgQuantity1.getColor().equals(color) && sizeColorImgQuantity1.getSize().equals(size)) {
-                    BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-                    return productSFDetailDto;
-                }
-            }
-        }
-        return null;
-    }
-
     @Transactional
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
@@ -265,7 +213,6 @@ public class ThirdService {
             BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
             productSFDetail.setProductSF(productSF);
             productSFDetail.setStatus("true");
-
             productSFDetailList.add(productSFDetail);
         }
         BeanUtils.copyProperties(productSFDto, productSF);
@@ -279,12 +226,10 @@ public class ThirdService {
             priceLists.add(priceList);
         }
         productSF.setPrices(priceLists);
-
         String accountUsername = productSFDto.getAccountUsername();
         Long accountId = accountService.findAccountByUsername(accountUsername).get().getId();
         Store store = storeRepository.findByAccount_Id(accountId).get();
         productSF.setStore(store);
-
         return productSF;
     }
 
@@ -305,25 +250,6 @@ public class ThirdService {
         if(productSF != null) {
             List<ProductSF> productSFList = productRepositorySF.findRandomProductYouLikeThis(productSF.getCategory(), productName);
             return mapper.mapperProductSFDto(productSFList);
-        }
-        return null;
-    }
-
-    public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException {
-        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
-        ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        if(productSF != null) {
-            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-            for (ProductSFDetail productSFDetail : productSFDetailList) {
-                JSONParser parser = new JSONParser();
-                JSONObject sizeColorImgQuantity = (JSONObject) parser.parse(productSFDetail.getSize_color_img_quantity());
-                Gson gson = new GsonBuilder().create();
-                SizeColorImgQuantity sizeColorImgQuantity1 = gson.fromJson(sizeColorImgQuantity.toString(), SizeColorImgQuantity.class);
-                if (sizeColorImgQuantity1.getColor().equals(color)) {
-                    BeanUtils.copyProperties(productSFDetail, productSFDetailDto);
-                    return productSFDetailDto;
-                }
-            }
         }
         return null;
     }

@@ -18,15 +18,6 @@ public interface ProductService extends GeneralService<ProductSF> {
 
     Page<ProductSF> findAllPaging(int offset, int pageSize);
 
-
-    List<ProductSF> productSFS();
-
-//    ProductSFDto getProductSFDto(String packageId);
-//
-//
-//    ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String packageId) throws ParseException;
-//
-
     ProductSFDto getProductSFDto(String name);
 
     ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException, ParseException;

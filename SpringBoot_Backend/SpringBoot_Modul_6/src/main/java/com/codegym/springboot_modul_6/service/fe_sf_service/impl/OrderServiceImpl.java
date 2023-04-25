@@ -89,17 +89,6 @@ public class OrderServiceImpl implements OrderService {
         cleanCartItems(cartSF);
     }
 
-    @Override
-    public List<OrderSF> getAllOrderByAccountId(Long accountId) {
-        return iOrderRepository.getAllByAccount_Id(accountId);
-    }
-
-    @Override
-    public Optional<OrderSF> findOrderByOrderCode(String orderCode) {
-        return iOrderRepository.findByOrderCode(orderCode);
-    }
-
-
     private void cleanCartItems(CartSF cartSF) {
         cartService.deleteCartItem(cartSF.getId());
     }

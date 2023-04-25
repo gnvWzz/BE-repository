@@ -25,7 +25,6 @@ public interface IProductDetailSFRepository extends JpaRepository<ProductSFDetai
     void removeBySerialNumber(String serialNumber);
 
     @Query("select u from ProductSFDetail u where u.serialNumber = ?1 ")
-
     Optional<ProductSFDetail> findBySerialNumber(String serialNumber);
 
     @Query(value = "select * from product_detail where serial_number in :serials", nativeQuery = true)

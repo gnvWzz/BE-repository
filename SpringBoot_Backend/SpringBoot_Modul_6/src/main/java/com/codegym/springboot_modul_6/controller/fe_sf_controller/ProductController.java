@@ -75,18 +75,26 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/find-product-detail-by-color-and-size/{color}/{size}/{name}")
+    @GetMapping("/product-detail-by-color-and-size/{color}/{size}/{name}")
     public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
                                                             @PathVariable("size") String size,
-                                                            @PathVariable("name") String name) throws ParseException {
-        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
-        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+                                                            @PathVariable("name") String name) {
+        try {
+            ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
+            return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
-    @GetMapping("/name-product/{name}")
+    @GetMapping("/product-by-name/{name}")
     public ResponseEntity<?> getProductByProductId(@PathVariable("name")String name) {
-        ProductSFDto productSFDto = productService.getProductSFDto(name);
-        return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+        try {
+            ProductSFDto productSFDto = productService.getProductSFDto(name);
+            return new ResponseEntity<>(productSFDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/remove/{id}")
@@ -94,6 +102,7 @@ public class ProductController {
         productService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PutMapping("/update/general")
     public ResponseEntity<?> updateProductGeneralInfo(@RequestBody RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
         Boolean isSuccess = productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
@@ -106,9 +115,13 @@ public class ProductController {
 
     @PostMapping("/new-product")
     public ResponseEntity<?> createNewProduct(@RequestBody ProductSFDto productSFDto) {
-        ProductSF productSF = productService.mapProductSF(productSFDto);
-        productService.save(productSF);
-        return new ResponseEntity<>("Done!", HttpStatus.OK);
+        try {
+            ProductSF productSF = productService.mapProductSF(productSFDto);
+            productService.save(productSF);
+            return new ResponseEntity<>("Done!", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/get-home")
@@ -145,10 +158,14 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/find-product-detail-by-color/{color}/{name}")
+    @GetMapping("/product-detail-by-color/{color}/{name}")
     public ResponseEntity<?> getProductDetailByColorAndSize(@PathVariable("color") String color,
-                                                            @PathVariable("name") String name) throws ParseException {
-        ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColor(color, name);
-        return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+                                                            @PathVariable("name") String name) {
+        try {
+            ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColor(color, name);
+            return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

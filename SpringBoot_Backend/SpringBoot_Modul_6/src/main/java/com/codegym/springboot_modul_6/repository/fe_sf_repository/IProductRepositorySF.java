@@ -40,6 +40,7 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     Page<ProductSF> getProductStoreById( Long storeId,PageRequest of );
 
     Optional<ProductSF> findProductSFByName(String name);
+
     @Query(value = "select  * from product where  category =?1 and not name =?2 order by rand() limit 4", nativeQuery = true)
     List<ProductSF> findRandomProductYouLikeThis (String category, String productName);
 }

@@ -9,6 +9,7 @@ import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductReposi
 import com.codegym.springboot_modul_6.service.fe_sf_service.ProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 
+import com.codegym.springboot_modul_6.util.ProductMapper;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ThirdService thirdService;
+
+    @Autowired
+    private ProductMapper productMapper;
 
     public static Map<String, ArrayList<String>> cache = new HashMap<>();
 
@@ -105,19 +109,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductSF> productSFS() {
-        List<ProductSF> productSFS = productRepositorySF.findAll();
-        return productSFS;
-    }
-
-    @Override
     public ProductSFDto getProductSFDto(String name) {
-        return thirdService.getProductSFDto(name);
+        return productMapper.getProductSFDto(name);
     }
 
     @Override
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException, ParseException {
-        return thirdService.getProductSFDetailDtoByColorAndSize(color, size, name);
+        return productMapper.getProductSFDetailDtoByColorAndSize(color, size, name);
     }
 
 
@@ -156,6 +154,7 @@ public class ProductServiceImpl implements ProductService {
         }
         return null;
     }
+
     @Override
     public Boolean updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
         String curName = requestProductGeneralInfoDto.getCurName();
@@ -179,8 +178,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException {
-        return thirdService.getProductSFDetailDtoByColor(color, name);
+    public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) {
+        return productMapper.getProductSFDetailDtoByColor(color, name);
     }
-
 }
