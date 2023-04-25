@@ -1,14 +1,13 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Promos;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IPromoRepository;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ProvinceServiceIplm;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Categories;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Promos;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Province;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IPromoRepository;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CategoryService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.impl.ProvinceServiceIplm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,7 @@ public class CategoryCache {
     private static final Map<String, List<?>> cacheCategories = new HashMap<>();
 
     @Autowired
-    private ICategoryService iCategoryService;
+    private CategoryService categoryService;
     @Autowired
     private ProvinceServiceIplm provinceServiceIplm;
 
@@ -43,7 +42,7 @@ public class CategoryCache {
     @PostConstruct
     public void init() {
         List<Promos> promos = iPromoRepository.findAll();
-        List<Categories> categories = (List<Categories>) iCategoryService.findAll();
+        List<Categories> categories = (List<Categories>) categoryService.findAll();
         List<Province> provinces = (List<Province>) provinceServiceIplm.findAll();
         cacheCategories.put(CATEGORY, categories);
         cacheCategories.put(PROVINCE,provinces);
