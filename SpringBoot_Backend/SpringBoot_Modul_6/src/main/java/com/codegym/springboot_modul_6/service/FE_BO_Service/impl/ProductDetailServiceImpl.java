@@ -1,14 +1,14 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductDetailInfoDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductDetailDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductInfoDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductGeneralDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.PriceList;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProductDetailInfoDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductDetailDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductInfoDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductGeneralDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.PriceList;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.ProductService;
 import org.springframework.beans.BeanUtils;

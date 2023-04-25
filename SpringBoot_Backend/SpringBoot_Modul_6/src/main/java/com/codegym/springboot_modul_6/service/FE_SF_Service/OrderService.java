@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDetailDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.OrderDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PromoOrderDto;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.OrderDetailDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.OrderDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PromoOrderDto;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IOrderRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;

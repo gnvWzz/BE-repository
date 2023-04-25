@@ -1,13 +1,13 @@
 package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderDetailSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.OrderSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Province;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProvinceDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.OrderDetailSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.OrderSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Province;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProvinceDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderDetailsSFModel;
+import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderSFModel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 

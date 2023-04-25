@@ -1,9 +1,7 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
-import org.springframework.transaction.annotation.Transactional;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestStoreDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseStoreDto;
 
 
 import java.util.Optional;

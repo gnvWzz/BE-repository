@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestProductGeneralInfoDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProductGeneralInfoDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 
 import org.json.simple.parser.ParseException;

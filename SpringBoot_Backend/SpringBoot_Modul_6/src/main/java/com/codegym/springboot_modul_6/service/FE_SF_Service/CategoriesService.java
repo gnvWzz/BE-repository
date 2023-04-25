@@ -1,12 +1,10 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Categories;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICategoriesRepository;
-import lombok.AllArgsConstructor;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Categories;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.ICategoriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service

@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.service.FE_SF_Service;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.model.CartModel;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IAccountRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.ICartRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IPriceListRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
+import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartModel;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IAccountRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.ICartRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IPriceListRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

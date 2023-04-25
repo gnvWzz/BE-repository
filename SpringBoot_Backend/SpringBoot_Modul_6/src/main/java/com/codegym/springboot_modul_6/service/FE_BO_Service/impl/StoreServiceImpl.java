@@ -1,17 +1,16 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.request.RequestStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseProductInfoDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.PriceRepository;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestStoreDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductInfoDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseStoreDto;
+import com.codegym.springboot_modul_6.model.fe_bo_model.entity.Store;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.repository.fe_bo_repository.PriceRepository;
+import com.codegym.springboot_modul_6.repository.fe_bo_repository.StoreRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.StoreService;
 import com.codegym.springboot_modul_6.service.FE_SF_Service.AccountService;
-import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

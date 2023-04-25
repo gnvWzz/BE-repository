@@ -1,10 +1,10 @@
 package com.codegym.springboot_modul_6.service.FE_BO_Service.impl;
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.PriceList;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSF;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.PriceRepository;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.PriceList;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.repository.fe_bo_repository.PriceRepository;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.PriceService;
 import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
