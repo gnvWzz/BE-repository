@@ -179,4 +179,13 @@ public class ProductServiceImpl implements ProductService {
         return thirdService.getProductSFDetailDtoByColor(color, name);
     }
 
+    @Override
+    public Boolean validateFirstForm(String productName){
+        Optional<ProductSF> productOptional = productRepositorySF.findProductSFByName(productName);
+        if(productOptional.isPresent()){
+            return false;
+        }
+        return true;
+    }
+
 }

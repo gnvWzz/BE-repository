@@ -19,10 +19,14 @@ public class PriceController {
 
     @PostMapping("/update/{serialNumber}")
     public ResponseEntity<?> updatePriceList(@PathVariable String serialNumber, @RequestBody List<PriceDto> priceDto) {
-        Boolean isSuccess = priceService.updatePriceList(serialNumber, priceDto);
-        if (isSuccess) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            Boolean isSuccess = priceService.updatePriceList(serialNumber, priceDto);
+            if (isSuccess) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

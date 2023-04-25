@@ -91,16 +91,24 @@ public class ProductController {
 
     @PostMapping("/remove/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable Long id) {
-        productService.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            productService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     @PutMapping("/update/general")
     public ResponseEntity<?> updateProductGeneralInfo(@RequestBody RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
-        Boolean isSuccess = productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
-        if(isSuccess) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            Boolean isSuccess = productService.updateProductGeneralInfo(requestProductGeneralInfoDto);
+            if(isSuccess) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
 
@@ -150,5 +158,18 @@ public class ProductController {
                                                             @PathVariable("name") String name) throws ParseException {
         ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColor(color, name);
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/validation/first-form")
+    public ResponseEntity<?> validateFirstForm(@RequestParam("name") String name) {
+        try{
+            Boolean isSuccess = productService.validateFirstForm(name);
+            if(isSuccess) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>("NAME WAS EXISTED",HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

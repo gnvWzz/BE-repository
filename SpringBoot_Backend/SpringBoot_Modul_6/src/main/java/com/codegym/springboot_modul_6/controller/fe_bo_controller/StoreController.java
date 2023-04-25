@@ -17,27 +17,39 @@ public class StoreController {
 
     @GetMapping("/{accountUsername}")
     public ResponseEntity<?> getStoreByAccountUsername(@PathVariable String accountUsername){
-        ResponseStoreDto responseStoreDto = storeService.findStoreByAccountUsername(accountUsername).orElse(null);
-        if(responseStoreDto != null) {
-            return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
+        try{
+            ResponseStoreDto responseStoreDto = storeService.findStoreByAccountUsername(accountUsername).orElse(null);
+            if(responseStoreDto != null) {
+                return new ResponseEntity<>(responseStoreDto, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/update-image")
     public ResponseEntity<?> updateImage(@RequestBody RequestStoreDto requestStoreDto) {
-        ResponseStoreDto response = storeService.updateImage(requestStoreDto);
-        if(response != null) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        try{
+            ResponseStoreDto response = storeService.updateImage(requestStoreDto);
+            if(response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PostMapping("/update-name")
     public ResponseEntity<?> updateName(@RequestBody RequestStoreDto requestStoreDto) {
-        ResponseStoreDto response = storeService.updateName(requestStoreDto);
-        if(response != null) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
+        try{
+            ResponseStoreDto response = storeService.updateName(requestStoreDto);
+            if(response != null) {
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
     }
 }
 
