@@ -1,14 +1,12 @@
 package com.codegym.springboot_modul_6.security;
 
 
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtProvider jwtProvider;
     @Autowired
-    private IAccountService iAccountService;
+    private AccountService accountService;
 //    @Autowired
 //    private UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
     @Override
@@ -32,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (jwt != null && jwtProvider.validateJwtToken(jwt)) {
                 String username = jwtProvider.getUserNameFromJwtToken(jwt);
 
-                UserDetails userDetails = iAccountService.loadUserByUsername(username);
+                UserDetails userDetails = accountService.loadUserByUsername(username);
 
 //                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
