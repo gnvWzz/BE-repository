@@ -38,21 +38,21 @@ public class LongMapper {
             ProductSFDto productSFDto = new ProductSFDto();
             BeanUtils.copyProperties(p, productSFDto);
             productSFDto.setProductSFDetailDtos(mapperProductDetailDto(p.getProductSFDetail()));
-            productSFDto.setPriceListDtos(mapperPriceList(p.getPrices()));
+            productSFDto.setPriceDtos(mapperPriceList(p.getPrices()));
             productSFDtos.add(productSFDto);
         }
         return productSFDtos;
     }
 
-    public List<PriceListDto> mapperPriceList(List<PriceList> priceLists){
-        List<PriceListDto> priceListDtos = new ArrayList<>();
-        for (PriceList p: priceLists
+    public List<PriceDto> mapperPriceList(List<Price> prices){
+        List<PriceDto> priceDtos = new ArrayList<>();
+        for (Price p: prices
              ) {
-            PriceListDto priceListDto = new PriceListDto();
-            BeanUtils.copyProperties(p, priceListDto);
-            priceListDtos.add(priceListDto);
+            PriceDto priceDto = new PriceDto();
+            BeanUtils.copyProperties(p, priceDto);
+            priceDtos.add(priceDto);
         }
-        return priceListDtos;
+        return priceDtos;
     }
 
     private List<ProductSFDetailDto> mapperProductDetailDto(List<ProductSFDetail> productSFDetails){

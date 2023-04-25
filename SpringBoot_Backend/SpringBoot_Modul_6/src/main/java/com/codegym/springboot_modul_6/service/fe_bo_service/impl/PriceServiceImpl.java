@@ -1,9 +1,9 @@
 package com.codegym.springboot_modul_6.service.fe_bo_service.impl;
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.PriceList;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Price;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.codegym.springboot_modul_6.repository.fe_bo_repository.PriceRepository;
 import com.codegym.springboot_modul_6.service.fe_bo_service.PriceService;
 import com.codegym.springboot_modul_6.service.fe_bo_service.ProductDetailService;
@@ -26,27 +26,27 @@ public class PriceServiceImpl implements PriceService {
         return standardPrice;
     }
 
-// PriceList is an object, not a list
+// Price is an object, not a list
     @Override
     @Transactional
-    public Boolean updatePriceList(String serialNumber,List<PriceListDto> priceListDto) {
+    public Boolean updatePriceList(String serialNumber,List<PriceDto> priceDto) {
         ProductSFDetail productDetail = productDetailService.findBySerialNumber(serialNumber).orElse(null);
         if(productDetail != null) {
             ProductSF product = productDetail.getProductSF();
             Long productId = product.getId();
             priceRepository.deletePriceListByProductId(productId);
-            List<PriceList> priceLists = new ArrayList<>();
-            for (PriceListDto ele : priceListDto) {
-                PriceList priceObj = new PriceList();
-                priceObj.setProductSF(product);
-                priceObj.setPriceId(ele.getPriceId());
-                priceObj.setFromQuantity(ele.getFromQuantity());
-                priceObj.setToQuantity(ele.getToQuantity());
-                priceObj.setPrice(ele.getPrice());
+            List<Price> prices = new ArrayList<>();
+            for (PriceDto ele : priceDto) {
+                Price price = new Price();
+                price.setProductSF(product);
+                price.setPriceId(ele.getPriceId());
+                price.setFromQuantity(ele.getFromQuantity());
+                price.setToQuantity(ele.getToQuantity());
+                price.setPrice(ele.getPrice());
 
-                priceLists.add(priceObj);
+                prices.add(price);
             }
-            Iterable<PriceList> newList = priceLists;
+            Iterable<Price> newList = prices;
 
             priceRepository.saveAll(newList);
             return true;

@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PriceListDto implements Serializable {
+public class PriceDto implements Serializable {
 
     private Long priceId;
     private Long fromQuantity;

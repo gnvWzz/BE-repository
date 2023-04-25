@@ -2,7 +2,7 @@ package com.codegym.springboot_modul_6.service.thirdpartyservice;
 import com.codegym.springboot_modul_6.model.fe_bo_model.entity.Store;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.AccountDto;
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderDetailsSFModel;
@@ -184,7 +184,7 @@ public class ThirdService {
         return account;
     }
 
-    public Account checkValidateUsernmae(String username){
+    public Account checkValidateUsername(String username){
         Account account = accountService.findAccountByUsername(username).get();
         return account;
     }
@@ -203,6 +203,35 @@ public class ThirdService {
         return page;
     }
 
+    public ProductSFDto getProductSFDto(String name) {
+        ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
+        if(productSF != null) {
+            List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
+            List<Price> prices = productSF.getPrices();
+            List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
+            for (ProductSFDetail p : productSFDetailList) {
+                ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
+                BeanUtils.copyProperties(p, productSFDetailDto);
+                productSFDetailDtoList.add(productSFDetailDto);
+            }
+            List<PriceDto> priceDtos = new ArrayList<>();
+            for (Price price : prices) {
+                PriceDto priceDto = new PriceDto();
+                BeanUtils.copyProperties(price, priceDto);
+                priceDtos.add(priceDto);
+            }
+            ProductSFDto productSFDto = new ProductSFDto();
+            BeanUtils.copyProperties(productSF, productSFDto);
+            productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
+            productSFDto.setPriceDtos(priceDtos);
+            productSFDto.setStoreName(productSF.getStore().getName());
+            productSFDto.setStoreImage(productSF.getStore().getImage());
+            return productSFDto;
+        }
+        return null;
+
+    }
+
     @Transactional
     public ProductSF mapProductSF(ProductSFDto productSFDto) {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
@@ -217,15 +246,15 @@ public class ThirdService {
         }
         BeanUtils.copyProperties(productSFDto, productSF);
         productSF.setProductSFDetail(productSFDetailList);
-        List<PriceListDto> priceListDtos = productSFDto.getPriceListDtos();
-        List<PriceList> priceLists = new ArrayList<>();
-        for (PriceListDto priceListDto: priceListDtos) {
-            PriceList priceList = new PriceList();
-            BeanUtils.copyProperties(priceListDto, priceList);
-            priceList.setProductSF(productSF);
-            priceLists.add(priceList);
+        List<PriceDto> priceDtos = productSFDto.getPriceDtos();
+        List<Price> prices = new ArrayList<>();
+        for (PriceDto priceDto : priceDtos) {
+            Price price = new Price();
+            BeanUtils.copyProperties(priceDto, price);
+            price.setProductSF(productSF);
+            prices.add(price);
         }
-        productSF.setPrices(priceLists);
+        productSF.setPrices(prices);
         String accountUsername = productSFDto.getAccountUsername();
         Long accountId = accountService.findAccountByUsername(accountUsername).get().getId();
         Store store = storeRepository.findByAccount_Id(accountId).get();

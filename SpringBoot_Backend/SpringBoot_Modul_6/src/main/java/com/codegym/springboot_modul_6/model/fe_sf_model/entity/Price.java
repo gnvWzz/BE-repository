@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PriceList {
+public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +35,7 @@ public class PriceList {
 
     private Double price;
 
-    public PriceList(ProductSF productSF, Long priceId, Long fromQuantity, Long toQuantity, Double price) {
+    public Price(ProductSF productSF, Long priceId, Long fromQuantity, Long toQuantity, Double price) {
         this.productSF = productSF;
         this.priceId = priceId;
         this.fromQuantity = fromQuantity;

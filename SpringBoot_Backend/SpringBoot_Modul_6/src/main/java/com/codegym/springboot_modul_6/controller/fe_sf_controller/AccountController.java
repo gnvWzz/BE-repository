@@ -79,7 +79,7 @@ public class AccountController {
     @GetMapping("/duplicate-username/{data}")
     public ResponseEntity<?> checkDuplicateUsername(@PathVariable("data") String username) {
         try {
-            Account account = thirdService.checkValidateUsernmae(username);
+            Account account = thirdService.checkValidateUsername(username);
 
             if (account != null) {
                 return new ResponseEntity<>("Exist", HttpStatus.OK);
@@ -162,7 +162,7 @@ public class AccountController {
     public ResponseEntity<?> updatePassword(@PathVariable("data") String password,
                                                     @PathVariable ("usernameLogin") String username){
         try {
-            Account account = thirdService.checkValidateUsernmae(username);
+            Account account = thirdService.checkValidateUsername(username);
             if (account != null) {
                 thirdService.updatePassword(account,password);
                 return new ResponseEntity<>( HttpStatus.OK);

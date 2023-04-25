@@ -33,7 +33,7 @@ public class ProductSF implements Serializable {
     private List<ProductSFDetail> productSFDetail;
 
     @OneToMany(mappedBy = "productSF", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-    private List<PriceList> prices;
+    private List<Price> prices;
 
     @JoinColumn(name = "store_id")
     @ManyToOne

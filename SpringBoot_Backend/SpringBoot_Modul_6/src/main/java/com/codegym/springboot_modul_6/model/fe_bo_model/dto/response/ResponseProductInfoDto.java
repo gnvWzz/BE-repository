@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.model.fe_bo_model.dto.response;
 
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +45,6 @@ public class ResponseProductInfoDto {
     private String category;
     private String manufacturer;
     private Double standardPrice;
-    private List<PriceListDto> priceListDtos;
+    private List<PriceDto> priceDtos;
 
 }
