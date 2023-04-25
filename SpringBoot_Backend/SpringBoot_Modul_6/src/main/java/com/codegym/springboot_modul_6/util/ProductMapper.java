@@ -1,9 +1,9 @@
 package com.codegym.springboot_modul_6.util;
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.PriceList;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Price;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.SizeColorImgQuantity;
@@ -75,23 +75,23 @@ public class ProductMapper {
         try {
             ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
             List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
-            List<PriceList> priceLists = productSF.getPrices();
+            List<Price> priceLists = productSF.getPrices();
             List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
             for (ProductSFDetail p : productSFDetailList) {
                 ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
                 BeanUtils.copyProperties(p, productSFDetailDto);
                 productSFDetailDtoList.add(productSFDetailDto);
             }
-            List<PriceListDto> priceListDtos = new ArrayList<>();
-            for (PriceList priceList : priceLists) {
-                PriceListDto priceListDto = new PriceListDto();
+            List<PriceDto> priceListDtos = new ArrayList<>();
+            for (Price priceList : priceLists) {
+                PriceDto priceListDto = new PriceDto();
                 BeanUtils.copyProperties(priceList, priceListDto);
                 priceListDtos.add(priceListDto);
             }
             ProductSFDto productSFDto = new ProductSFDto();
             BeanUtils.copyProperties(productSF, productSFDto);
             productSFDto.setProductSFDetailDtos(productSFDetailDtoList);
-            productSFDto.setPriceListDtos(priceListDtos);
+            productSFDto.setPriceDtos(priceListDtos);
             productSFDto.setStoreName(productSF.getStore().getName());
             productSFDto.setStoreImage(productSF.getStore().getImage());
             return productSFDto;
