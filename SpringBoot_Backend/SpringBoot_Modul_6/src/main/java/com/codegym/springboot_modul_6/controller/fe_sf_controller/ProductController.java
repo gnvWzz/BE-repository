@@ -27,12 +27,14 @@ public class ProductController {
     @Autowired
     private ThirdService thirdService;
 
+    private  final int PAGE_SIZE = 16;
+
     @GetMapping(value = "/{category}")
     public ResponseEntity<?> getAllByCategory(@PathVariable(value = "category") String category,
                                               @RequestParam(value = "offset") int offset,
                                               @RequestParam(required = false, value = "sort") String sort) {
         try {
-            Page<ProductSF> temp = productService.getAllByCategory(category, sort, offset, 16);
+            Page<ProductSF> temp = productService.getAllByCategory(category, sort, offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(temp), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,7 +47,7 @@ public class ProductController {
                                               @RequestParam(value = "offset") int offset,
                                               @RequestParam(value = "name") String name) {
         try {
-            Page<ProductSF> temp = productService.getByName(category, name, offset, 16);
+            Page<ProductSF> temp = productService.getByName(category, name, offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(temp), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,7 +60,7 @@ public class ProductController {
                                                          @RequestParam(value = "min_price") Double minPrice,
                                                          @RequestParam(value = "max_price") Double maxPrice) {
         try {
-            Page<ProductSF> temp = productService.getMaxMinPriceProduct(minPrice, maxPrice, category, offset, 16);
+            Page<ProductSF> temp = productService.getMaxMinPriceProduct(minPrice, maxPrice, category, offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(temp), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +70,7 @@ public class ProductController {
     @GetMapping(value = "/home")
     public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset) {
         try {
-            Page<ProductSF> temp = productService.findAllPaging(offset, 16);
+            Page<ProductSF> temp = productService.findAllPaging(offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(temp), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -82,6 +84,7 @@ public class ProductController {
         ProductSFDetailDto productSFDetailDto = productService.getProductSFDetailDtoByColorAndSize(color, size, name);
         return new ResponseEntity<>(productSFDetailDto, HttpStatus.OK);
     }
+
 
     @GetMapping("/name-product/{name}")
     public ResponseEntity<?> getProductByProductId(@PathVariable("name") String name) {
@@ -116,7 +119,7 @@ public class ProductController {
     public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset,
                                        @RequestParam(required = false, value = "sort") String sort) {
         try {
-            Page<ProductSF> page = productService.productService_getRandomProduct(offset, 16);
+            Page<ProductSF> page = productService.productService_getRandomProduct(offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(page), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -129,7 +132,7 @@ public class ProductController {
                                                 @RequestParam(value = "productname") String productName
     ) {
         try {
-            Page<ProductSF> page = productService.getProductOfStore(offset, 16, productName);
+            Page<ProductSF> page = productService.getProductOfStore(offset, PAGE_SIZE, productName);
             return new ResponseEntity<>(productService.productSFDtoPage(page), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
