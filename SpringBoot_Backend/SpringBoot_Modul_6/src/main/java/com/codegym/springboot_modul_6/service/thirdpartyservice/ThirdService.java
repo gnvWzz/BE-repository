@@ -1,5 +1,4 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
 import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
 import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
@@ -25,6 +24,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
@@ -65,6 +65,9 @@ public class ThirdService {
     private IProductDetailSFRepository productSFDetailRepository;
     @Autowired
     private StoreRepository storeRepository;
+
+    @Value("${store.defaultStoreImg}")
+    private String INIT_STORE_IMG;
 
 
     public Account signUp(AccountDto accountDto){
@@ -117,7 +120,7 @@ public class ThirdService {
         account.setPassword(password);
         accountService.save(account);
     }
-
+    @Transactional
     public Account signUpOwner(AccountDto accountDto){
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
@@ -134,7 +137,7 @@ public class ThirdService {
         String accountName = account.getUsername();
         Store store = new Store();
         store.setName(accountName);
-        store.setImage("https://cdn.shopify.com/s/files/1/0580/2885/products/Sundown-Discord-PFP-Shaded_4db3867d-3dc5-4054-9199-ab7f7a055ad6.jpg?v=1667710328&width=1445");
+        store.setImage(INIT_STORE_IMG);
         store.setAccount(account);
         storeRepository.save(store);
 
