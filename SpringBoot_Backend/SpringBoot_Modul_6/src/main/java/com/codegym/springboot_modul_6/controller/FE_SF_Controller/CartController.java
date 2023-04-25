@@ -25,9 +25,9 @@ public class CartController {
     private ICartService iCartService;
 
     @PostMapping(value = "/add-to-cart")
-    public ResponseEntity<?> addToCart(@RequestBody CartDto carDto){
+    public ResponseEntity<?> addToCart(@RequestBody CartDto cartDto){
         try {
-            CartSF cartSF =  mapper.mapperCart(carDto);
+            CartSF cartSF =  mapper.mapperCart(cartDto);
             if (cartSF != null) {
                 iCartService.saveCart(cartSF);
                 return new ResponseEntity<>("Add successfully", HttpStatus.OK);
