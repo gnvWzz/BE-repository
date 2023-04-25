@@ -1,23 +1,22 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.dto.response.ResponseStoreDto;
-import com.codegym.springboot_modul_6.model.FE_BO_Model.entity.Store;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.*;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.AccountDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.PriceListDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDetailDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderDetailsSFModel;
-import com.codegym.springboot_modul_6.repository.FE_BO_Repository.StoreRepository;
-import com.codegym.springboot_modul_6.model.FE_SF_Model.model.OrderSFModel;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IOrderRepository;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.model.fe_bo_model.entity.Store;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderDetailsSFModel;
+import com.codegym.springboot_modul_6.repository.fe_bo_repository.StoreRepository;
+import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderSFModel;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IOrderRepository;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.security.JwtProvider;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
-import com.codegym.springboot_modul_6.repository.FE_SF_Repository.IProductRepositorySF;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
+import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CategoryService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.RolesService;
+import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.util.LongMapper;
+import com.codegym.springboot_modul_6.util.RequestMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
@@ -51,12 +50,12 @@ public class ThirdService {
     @Autowired
     private RolesService rolesService;
     @Autowired
-    private IAccountService accountService;
+    private AccountService accountService;
     @Autowired
     private JwtProvider jwtProvider;
 
     @Autowired
-    private ICategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
     private RequestMapper requestMapper;

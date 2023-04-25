@@ -2,7 +2,7 @@
 package com.codegym.springboot_modul_6.security;
 
 
-import com.codegym.springboot_modul_6.model.FE_SF_Model.Entity.Account;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
