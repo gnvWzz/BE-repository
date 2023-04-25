@@ -39,16 +39,15 @@ public class PriceServiceImpl implements PriceService {
             for (PriceListDto ele : priceListDto) {
                 PriceList priceObj = new PriceList();
                 priceObj.setProductSF(product);
-
                 priceObj.setPriceId(ele.getPriceId());
                 priceObj.setFromQuantity(ele.getFromQuantity());
                 priceObj.setToQuantity(ele.getToQuantity());
                 priceObj.setPrice(ele.getPrice());
 
                 priceLists.add(priceObj);
-//                priceRepository.save(priceObj);
             }
             Iterable<PriceList> newList = priceLists;
+
             priceRepository.saveAll(newList);
             return true;
         }
