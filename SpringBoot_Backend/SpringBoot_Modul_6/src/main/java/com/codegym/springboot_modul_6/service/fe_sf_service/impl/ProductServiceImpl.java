@@ -4,7 +4,6 @@ import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProdu
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
-import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.service.fe_sf_service.ProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
@@ -22,9 +21,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private IProductRepositorySF productRepositorySF;
-
-    @Autowired
-    private IProductDetailSFRepository productDetailRepository;
 
     @Autowired
     private ThirdService thirdService;

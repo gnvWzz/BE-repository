@@ -22,7 +22,7 @@ public class ProductSFDto implements Serializable {
     private String manufacturer;
     private String accountUsername;
     private List<ProductSFDetailDto> productSFDetailDtos;
-    private List<PriceListDto> priceListDtos;
+    private List<PriceDto> priceDtos;
     private String storeName;
     private String storeImage;
 }

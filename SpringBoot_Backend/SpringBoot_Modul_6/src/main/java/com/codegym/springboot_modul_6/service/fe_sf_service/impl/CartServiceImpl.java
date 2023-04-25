@@ -249,9 +249,9 @@ public class CartServiceImpl implements CartService {
         ProductSFDetail productSF = iProductDetailSFRepository.getProductSFDetail(serialNumber).orElseThrow(() -> new RuntimeException(
                 "Product detail not found"
         ));
-        List<PriceList> priceLists = iPriceListRepository.getPriceListByProductId(productSF.getProductSF().getId());
+        List<Price> prices = iPriceListRepository.getPriceListByProductId(productSF.getProductSF().getId());
         Double priceOfCartItem = 0.0;
-        for (PriceList p: priceLists
+        for (Price p: prices
              ) {
             if ((p.getToQuantity() >= quantity) && (p.getFromQuantity() <= quantity)){
                 priceOfCartItem = p.getPrice();

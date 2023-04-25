@@ -4,10 +4,10 @@ import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProdu
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductDetailDto;
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductInfoDto;
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductGeneralDto;
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.PriceList;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Price;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSFDetail;
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.service.fe_bo_service.ProductDetailService;
 import com.codegym.springboot_modul_6.service.fe_sf_service.impl.ProductServiceImpl;
@@ -50,14 +50,14 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 //                Double standardPrice = priceListService.findStandardPriceByProductId(productId);
 //                responseProductInfoDto.setStandardPrice(standardPrice);
 
-                List<PriceList> priceList = productSF.getPrices();
-                List<PriceListDto> priceListDto = new ArrayList<>();
-                for(PriceList price: priceList){
-                    PriceListDto priceDto = new PriceListDto();
+                List<Price> priceList = productSF.getPrices();
+                List<PriceDto> priceListDto = new ArrayList<>();
+                for(Price price: priceList){
+                    PriceDto priceDto = new PriceDto();
                     BeanUtils.copyProperties(price, priceDto);
                     priceListDto.add(priceDto);
                 }
-                responseProductInfoDto.setPriceListDtos(priceListDto);
+                responseProductInfoDto.setPriceDtos(priceListDto);
 
                 return responseProductInfoDto;
             }

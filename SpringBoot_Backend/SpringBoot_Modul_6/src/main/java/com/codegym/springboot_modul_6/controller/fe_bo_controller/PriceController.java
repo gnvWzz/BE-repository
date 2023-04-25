@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.controller.fe_bo_controller;
 
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceDto;
 import com.codegym.springboot_modul_6.service.fe_bo_service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,8 @@ public class PriceController {
     private PriceService priceService;
 
     @PostMapping("/update/{serialNumber}")
-    public ResponseEntity<?> updatePriceList(@PathVariable String serialNumber, @RequestBody List<PriceListDto> priceListDto) {
-        Boolean isSuccess = priceService.updatePriceList(serialNumber, priceListDto);
+    public ResponseEntity<?> updatePriceList(@PathVariable String serialNumber, @RequestBody List<PriceDto> priceDto) {
+        Boolean isSuccess = priceService.updatePriceList(serialNumber, priceDto);
         if (isSuccess) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
