@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.OrderDetailDto;
@@ -6,6 +6,9 @@ import com.codegym.springboot_modul_6.model.fe_sf_model.dto.OrderDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PromoOrderDto;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
+import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CartService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.OrderService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
@@ -20,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-public class OrderService implements IOrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private IOrderRepository iOrderRepository;
@@ -30,10 +33,10 @@ public class OrderService implements IOrderService{
 //    }
 
     @Autowired
-    private IAccountService iAccountService;
+    private AccountService accountService;
 
     @Autowired
-    private ICartService iCartService;
+    private CartService cartService;
 
     @Autowired
     private IProductDetailSFRepository iProductDetailSFRepository;
@@ -42,8 +45,8 @@ public class OrderService implements IOrderService{
     @Override
     @Transactional
     public void saveOrder(OrderDto orderDto, String username){
-        Account account = iAccountService.findAccountByUsername(username).orElseThrow();
-        CartSF cartSF = iCartService.findCartSFByAccountId(account.getId())
+        Account account = accountService.findAccountByUsername(username).orElseThrow();
+        CartSF cartSF = cartService.findCartSFByAccountId(account.getId())
                 .orElseThrow(() -> new RuntimeException("Cart Not Found"));
         List<String> serialNumbers = new ArrayList<>();
         for (OrderDetailDto o: orderDto.getOrderDetailDtoList()
@@ -98,7 +101,7 @@ public class OrderService implements IOrderService{
 
 
     private void cleanCartItems(CartSF cartSF) {
-        iCartService.deleteCartItem(cartSF.getId());
+        cartService.deleteCartItem(cartSF.getId());
     }
 
 
@@ -106,7 +109,7 @@ public class OrderService implements IOrderService{
     private void replaceTotalPriceCart(CartSF cartSF){
         double beginTotalPrice = 0;
         cartSF.setTotalPrice(beginTotalPrice);
-        iCartService.save(cartSF);
+        cartService.save(cartSF);
     }
 
     private void saveOrder(OrderDto orderDto, Account account) {

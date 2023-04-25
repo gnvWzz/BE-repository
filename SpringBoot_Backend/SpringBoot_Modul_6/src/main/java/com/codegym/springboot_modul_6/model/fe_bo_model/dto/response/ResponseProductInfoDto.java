@@ -1,5 +1,6 @@
 package com.codegym.springboot_modul_6.model.fe_bo_model.dto.response;
 
+
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

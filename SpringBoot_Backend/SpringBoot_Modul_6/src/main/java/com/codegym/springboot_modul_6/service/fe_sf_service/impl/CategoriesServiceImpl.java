@@ -1,18 +1,19 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Categories;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.ICategoriesRepository;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class CategoriesService implements ICategoryService {
+public class CategoriesServiceImpl implements CategoryService {
 
-    private static final ICategoryService CATEGORIES_SERVICE = new CategoriesService();
+    private static final CategoryService CATEGORIES_SERVICE = new CategoriesServiceImpl();
 
-    public static ICategoryService getCategoriesService(){
+    public static CategoryService getCategoriesService(){
         return CATEGORIES_SERVICE;
     }
 

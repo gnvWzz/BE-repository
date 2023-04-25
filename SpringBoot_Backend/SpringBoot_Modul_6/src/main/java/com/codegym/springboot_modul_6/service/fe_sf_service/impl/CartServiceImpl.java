@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartModel;
@@ -6,7 +6,9 @@ import com.codegym.springboot_modul_6.repository.fe_sf_repository.IAccountReposi
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.ICartRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IPriceListRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CartService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.ProductService;
+import com.codegym.springboot_modul_6.util.CartMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class CartService implements ICartService {
+public class CartServiceImpl implements CartService {
 
     @Autowired
     private ICartRepository iCartRepository;
@@ -32,10 +34,10 @@ public class CartService implements ICartService {
     private IProductDetailSFRepository iProductDetailSFRepository;
 
     @Autowired
-    private LongMapper mapper;
+    private CartMapper mapper;
 
     @Autowired
-    private IProductService iProductService;
+    private ProductService iProductService;
 
 
     @Override
@@ -80,7 +82,7 @@ public class CartService implements ICartService {
     @Override
     public Optional<CartModel> getCart(String accountName) {
         Optional<CartSF> cartSF = iCartRepository.findCartByAccountName(accountName);
-        if (cartSF.isEmpty()){
+        if (cartSF.isEmpty()) {
             return Optional.empty();
         }
         Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
@@ -243,15 +245,15 @@ public class CartService implements ICartService {
     }
 
 
-    private Double cartService_getPriceFromPriceList(Long quantity, String serialNumber){
+    private Double cartService_getPriceFromPriceList(Long quantity, String serialNumber) {
         ProductSFDetail productSF = iProductDetailSFRepository.getProductSFDetail(serialNumber).orElseThrow(() -> new RuntimeException(
                 "Product detail not found"
         ));
         List<PriceList> priceLists = iPriceListRepository.getPriceListByProductId(productSF.getProductSF().getId());
         Double priceOfCartItem = 0.0;
-        for (PriceList p: priceLists
-             ) {
-            if ((p.getToQuantity() >= quantity) && (p.getFromQuantity() <= quantity)){
+        for (PriceList p : priceLists
+        ) {
+            if ((p.getToQuantity() >= quantity) && (p.getFromQuantity() <= quantity)) {
                 priceOfCartItem = p.getPrice();
             }
         }

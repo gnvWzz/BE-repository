@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper;
+package com.codegym.springboot_modul_6.util;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.OrderDetailSF;

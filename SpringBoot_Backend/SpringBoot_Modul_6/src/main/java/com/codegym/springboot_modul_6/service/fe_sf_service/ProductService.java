@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service;
 
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProductGeneralInfoDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Page;
 import java.util.List;
 
-public interface IProductService extends IGeneralService<ProductSF> {
+public interface ProductService extends GeneralService<ProductSF> {
 
     List<ProductSF> findAll(String category);
 
@@ -42,4 +42,6 @@ public interface IProductService extends IGeneralService<ProductSF> {
     Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName);
 
     ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException;
+
+    Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity);
 }

@@ -1,13 +1,15 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Roles;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IRolesRepository;
+import com.codegym.springboot_modul_6.service.fe_sf_service.RolesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
-public class RolesServiceImpl implements RolesService{
+public class RolesServiceImpl implements RolesService {
     @Autowired
     IRolesRepository iRolesRepository;
 

@@ -1,23 +1,25 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProductGeneralInfoDto;
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
+import com.codegym.springboot_modul_6.service.fe_sf_service.ProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
-
+import com.codegym.springboot_modul_6.util.ProductMapper;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class ProductService implements IProductService {
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private IProductRepositorySF productRepositorySF;
@@ -27,6 +29,9 @@ public class ProductService implements IProductService {
 
     @Autowired
     private ThirdService thirdService;
+
+    @Autowired
+    protected ProductMapper productMapper;
 
     public static Map<String, ArrayList<String>> cache = new HashMap<>();
 
@@ -69,8 +74,8 @@ public class ProductService implements IProductService {
     @Override
     public Page<ProductSF> getAllByCategory(String category, String sort, int offset, int pageSize) {
         String action = sort;
-        if (action == null){
-            action =  "null";
+        if (action == null) {
+            action = "null";
         }
         switch (action) {
             case "asc": {
@@ -93,8 +98,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductSF> getMaxMinPriceProduct(Double min, Double max, String category, int offset, int pageSize){
-        Page<ProductSF> productSFS = productRepositorySF.findProductsByMinPriceToMaxPrice(min, max, category,PageRequest.of(offset, pageSize));
+    public Page<ProductSF> getMaxMinPriceProduct(Double min, Double max, String category, int offset, int pageSize) {
+        Page<ProductSF> productSFS = productRepositorySF.findProductsByMinPriceToMaxPrice(min, max, category, PageRequest.of(offset, pageSize));
         return productSFS;
     }
 
@@ -132,14 +137,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductSF> productService_getRandomProduct(int offset, int pageSize){
+    public Page<ProductSF> productService_getRandomProduct(int offset, int pageSize) {
         return productRepositorySF.productRepository_getRanDomProduct(PageRequest.of(offset, pageSize));
     }
 
     @Override
-    public Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName){
+    public Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName) {
         ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElse(null);
-        if(productSF != null) {
+        if (productSF != null) {
             Long storeId = productSF.getStore().getId();
 
             Page<ProductSF> productSFS = productRepositorySF.getProductStoreById(storeId, PageRequest.of(offset, pageSize));
@@ -148,23 +153,24 @@ public class ProductService implements IProductService {
         return null;
     }
 
-    public ProductSF findProductSFByName(String name){
+    public ProductSF findProductSFByName(String name) {
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
-        if(productSF != null) {
+        if (productSF != null) {
             return productSF;
         }
         return null;
     }
+
     @Override
-    public Boolean updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto){
+    public Boolean updateProductGeneralInfo(RequestProductGeneralInfoDto requestProductGeneralInfoDto) {
         String curName = requestProductGeneralInfoDto.getCurName();
         ProductSF productSF = productRepositorySF.findProductSFByName(curName).orElse(null);
         String newName = requestProductGeneralInfoDto.getNewName();
-        if(productSF != null) {
-            if(curName.equals(newName)){
+        if (productSF != null) {
+            if (curName.equals(newName)) {
             } else {
                 Optional<ProductSF> obj = productRepositorySF.findProductSFByName(newName);
-                if(obj.isPresent()){
+                if (obj.isPresent()) {
                     return false;
                 }
             }
@@ -180,6 +186,16 @@ public class ProductService implements IProductService {
     @Override
     public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException {
         return thirdService.getProductSFDetailDtoByColor(color, name);
+    }
+
+    @Override
+    public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
+        List<ProductSFDto> productSFDtos = productMapper.mapperProductSFDto(entity.getContent());
+        if  (entity.getContent().size() == 0){
+            throw new RuntimeException("No data");
+        }
+        Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
+        return page;
     }
 
 }

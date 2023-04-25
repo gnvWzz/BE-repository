@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.service.FE_BO_Service;
+package com.codegym.springboot_modul_6.service.fe_bo_service;
 
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProductDetailInfoDto;
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductDetailDto;

@@ -10,13 +10,15 @@ import com.codegym.springboot_modul_6.repository.fe_bo_repository.StoreRepositor
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderSFModel;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IOrderRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
-import com.codegym.springboot_modul_6.security.JwtProvider;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IAccountService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.ICategoryService;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.RolesService;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
+import com.codegym.springboot_modul_6.security.JwtProvider;
+
+import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.CategoryService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.RolesService;
+import com.codegym.springboot_modul_6.util.ProductMapper;
+import com.codegym.springboot_modul_6.util.RequestMapper;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
@@ -24,8 +26,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +42,7 @@ public class ThirdService {
     private static final CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
     @Autowired
-    private LongMapper mapper;
+    private ProductMapper productMapper;
 
     @Autowired
     private IOrderRepository orderRepository;
@@ -50,12 +50,12 @@ public class ThirdService {
     @Autowired
     private RolesService rolesService;
     @Autowired
-    private IAccountService accountService;
+    private AccountService accountService;
     @Autowired
     private JwtProvider jwtProvider;
 
     @Autowired
-    private ICategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
     private RequestMapper requestMapper;
@@ -90,7 +90,6 @@ public class ThirdService {
         return null;
     }
     @Transactional
-
     public Account update (AccountDto accountDto){
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
         String passwordDb = account.getPassword();
@@ -194,14 +193,7 @@ public class ThirdService {
         return account;
     }
 
-    public Page<ProductSFDto> productSFDtoPage(Page<ProductSF> entity){
-        List<ProductSFDto> productSFDtos = mapper.mapperProductSFDto(entity.getContent());
-        if  (entity.getContent().size() == 0){
-            throw new RuntimeException("No data");
-        }
-        Page<ProductSFDto> page = new PageImpl<>(productSFDtos, entity.getPageable(), entity.getTotalElements());
-        return page;
-    }
+
 
     public ProductSFDto getProductSFDto(String name) {
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
@@ -297,10 +289,10 @@ public class ThirdService {
     }
 
     public List<ProductSFDto> getListProductDtoRandomByProductName ( String productName){
-        ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElse(null);
+        ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElseThrow(() -> new RuntimeException("Product not found"));
         if(productSF != null) {
             List<ProductSF> productSFList = productRepositorySF.findRandomProductYouLikeThis(productSF.getCategory(), productName);
-            return mapper.mapperProductSFDto(productSFList);
+            return productMapper.mapperProductSFDto(productSFList);
         }
         return null;
     }

@@ -1,7 +1,9 @@
 package com.codegym.springboot_modul_6.controller.fe_bo_controller;
 
+
+
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
-import com.codegym.springboot_modul_6.service.FE_BO_Service.PriceService;
+import com.codegym.springboot_modul_6.service.fe_bo_service.PriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

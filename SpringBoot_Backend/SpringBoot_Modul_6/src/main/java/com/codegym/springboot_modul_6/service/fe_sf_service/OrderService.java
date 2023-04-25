@@ -1,4 +1,4 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.OrderSF;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Promos;
@@ -8,7 +8,7 @@ import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PromoOrderDto;
 import java.util.List;
 import java.util.Optional;
 
-public interface IOrderService {
+public interface OrderService {
     void saveOrder(OrderDto orderDto, String username);
 
     List<OrderSF> getAllOrderByAccountId(Long accountId);

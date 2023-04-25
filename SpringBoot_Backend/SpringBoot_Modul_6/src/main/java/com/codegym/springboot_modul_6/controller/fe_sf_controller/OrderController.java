@@ -1,11 +1,11 @@
 package com.codegym.springboot_modul_6.controller.fe_sf_controller;
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Promos;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.OrderDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PromoOrderDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Promos;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderDetailsSFModel;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderSFModel;
-import com.codegym.springboot_modul_6.service.FE_SF_Service.IOrderService;
+import com.codegym.springboot_modul_6.service.fe_sf_service.OrderService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.CategoryCache;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/order")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${app.cors.allowedOrigins}")
 public class OrderController {
 
     @Autowired
-    private IOrderService iOrderService;
+    private OrderService orderService;
 
     @Autowired
     private ThirdService thirdService;
@@ -35,44 +35,44 @@ public class OrderController {
 
     @PostMapping(value = "/")
     public ResponseEntity<?> saveOrder(@RequestBody OrderDto orderDto,
-                                           @RequestParam(value = "username") String username) {
+                                       @RequestParam(value = "username") String username) {
         try {
-            iOrderService.saveOrder(orderDto, username);
+            orderService.saveOrder(orderDto, username);
             return new ResponseEntity<>("Add successfully", HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/list/{username}")
-    public ResponseEntity<?> getListOrder (@PathVariable("username") String username){
+    public ResponseEntity<?> getListOrder(@PathVariable("username") String username) {
         try {
-            List<OrderSFModel> orderSFModelList = thirdService.getListOrder( username);
+            List<OrderSFModel> orderSFModelList = thirdService.getListOrder(username);
             return new ResponseEntity<>(orderSFModelList, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/orderDetails/{orderCode}")
-    public ResponseEntity<?> getOrderDetails(@PathVariable("orderCode") String orderCode){
+    public ResponseEntity<?> getOrderDetails(@PathVariable("orderCode") String orderCode) {
         try {
-          List<OrderDetailsSFModel> orderDetailsSFModelList = thirdService.getListOrderDetails( orderCode);
+            List<OrderDetailsSFModel> orderDetailsSFModelList = thirdService.getListOrderDetails(orderCode);
             return new ResponseEntity<>(orderDetailsSFModelList, HttpStatus.OK);
-        }catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-//    Long them vao chuc nang promos
-    @PostMapping("/getPromo")
-    public ResponseEntity<?> getPromosOrder(@RequestBody PromoOrderDto promoOrderDto){
+    //    Long them vao chuc nang promos
+    @PostMapping("/promo")
+    public ResponseEntity<?> getPromosOrder(@RequestBody PromoOrderDto promoOrderDto) {
         try {
             List<Promos> promos = (List<Promos>) categoryCache.getCacheCategories().get(categoryCache.PROMOS);
-            PromoOrderDto afterDiscount = iOrderService.orderSerive_promoOrderDto(promoOrderDto, promos).orElseThrow(() -> new RuntimeException("Illegal order"));
+            PromoOrderDto afterDiscount = orderService.orderSerive_promoOrderDto(promoOrderDto, promos).orElseThrow(() -> new RuntimeException("Illegal order"));
             return new ResponseEntity<>(afterDiscount, HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>("Promo is invalid",HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Promo is invalid", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

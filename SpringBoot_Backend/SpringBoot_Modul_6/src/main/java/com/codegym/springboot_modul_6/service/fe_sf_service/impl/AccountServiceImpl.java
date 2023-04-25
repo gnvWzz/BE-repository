@@ -1,10 +1,11 @@
 
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service.impl;
 
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.UserPrinciple;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IAccountRepository;
+import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
-public class AccountService implements IAccountService {
+public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private IAccountRepository iAccountRepository;
@@ -32,13 +33,12 @@ public class AccountService implements IAccountService {
     }
 
 
-
     @Override
     public void save(Account account) {
         String pattern = "^\\$2[ayb]\\$.{56}$";
-        if (account.getPassword() != null && !Pattern.matches(pattern, account.getPassword())){
+        if (account.getPassword() != null && !Pattern.matches(pattern, account.getPassword())) {
             account.setStatus("false");
-            account.setPassword(BCrypt.hashpw(account.getPassword(),BCrypt.gensalt(10)));
+            account.setPassword(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt(10)));
         }
         iAccountRepository.save(account);
     }
@@ -65,22 +65,22 @@ public class AccountService implements IAccountService {
 
     @Override
     public boolean checkLogin(String username, String password) {
-            Optional<Account> account = iAccountRepository.findByUsername(username);
-            String passwordDb =  account.get().getPassword();
-            if (account.isPresent()){
-                if (BCrypt.checkpw(password, passwordDb)){
-                    return true;
-                }
+        Optional<Account> account = iAccountRepository.findByUsername(username);
+        String passwordDb = account.get().getPassword();
+        if (account.isPresent()) {
+            if (BCrypt.checkpw(password, passwordDb)) {
+                return true;
             }
+        }
         return false;
     }
 
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<Account> account  = iAccountRepository.findByUsername(username);
-        if (!account.isPresent()){
-        throw new UsernameNotFoundException(username);
+        Optional<Account> account = iAccountRepository.findByUsername(username);
+        if (!account.isPresent()) {
+            throw new UsernameNotFoundException(username);
         }
 
         return UserPrinciple.build(account.get());

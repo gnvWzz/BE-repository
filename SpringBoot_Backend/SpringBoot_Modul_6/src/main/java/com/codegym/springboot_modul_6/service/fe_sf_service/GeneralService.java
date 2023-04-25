@@ -1,8 +1,8 @@
-package com.codegym.springboot_modul_6.service.FE_SF_Service;
+package com.codegym.springboot_modul_6.service.fe_sf_service;
 
 import java.util.Optional;
 
-public interface IGeneralService <T>{
+public interface GeneralService<T>{
 
     Iterable<T> findAll();
 

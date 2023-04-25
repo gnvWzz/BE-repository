@@ -4,8 +4,8 @@ import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Categories;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Province;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CacheModel;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.CategoryCache;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.LongMapper;
-import com.codegym.springboot_modul_6.util.FE_SF_Util.Mapper.RequestMapper;
+import com.codegym.springboot_modul_6.util.CategoryMapper;
+import com.codegym.springboot_modul_6.util.RequestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +19,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${app.cors.allowedOrigins}")
 public class CategoriesController {
 
     @Autowired
-    private LongMapper longMapper;
+    private CategoryMapper mapper;
 
     private CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
@@ -32,10 +32,10 @@ public class CategoriesController {
 
 
 
-    @GetMapping(value = "/find-all")
+    @GetMapping(value = "/")
     public ResponseEntity<?> getAllCategories() {
         CacheModel cacheModel = new CacheModel();
-        cacheModel.setCategories(longMapper.mapperCategories((List<Categories>) categoryCache.getCacheCategories().get(categoryCache.CATEGORY)));
+        cacheModel.setCategories(mapper.mapperCategories((List<Categories>) categoryCache.getCacheCategories().get(categoryCache.CATEGORY)));
         cacheModel.setProvinces(requestMapper.provinceDtoList((List<Province>) categoryCache.getCacheCategories().get(categoryCache.PROVINCE)));
         return new ResponseEntity<>(cacheModel, HttpStatus.OK);
     }

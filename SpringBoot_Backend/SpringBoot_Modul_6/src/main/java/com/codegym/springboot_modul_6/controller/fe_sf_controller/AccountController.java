@@ -1,7 +1,7 @@
 package com.codegym.springboot_modul_6.controller.fe_sf_controller;
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.AccountDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.Account;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.AccountModel;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${app.cors.allowedOrigins}")
 @RequestMapping(value = "/api/account")
 public class AccountController {
     @Autowired
@@ -117,7 +117,7 @@ public class AccountController {
     }
 
     @GetMapping("/user/{username}")
-    public ResponseEntity<?> getUser(@PathVariable("username") String username){
+    public ResponseEntity<?> getUser(@PathVariable("username") String username) {
         try {
             AccountDto accountDto = thirdService.getUser(username);
             if (accountDto != null) {
@@ -126,28 +126,28 @@ public class AccountController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/")
-    public ResponseEntity<?>update(@RequestBody AccountDto accountDto){
+    public ResponseEntity<?> update(@RequestBody AccountDto accountDto) {
         try {
             Account account = thirdService.update(accountDto);
 
             if (account != null) {
-                return new ResponseEntity<>( HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/password/{data}/{usernameLogin}")
     public ResponseEntity<?> checkPassword(@PathVariable("data") String password,
-                                                    @PathVariable ("usernameLogin") String username) {
+                                           @PathVariable("usernameLogin") String username) {
         try {
-            boolean checkPassword = thirdService.checkPassword(password,username);
+            boolean checkPassword = thirdService.checkPassword(password, username);
             if (checkPassword) {
                 return new ResponseEntity<>("Exist", HttpStatus.OK);
             }
@@ -159,17 +159,17 @@ public class AccountController {
 
     @PostMapping("/password/{data}/{usernameLogin}")
     public ResponseEntity<?> updatePassword(@PathVariable("data") String password,
-                                                    @PathVariable ("usernameLogin") String username){
+                                            @PathVariable("usernameLogin") String username) {
         try {
             Account account = thirdService.checkValidateUsernmae(username);
             if (account != null) {
-                thirdService.updatePassword(account,password);
-                return new ResponseEntity<>( HttpStatus.OK);
+                thirdService.updatePassword(account, password);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>( HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

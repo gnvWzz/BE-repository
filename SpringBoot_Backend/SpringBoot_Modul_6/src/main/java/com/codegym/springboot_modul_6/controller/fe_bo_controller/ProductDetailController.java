@@ -4,7 +4,9 @@ import com.codegym.springboot_modul_6.model.fe_bo_model.dto.request.RequestProdu
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductDetailDto;
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductInfoDto;
 import com.codegym.springboot_modul_6.model.fe_bo_model.dto.response.ResponseProductGeneralDto;
-import com.codegym.springboot_modul_6.service.FE_BO_Service.ProductDetailService;
+
+
+import com.codegym.springboot_modul_6.service.fe_bo_service.ProductDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
