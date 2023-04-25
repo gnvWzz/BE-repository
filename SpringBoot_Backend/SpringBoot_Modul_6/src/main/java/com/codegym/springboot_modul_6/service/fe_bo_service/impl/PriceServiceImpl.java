@@ -40,7 +40,6 @@ public class PriceServiceImpl implements PriceService {
             for (PriceListDto ele : priceListDto) {
                 PriceList priceObj = new PriceList();
                 priceObj.setProductSF(product);
-
                 priceObj.setPriceId(ele.getPriceId());
                 priceObj.setFromQuantity(ele.getFromQuantity());
                 priceObj.setToQuantity(ele.getToQuantity());
@@ -49,6 +48,7 @@ public class PriceServiceImpl implements PriceService {
                 priceLists.add(priceObj);
             }
             Iterable<PriceList> newList = priceLists;
+
             priceRepository.saveAll(newList);
             return true;
         }
