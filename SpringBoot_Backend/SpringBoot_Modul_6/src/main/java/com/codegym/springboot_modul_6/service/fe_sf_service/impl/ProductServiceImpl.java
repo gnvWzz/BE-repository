@@ -162,7 +162,7 @@ public class ProductServiceImpl implements ProductService {
         ProductSF productSF = productRepositorySF.findProductSFByName(curName).orElse(null);
         String newName = requestProductGeneralInfoDto.getNewName();
         if(productSF != null) {
-            if(curName == newName){
+            if(curName.equals(newName)){
             } else {
                 Optional<ProductSF> obj = productRepositorySF.findProductSFByName(newName);
                 if(obj.isPresent()){
