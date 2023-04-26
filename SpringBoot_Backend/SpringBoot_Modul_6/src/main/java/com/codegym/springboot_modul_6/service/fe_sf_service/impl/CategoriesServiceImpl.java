@@ -11,12 +11,6 @@ import java.util.Optional;
 @Service
 public class CategoriesServiceImpl implements CategoryService {
 
-    private static final CategoryService CATEGORIES_SERVICE = new CategoriesServiceImpl();
-
-    public static CategoryService getCategoriesService(){
-        return CATEGORIES_SERVICE;
-    }
-
     @Autowired
     private ICategoriesRepository iCategoriesRepository;
 

@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
                     if (o.getSerialNumber().equals(p.getSerialNumber())) {
                         if (sizeColorImgQuantity1.getQuantity() - o.getQuantity() >= 0) {
                             sizeColorImgQuantity1.setQuantity(sizeColorImgQuantity1.getQuantity() - o.getQuantity());
-                            String temp = gson.toJson(sizeColorImgQuantity1).toString();
+                            String temp = gson.toJson(sizeColorImgQuantity1);
                             p.setSize_color_img_quantity(temp);
                             iProductDetailSFRepository.save(p);
                         } else {
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                 }
             } catch (ParseException e) {
-                System.out.println(e);
+                throw new RuntimeException();
             }
         }
 

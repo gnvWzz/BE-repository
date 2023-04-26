@@ -1,24 +1,21 @@
 package com.codegym.springboot_modul_6.service.thirdpartyservice;
+
 import com.codegym.springboot_modul_6.model.fe_bo_model.entity.Store;
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.AccountDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.PriceListDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDetailDto;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.ProductSFDto;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderDetailsSFModel;
-import com.codegym.springboot_modul_6.repository.fe_bo_repository.StoreRepository;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.OrderSFModel;
+import com.codegym.springboot_modul_6.repository.fe_bo_repository.StoreRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IOrderRepository;
-import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductRepositorySF;
 import com.codegym.springboot_modul_6.security.JwtProvider;
-
 import com.codegym.springboot_modul_6.service.fe_sf_service.AccountService;
-import com.codegym.springboot_modul_6.service.fe_sf_service.CategoryService;
 import com.codegym.springboot_modul_6.service.fe_sf_service.RolesService;
 import com.codegym.springboot_modul_6.util.ProductMapper;
 import com.codegym.springboot_modul_6.util.RequestMapper;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.json.simple.JSONObject;
@@ -27,7 +24,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +37,6 @@ public class ThirdService {
     @Autowired
     private IProductRepositorySF productRepositorySF;
 
-    private static final CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
     @Autowired
     private ProductMapper productMapper;
@@ -56,14 +51,10 @@ public class ThirdService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    @Autowired
-    private CategoryService categoryService;
 
     @Autowired
     private RequestMapper requestMapper;
 
-    @Autowired
-    private IProductDetailSFRepository productSFDetailRepository;
     @Autowired
     private StoreRepository storeRepository;
 
@@ -71,7 +62,7 @@ public class ThirdService {
     private String INIT_STORE_IMG;
 
 
-    public Account signUp(AccountDto accountDto){
+    public Account signUp(AccountDto accountDto) {
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
         List<AccountRoles> accountRolesList = new ArrayList<>();
@@ -86,19 +77,20 @@ public class ThirdService {
         return account;
     }
 
-    public AccountDto getUser(String username){
+    public AccountDto getUser(String username) {
         Account account = accountService.findAccountByUsername(username).get();
-        if (account != null){
+        if (account != null) {
             AccountDto accountDto = requestMapper.toAccountDto(account);
             return accountDto;
         }
         return null;
     }
+
     @Transactional
-    public Account update (AccountDto accountDto){
+    public Account update(AccountDto accountDto) {
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
         String passwordDb = account.getPassword();
-        if (account != null){
+        if (account != null) {
             account.setCity(accountDto.getCity());
             account.setDistrict(accountDto.getDistrict());
             account.setStreet(accountDto.getStreet());
@@ -112,16 +104,17 @@ public class ThirdService {
         return null;
     }
 
-    public boolean checkPassword (String password , String username){
-       return accountService.checkLogin(username,password);
+    public boolean checkPassword(String password, String username) {
+        return accountService.checkLogin(username, password);
     }
 
-    public void updatePassword(Account account,String password){
+    public void updatePassword(Account account, String password) {
         account.setPassword(password);
         accountService.save(account);
     }
+
     @Transactional
-    public Account signUpOwner(AccountDto accountDto){
+    public Account signUpOwner(AccountDto accountDto) {
         Account account = new Account();
         AccountRoles accountRoles = new AccountRoles();
         List<AccountRoles> accountRolesList = new ArrayList<>();
@@ -144,38 +137,38 @@ public class ThirdService {
         return account;
     }
 
-    public String login(AccountDto accountDto){
+    public String login(AccountDto accountDto) {
         boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
         List<AccountRoles> roles = account.getRolesList();
-        boolean isRole  = false;
+        boolean isRole = false;
         for (AccountRoles role :
-             roles ) {
+                roles) {
             if (role.getRoles().getName().equals("ROLE_USER")) {
                 isRole = true;
                 break;
             }
         }
-        if (isLogin && isRole){
+        if (isLogin && isRole) {
             String jwt = jwtProvider.generateTokenLogin(account);
-          return jwt;
+            return jwt;
         }
         return null;
     }
 
-    public String loginOwner(AccountDto accountDto){
-        boolean isLogin= accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
+    public String loginOwner(AccountDto accountDto) {
+        boolean isLogin = accountService.checkLogin(accountDto.getUsername(), accountDto.getPassword());
         Account account = accountService.findAccountByUsername(accountDto.getUsername()).get();
         List<AccountRoles> roles = account.getRolesList();
-        boolean isRole  = false;
+        boolean isRole = false;
         for (AccountRoles role :
-                roles ) {
+                roles) {
             if (role.getRoles().getName().equals("ROLE_OWNER")) {
                 isRole = true;
                 break;
             }
         }
-        if (isLogin && isRole){
+        if (isLogin && isRole) {
 
             String jwt = jwtProvider.generateTokenLogin(account);
             return jwt;
@@ -183,26 +176,25 @@ public class ThirdService {
         return null;
     }
 
-    public Account checkValidateEmail(String email){
+    public Account checkValidateEmail(String email) {
         Account account = accountService.findAccountByUEmail(email).get();
         return account;
     }
 
-    public Account checkValidateUsernmae(String username){
+    public Account checkValidateUsernmae(String username) {
         Account account = accountService.findAccountByUsername(username).get();
         return account;
     }
 
-    public Account checkValidatePhone(String phone){
+    public Account checkValidatePhone(String phone) {
         Account account = accountService.findAccountByPhone(phone).get();
         return account;
     }
 
 
-
     public ProductSFDto getProductSFDto(String name) {
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
-        if(productSF != null) {
+        if (productSF != null) {
             List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
             List<PriceList> priceLists = productSF.getPrices();
             List<ProductSFDetailDto> productSFDetailDtoList = new ArrayList<>();
@@ -232,7 +224,7 @@ public class ThirdService {
     public ProductSFDetailDto getProductSFDetailDtoByColorAndSize(String color, String size, String name) throws ParseException {
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        if(productSF != null) {
+        if (productSF != null) {
             List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
             for (ProductSFDetail productSFDetail : productSFDetailList) {
                 JSONParser parser = new JSONParser();
@@ -253,7 +245,7 @@ public class ThirdService {
         List<ProductSFDetailDto> productSFDetailDtoList = productSFDto.getProductSFDetailDtos();
         List<ProductSFDetail> productSFDetailList = new ArrayList<>();
         ProductSF productSF = new ProductSF();
-        for (ProductSFDetailDto productSFDetailDto: productSFDetailDtoList) {
+        for (ProductSFDetailDto productSFDetailDto : productSFDetailDtoList) {
             ProductSFDetail productSFDetail = new ProductSFDetail();
             BeanUtils.copyProperties(productSFDetailDto, productSFDetail);
             productSFDetail.setProductSF(productSF);
@@ -265,7 +257,7 @@ public class ThirdService {
         productSF.setProductSFDetail(productSFDetailList);
         List<PriceListDto> priceListDtos = productSFDto.getPriceListDtos();
         List<PriceList> priceLists = new ArrayList<>();
-        for (PriceListDto priceListDto: priceListDtos) {
+        for (PriceListDto priceListDto : priceListDtos) {
             PriceList priceList = new PriceList();
             BeanUtils.copyProperties(priceListDto, priceList);
             priceList.setProductSF(productSF);
@@ -281,21 +273,21 @@ public class ThirdService {
         return productSF;
     }
 
-    public List<OrderSFModel> getListOrder(String username){
+    public List<OrderSFModel> getListOrder(String username) {
         Account account = accountService.findAccountByUsername(username).get();
         List<OrderSF> orderSFList = orderRepository.getAllByAccount_Id(account.getId());
         return requestMapper.orderSFModelList(orderSFList);
     }
 
-    public List<OrderDetailsSFModel> getListOrderDetails (String orderCode){
+    public List<OrderDetailsSFModel> getListOrderDetails(String orderCode) {
         OrderSF orderSF = orderRepository.findByOrderCode(orderCode).orElseThrow(() -> new RuntimeException("Order Not Found"));
-        List<OrderDetailsSFModel>  orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
+        List<OrderDetailsSFModel> orderDetailsSFModelList = requestMapper.orderDetailsSFModelList(orderSF.getOrderDetailSFS());
         return orderDetailsSFModelList;
     }
 
-    public List<ProductSFDto> getListProductDtoRandomByProductName ( String productName){
+    public List<ProductSFDto> getListProductDtoRandomByProductName(String productName) {
         ProductSF productSF = productRepositorySF.findProductSFByName(productName).orElseThrow(() -> new RuntimeException("Product not found"));
-        if(productSF != null) {
+        if (productSF != null) {
             List<ProductSF> productSFList = productRepositorySF.findRandomProductYouLikeThis(productSF.getCategory(), productName);
             return productMapper.mapperProductSFDto(productSFList);
         }
@@ -305,7 +297,7 @@ public class ThirdService {
     public ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException {
         ProductSF productSF = productRepositorySF.findProductSFByName(name).orElse(null);
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
-        if(productSF != null) {
+        if (productSF != null) {
             List<ProductSFDetail> productSFDetailList = productSF.getProductSFDetail();
             for (ProductSFDetail productSFDetail : productSFDetailList) {
                 JSONParser parser = new JSONParser();

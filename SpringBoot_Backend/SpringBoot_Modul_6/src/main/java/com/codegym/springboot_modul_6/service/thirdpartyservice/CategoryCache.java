@@ -23,7 +23,6 @@ public class CategoryCache {
 
     public static final String PROMOS = "PROMOS";
 
-    @Autowired
     private static final Map<String, List<?>> cacheCategories = new HashMap<>();
 
     @Autowired

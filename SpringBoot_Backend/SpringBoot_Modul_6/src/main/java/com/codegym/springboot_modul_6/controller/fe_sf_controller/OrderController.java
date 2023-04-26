@@ -26,10 +26,10 @@ public class OrderController {
     @Autowired
     private ThirdService thirdService;
 
-    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
+    private final CategoryCache categoryCache = CategoryCache.getCategoryCache();
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> getOrderByName(@RequestBody String username) {
+    public ResponseEntity<?> getOrderByName() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -66,9 +66,10 @@ public class OrderController {
 
     //    Long them vao chuc nang promos
     @PostMapping("/promo")
+    @SuppressWarnings("unchecked")
     public ResponseEntity<?> getPromosOrder(@RequestBody PromoOrderDto promoOrderDto) {
         try {
-            List<Promos> promos = (List<Promos>) categoryCache.getCacheCategories().get(categoryCache.PROMOS);
+            List<Promos> promos = (List<Promos>) categoryCache.getCacheCategories().get(CategoryCache.PROMOS);
             PromoOrderDto afterDiscount = orderService.orderSerive_promoOrderDto(promoOrderDto, promos).orElseThrow(() -> new RuntimeException("Illegal order"));
             return new ResponseEntity<>(afterDiscount, HttpStatus.OK);
         } catch (Exception e) {

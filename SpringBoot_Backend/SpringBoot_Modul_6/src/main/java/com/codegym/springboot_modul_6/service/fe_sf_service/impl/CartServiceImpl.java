@@ -85,8 +85,7 @@ public class CartServiceImpl implements CartService {
         if (cartSF.isEmpty()) {
             return Optional.empty();
         }
-        Optional<CartModel> cartModel = mapper.cartModel(cartSF.orElseThrow());
-        return cartModel;
+        return mapper.cartModel(cartSF.orElseThrow());
     }
 
     @Override
@@ -139,6 +138,7 @@ public class CartServiceImpl implements CartService {
             if (count == 1) {
                 for (CartDetailSF c : cartOld.getCartDetailSFS()
                 ) {
+                    System.out.println(c);
                     CartDetailSF cartDetailSF = new CartDetailSF();
                     cartDetailSF.setCartSF(cartOld);
                     cartDetailSF.setSerialNumber(cartNew.getCartDetailSFS().get(0).getSerialNumber());
@@ -196,15 +196,6 @@ public class CartServiceImpl implements CartService {
         return iProductDetailSFRepository.getProductSFDetail(serialNumber);
     }
 
-    private Iterable<ProductSFDetail> getListProductSFDetail(List<CartDetailSF> cartDetailSFS) {
-        List<ProductSFDetail> tempCartDetail = new ArrayList<>();
-        for (CartDetailSF c : cartDetailSFS
-        ) {
-            tempCartDetail.add(findProductSFDetailBySerialNumber(c.getSerialNumber()).orElseThrow(() -> new RuntimeException("Product Detail find by serial number not found")));
-            return tempCartDetail;
-        }
-        return tempCartDetail;
-    }
 
 
     @Override

@@ -25,7 +25,8 @@ public class CategoriesController {
     @Autowired
     private CategoryMapper mapper;
 
-    private CategoryCache categoryCache = CategoryCache.getCategoryCache();
+    private final CategoryCache categoryCache = CategoryCache.getCategoryCache();
+
 
     @Autowired
     private RequestMapper requestMapper;

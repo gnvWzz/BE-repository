@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/home")
-    public ResponseEntity<?> getAll(@RequestParam(required = true, value = "offset") int offset) {
+    public ResponseEntity<?> getAll(@RequestParam(value = "offset") int offset) {
         try {
             Page<ProductSF> temp = productService.findAllPaging(offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(temp), HttpStatus.OK);
@@ -116,8 +116,7 @@ public class ProductController {
     }
 
     @GetMapping("/rand")
-    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset,
-                                       @RequestParam(required = false, value = "sort") String sort) {
+    public ResponseEntity<?> getRandom(@RequestParam(value = "offset") int offset) {
         try {
             Page<ProductSF> page = productService.productService_getRandomProduct(offset, PAGE_SIZE);
             return new ResponseEntity<>(productService.productSFDtoPage(page), HttpStatus.OK);
@@ -128,7 +127,6 @@ public class ProductController {
 
     @GetMapping("/get-shop")
     public ResponseEntity<?> getAllProductStore(@RequestParam(value = "offset") int offset,
-                                                @RequestParam(required = false, value = "sort") String sort,
                                                 @RequestParam(value = "productname") String productName
     ) {
         try {
