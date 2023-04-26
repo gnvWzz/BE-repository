@@ -42,4 +42,6 @@ public interface ProductService extends GeneralService<ProductSF> {
     Page<ProductSF> getProductOfStore(int offset, int pageSize, String productName);
 
     ProductSFDetailDto getProductSFDetailDtoByColor(String color, String name) throws ParseException, ParseException;
+
+    Boolean validateFirstForm(String productName);
 }

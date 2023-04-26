@@ -19,43 +19,63 @@ public class ProductDetailController {
 
     @GetMapping("/{serialNumber}")
     public ResponseEntity<?> getProductInfoBySerialNumber(@PathVariable String serialNumber){
-        ResponseProductInfoDto responseProductInfoDto = productDetailService.findProductInfoBySerialNumber(serialNumber);
-        if(responseProductInfoDto != null) {
-            return new ResponseEntity<>(responseProductInfoDto, HttpStatus.OK);
+        try{
+            ResponseProductInfoDto responseProductInfoDto = productDetailService.findProductInfoBySerialNumber(serialNumber);
+            if(responseProductInfoDto != null) {
+                return new ResponseEntity<>(responseProductInfoDto, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/general/{serialNumber}")
     public ResponseEntity<?> getProductGeneralInfoBySerialNumber(@PathVariable String serialNumber){
-        ResponseProductGeneralDto responseProductGeneralDto = productDetailService.findProductGeneralInfoBySerialNumber(serialNumber);
-        if(responseProductGeneralDto != null) {
-            return new ResponseEntity<>(responseProductGeneralDto, HttpStatus.OK);
+        try{
+            ResponseProductGeneralDto responseProductGeneralDto = productDetailService.findProductGeneralInfoBySerialNumber(serialNumber);
+            if(responseProductGeneralDto != null) {
+                return new ResponseEntity<>(responseProductGeneralDto, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @GetMapping("/detail/{serialNumber}")
     public ResponseEntity<?> getProductDetailInfoBySerialNumber(@PathVariable String serialNumber){
-        ResponseProductDetailDto responseProductDetailDto = productDetailService.findProductDetailInfoBySerialNumber(serialNumber);
-        if(responseProductDetailDto != null) {
-            return new ResponseEntity<>(responseProductDetailDto, HttpStatus.OK);
+        try{
+            ResponseProductDetailDto responseProductDetailDto = productDetailService.findProductDetailInfoBySerialNumber(serialNumber);
+            if(responseProductDetailDto != null) {
+                return new ResponseEntity<>(responseProductDetailDto, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @PostMapping("/remove/{serialNumber}")
     public ResponseEntity<?> removeProductDetailBySerialNumber(@PathVariable String serialNumber){
-        Boolean isSuccess = productDetailService.removeBySerialNumber(serialNumber);
-        if(isSuccess) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            Boolean isSuccess = productDetailService.removeBySerialNumber(serialNumber);
+            if(isSuccess) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     @PutMapping("/update")
     public ResponseEntity<?> updateProductDetailInfo(@RequestBody RequestProductDetailInfoDto requestProductDetailInfoDto) {
-        Boolean isSuccess = productDetailService.updateProductDetailInfo(requestProductDetailInfoDto);
-        if(isSuccess) {
-            return new ResponseEntity<>(HttpStatus.OK);
+        try{
+            Boolean isSuccess = productDetailService.updateProductDetailInfo(requestProductDetailInfoDto);
+            if(isSuccess) {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
