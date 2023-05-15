@@ -16,25 +16,26 @@ public class Account {
     private String password;
     private String status;
 
-    @JoinColumn(name = "firstname")
+    @Column(name = "firstname")
+    private String firstName;
 
-     private String firstName;
-    @JoinColumn(name = "lastname")
-     private String lastName;
+    @Column(name = "lastname")
+    private String lastName;
     private String phone;
 
     private String city;
-    private  String district;
+    private String district;
     private String street;
 
 
     @OneToOne(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Store store;
 
-    @OneToMany(mappedBy = "account",cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<AccountRoles> rolesList;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+
     private List<OrderSF> orderSFList;
 
     public Account() {

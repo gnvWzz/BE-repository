@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional
 public interface PriceRepository extends JpaRepository<Price, Long> {
     @Query(nativeQuery = true, value = "select price from price_list as pl where pl.product_id = :productId and pl.price_id = 0")
     Double findStandardPrice(@Param("productId") Long productId);

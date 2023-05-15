@@ -4,9 +4,11 @@ import com.codegym.springboot_modul_6.model.fe_sf_model.entity.CartSF;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface ICartRepository extends JpaRepository<CartSF, Long> {
 
     @Query(value = "select u from CartSF u where u.accountName = ?1")

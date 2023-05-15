@@ -27,7 +27,7 @@ public class CartSF {
     @Column(name = "account_name")
     private String accountName;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 

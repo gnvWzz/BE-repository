@@ -12,7 +12,6 @@ import java.util.Optional;
 
 
 @Repository
-@Transactional
 public interface IProductDetailSFRepository extends JpaRepository<ProductSFDetail, Long> {
 
     @Query(value = "select u from ProductSFDetail u where u.serialNumber = ?1")

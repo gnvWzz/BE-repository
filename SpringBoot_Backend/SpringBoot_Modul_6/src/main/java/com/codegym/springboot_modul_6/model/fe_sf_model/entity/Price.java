@@ -19,9 +19,8 @@ public class Price {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
-    @ManyToOne
-    @JsonIgnore
     private ProductSF productSF;
 
     @Column(name = "price_id")

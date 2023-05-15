@@ -24,10 +24,11 @@ public class Store {
     @Column(name = "name")
     private String name;
     private String image;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
-    @OneToOne
-    @JsonIgnore
     private Account account;
+
     @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<ProductSF> productSF;
 }

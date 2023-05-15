@@ -1,7 +1,8 @@
 package com.codegym.springboot_modul_6.util;
 
-import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.*;
+import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
+
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartDetailModel;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartModel;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
@@ -31,10 +32,10 @@ public class LongMapper {
         return list;
     }
 
-    public List<ProductSFDto> mapperProductSFDto(List<ProductSF> productSFS){
+    public List<ProductSFDto> mapperProductSFDto(List<ProductSF> productSFS) {
         List<ProductSFDto> productSFDtos = new ArrayList<>();
-        for (ProductSF p: productSFS
-             ) {
+        for (ProductSF p : productSFS
+        ) {
             ProductSFDto productSFDto = new ProductSFDto();
             BeanUtils.copyProperties(p, productSFDto);
             productSFDto.setProductSFDetailDtos(mapperProductDetailDto(p.getProductSFDetail()));
@@ -43,11 +44,10 @@ public class LongMapper {
         }
         return productSFDtos;
     }
-
-    public List<PriceDto> mapperPriceList(List<Price> prices){
+    public List<PriceDto> mapperPriceList(List<Price> prices) {
         List<PriceDto> priceDtos = new ArrayList<>();
-        for (Price p: prices
-             ) {
+        for (Price p : prices
+        ) {
             PriceDto priceDto = new PriceDto();
             BeanUtils.copyProperties(p, priceDto);
             priceDtos.add(priceDto);
@@ -70,9 +70,9 @@ public class LongMapper {
         return cartSF;
     }
 
-    private List<CartDetailSF> cartDetailSFS(List<CartDetailDto> cartDetailDtos){
+    private List<CartDetailSF> cartDetailSFS(List<CartDetailDto> cartDetailDtos) {
         List<CartDetailSF> cartDetailSFS = new ArrayList<>();
-        for (int i = 0; i < cartDetailDtos.size(); i++){
+        for (int i = 0; i < cartDetailDtos.size(); i++) {
             CartDetailSF cartDetailDto = new CartDetailSF();
             BeanUtils.copyProperties(cartDetailDtos.get(i), cartDetailDto);
             cartDetailSFS.add(cartDetailDto);
@@ -88,21 +88,21 @@ public class LongMapper {
         return cartModelTemp;
     }
 
-    private Double getTotalMoney (List<CartDetailModel> cartDetailModelList){
+    private Double getTotalMoney(List<CartDetailModel> cartDetailModelList) {
         double money = 0.0;
-        for (CartDetailModel c: cartDetailModelList
-             ) {
+        for (CartDetailModel c : cartDetailModelList
+        ) {
             money += c.getSubTotal();
         }
         return money;
     }
 
-    private List<CartDetailModel> cartDetailModelList(List<CartDetailSF> cartDetailSFS){
+    private List<CartDetailModel> cartDetailModelList(List<CartDetailSF> cartDetailSFS) {
         List<CartDetailModel> temp = new ArrayList<>();
         int cartIsNotDeleted = 0;
-        for (CartDetailSF c: cartDetailSFS
-             ) {
-            if (Objects.equals(c.getIsDeleted(), "false")){
+        for (CartDetailSF c : cartDetailSFS
+        ) {
+            if (Objects.equals(c.getIsDeleted(), "false")) {
                 CartDetailModel cartDetailModel = new CartDetailModel();
                 BeanUtils.copyProperties(c, cartDetailModel);
                 cartDetailModel.setSize_color_img_quantity(getJSONSQLString(c.getSerialNumber()));
@@ -112,8 +112,9 @@ public class LongMapper {
         return temp;
     }
 
-    private String getJSONSQLString (String serialNumber){
+    private String getJSONSQLString(String serialNumber) {
         ProductSFDetail productSFDetail = iProductDetailSFRepository.getProductSFDetail(serialNumber).orElseThrow();
         return productSFDetail.getSize_color_img_quantity();
     }
+
 }
