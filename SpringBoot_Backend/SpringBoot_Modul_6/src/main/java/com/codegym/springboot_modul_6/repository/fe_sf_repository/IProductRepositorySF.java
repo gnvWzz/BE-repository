@@ -1,6 +1,7 @@
 package com.codegym.springboot_modul_6.repository.fe_sf_repository;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.IProductSFBestSellers;
+
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.ProductSF;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-
 
 @Repository
 public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
@@ -28,7 +28,6 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select u from ProductSF u where u.category = :category and u.name like concat('%', :name, '%') ")
     Page<ProductSF> getAllProductByName(@Param(value = "category") String category, @Param(value = "name") String name, PageRequest of);
 
-
     @Query(value = "select u from ProductSF u order by rand()")
     Page<ProductSF> productRepository_getRanDomProduct(PageRequest of);
 
@@ -43,16 +42,6 @@ public interface IProductRepositorySF extends JpaRepository<ProductSF, Long> {
     @Query(value = "select  * from product where  category =?1 and not name =?2 order by rand() limit 4", nativeQuery = true)
     List<ProductSF> findRandomProductYouLikeThis(String category, String productName);
 
-    //    @Query(value = "SELECT p.id AS id, " +
-//            "p.`name` AS name, " +
-//            "p.category AS category, " +
-//            "p.manufacturer AS manufacturer, " +
-//            "COUNT(*) AS totalsales " +
-//            "FROM product p JOIN order_detail od " +
-//            "ON p.`name` = od.`name` " +
-//            "GROUP BY p.id " +
-//            "ORDER BY totalsales DESC LIMIT 4",
-//            nativeQuery = true)
     @Query(value = "SELECT\n" +
             "    p.id AS id,\n" +
             "    p.name AS name,\n" +

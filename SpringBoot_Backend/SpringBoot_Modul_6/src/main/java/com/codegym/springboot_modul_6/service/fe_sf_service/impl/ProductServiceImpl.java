@@ -9,11 +9,14 @@ import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductReposi
 import com.codegym.springboot_modul_6.service.fe_sf_service.ProductService;
 import com.codegym.springboot_modul_6.service.thirdpartyservice.ThirdService;
 import com.codegym.springboot_modul_6.util.LongMapper;
+
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -199,5 +202,6 @@ public class ProductServiceImpl implements ProductService {
         List<IProductSFBestSellers> productSFS = productRepositorySF.getBestSellers();
         return productSFS;
     }
+
 
 }

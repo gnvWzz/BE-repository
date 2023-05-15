@@ -2,6 +2,7 @@ package com.codegym.springboot_modul_6.util;
 
 import com.codegym.springboot_modul_6.model.fe_sf_model.dto.*;
 import com.codegym.springboot_modul_6.model.fe_sf_model.entity.*;
+
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartDetailModel;
 import com.codegym.springboot_modul_6.model.fe_sf_model.model.CartModel;
 import com.codegym.springboot_modul_6.repository.fe_sf_repository.IProductDetailSFRepository;
@@ -43,7 +44,6 @@ public class LongMapper {
         }
         return productSFDtos;
     }
-
     public List<PriceDto> mapperPriceList(List<Price> prices) {
         List<PriceDto> priceDtos = new ArrayList<>();
         for (Price p : prices
@@ -55,7 +55,7 @@ public class LongMapper {
         return priceDtos;
     }
 
-    private List<ProductSFDetailDto> mapperProductDetailDto(List<ProductSFDetail> productSFDetails) {
+    private List<ProductSFDetailDto> mapperProductDetailDto(List<ProductSFDetail> productSFDetails){
         List<ProductSFDetailDto> productSFDetailDtos = new ArrayList<>();
         ProductSFDetailDto productSFDetailDto = new ProductSFDetailDto();
         BeanUtils.copyProperties(productSFDetails.get(0), productSFDetailDto);
@@ -63,7 +63,7 @@ public class LongMapper {
         return productSFDetailDtos;
     }
 
-    public CartSF mapperCart(CartDto cartDto) {
+    public CartSF mapperCart(CartDto cartDto){
         CartSF cartSF = new CartSF();
         BeanUtils.copyProperties(cartDto, cartSF);
         cartSF.setCartDetailSFS(cartDetailSFS(cartDto.getCartDetailDtos()));
@@ -80,7 +80,7 @@ public class LongMapper {
         return cartDetailSFS;
     }
 
-    public Optional<CartModel> cartModel(CartSF cartSF) {
+    public Optional<CartModel> cartModel (CartSF cartSF){
         Optional<CartModel> cartModelTemp = Optional.of(new CartModel());
         cartModelTemp.orElseThrow().setAccountName(cartSF.getAccountName());
         cartModelTemp.orElseThrow().setCartDetailModelList(cartDetailModelList(cartSF.getCartDetailSFS()));
@@ -116,5 +116,5 @@ public class LongMapper {
         ProductSFDetail productSFDetail = iProductDetailSFRepository.getProductSFDetail(serialNumber).orElseThrow();
         return productSFDetail.getSize_color_img_quantity();
     }
-    
+
 }
